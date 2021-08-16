@@ -1,6 +1,6 @@
-import { sum } from './index.js';
+import { createShip } from './index.js';
 
-test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
+test('createShip returns ship object correct length property', () => {
+  expect(createShip(5).length).toEqual(5);
 });
 
