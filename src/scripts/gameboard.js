@@ -69,6 +69,16 @@ function Gameboard() {
     missedAttacks.push(coordinate);
   };
 
+  const remainingShips = () => {
+    let numberOfShipsRemaining = 0;
+    getCurrentShips().forEach((ship) => {
+      if (!ship.isSunk()) {
+        numberOfShipsRemaining += 1;
+      }
+    });
+    return numberOfShipsRemaining;
+  };
+
   return {
     getMissedAttacks,
     getCurrentShips,
@@ -76,6 +86,7 @@ function Gameboard() {
     isValidPosition,
     rotateShip,
     receiveAttack,
+    remainingShips,
   };
 }
 

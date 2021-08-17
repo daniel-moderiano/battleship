@@ -106,3 +106,24 @@ test('receiveAttack does not include hits in missed attacks array', () => {
   gameboard.receiveAttack(32)
   expect(gameboard.getMissedAttacks()).toEqual([]);
 });
+
+test('remainingShips reports a non-zero value when there are ships still afloat', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  gameboard.receiveAttack(22);
+  gameboard.receiveAttack(32);
+  gameboard.receiveAttack(42);
+  expect(gameboard.remainingShips()).toBe(1);
+});
+
+test('remainingShips reports a zero when all ships are sunk', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 3);
+  gameboard.receiveAttack(22);
+  gameboard.receiveAttack(32);
+  gameboard.receiveAttack(42);
+  gameboard.placeShip(82, 2);
+  gameboard.receiveAttack(82);
+  gameboard.receiveAttack(92);
+  expect(gameboard.remainingShips()).toBe(0);
+});
