@@ -50,13 +50,6 @@ test('isValidPosition correctly identifies valid position on board with multiple
   expect(gameboard.isValidPosition(25, 5, 'horizontal')).toBe(true);
 });
 
-// test('shipsRemaining returns > 0 when not all ships are sunk', () => {
-//   const gameboard = Gameboard();
-//   gameboard.placeShip(0, 4);
-//   expect(gameboard.shipsRemaining()).toBe(1);
-// });
-
-
 test('rotateShip correctly rotates ship horizontally about the origin coordinate', () => {
   const gameboard = Gameboard();
   gameboard.placeShip(22, 4);
@@ -105,6 +98,20 @@ test('receiveAttack does not include hits in missed attacks array', () => {
   gameboard.placeShip(22, 4);
   gameboard.receiveAttack(32)
   expect(gameboard.getMissedAttacks()).toEqual([]);
+});
+
+test('receiveAttack includes hits and misses both into allAttacked array', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  gameboard.receiveAttack(32);
+  gameboard.receiveAttack(80);
+  expect(gameboard.getAllAttackedCoordinates()).toEqual([32, 80]);
+});
+
+test('receiveAttack throws error if tying to hit duplicate coordinate', () => {
+  const gameboard = Gameboard();
+  gameboard.receiveAttack(32);
+  expect(() => (gameboard.receiveAttack(32))).toThrow('Error: coordinate already attacked');
 });
 
 test('remainingShips reports a non-zero value when there are ships still afloat', () => {

@@ -3,9 +3,11 @@ import { Ship, calculateShipPosition } from './ship.js';
 function Gameboard() {
   const missedAttacks = [];
   const currentShips = [];
+  const allAttackedCoordinates = [];
 
   const getMissedAttacks = () => missedAttacks;
   const getCurrentShips = () => currentShips;
+  const getAllAttackedCoordinates = () => allAttackedCoordinates;
 
   const isValidPosition = (originCoordinate, shipLength, shipOrientation) => {
     const shipPosition = calculateShipPosition(originCoordinate, shipLength, shipOrientation);
@@ -59,13 +61,18 @@ function Gameboard() {
   };
 
   const receiveAttack = (coordinate) => {
+    if (allAttackedCoordinates.includes(coordinate)) {
+      throw new Error('Error: coordinate already attacked');
+    }
     const ships = getCurrentShips();
     for (let i = 0; i < currentShips.length; i++) {
       if (ships[i].position.includes(coordinate)) {
         ships[i].hit(coordinate);
+        allAttackedCoordinates.push(coordinate);
         return true;
       }
     }
+    allAttackedCoordinates.push(coordinate);
     missedAttacks.push(coordinate);
   };
 
@@ -87,6 +94,7 @@ function Gameboard() {
     rotateShip,
     receiveAttack,
     remainingShips,
+    getAllAttackedCoordinates,
   };
 }
 
