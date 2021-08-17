@@ -1,13 +1,20 @@
 function createShip(length) {
-  return {
-    length,
-    hit() {
-      // hit a particular point on the ship
-    },
-    isSunk() {
-      // determine if the ship is sunk
-    },
+  if (length < 2 || length > 5) {
+    throw new Error('Invalid ship length, must be between 2 and 5 inclusive');
+  }
+
+  const hits = [];
+
+  // Fill this array with position occupied by ship. Can compare with hits later on
+  const position = [];
+
+  const hit = (cell) => {
+    hits.push(cell);
   };
+
+  const isSunk = () => hits.length === length;
+
+  return { length, hit, isSunk };
 }
 
-export { createShip };
+export default createShip;
