@@ -28,5 +28,23 @@ test('isSunk returns true on ship hit appropriate number of times', () => {
   expect(testShip.isSunk()).toBe(true);
 });
 
+test('setPosition correctly positions vertical ships', () => {
+  const testShip = Ship(3);
+  testShip.setPosition(0, testShip.orientation);
+  expect(testShip.position).toEqual([0, 10, 20]);
+});
+
+test('setPosition correctly positions horizontal ships', () => {
+  const testShip = Ship(3);
+  testShip.orientation = 'horizontal';
+  testShip.setPosition(0, testShip.orientation);
+  expect(testShip.position).toEqual([0, 1, 2]);
+});
+
+test('Can change orientation of ship', () => {
+  const testShip = Ship(3);
+  testShip.orientation = 'horizontal';
+  expect(testShip.orientation).toBe('horizontal');
+});
 
 
