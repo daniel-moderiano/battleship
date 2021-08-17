@@ -1,7 +1,28 @@
+function shipNameFromLength(length) {
+  let shipName;
+  switch (length) {
+    case 2:
+      shipName = 'destroyer';
+      break;
+    case 3:
+      shipName = 'destroyer';
+      break;
+    case 4:
+      shipName = 'destroyer';
+      break;
+    case 5:
+      shipName = 'destroyer';
+      break;
+    return shipName;
+  }
+}
+
 function Ship(length) {
   if (length < 2 || length > 5) {
     throw new Error('Invalid ship length, must be between 2 and 5 inclusive');
   }
+
+  const name = shipNameFromLength(length);
 
   const orientation = 'vertical';
 
@@ -32,7 +53,7 @@ function Ship(length) {
 
   const isSunk = () => hits.length === length;
 
-  return { length, orientation, hit, isSunk, setPosition, position };
+  return { name, length, orientation, hit, isSunk, setPosition, position };
 }
 
 export default Ship;

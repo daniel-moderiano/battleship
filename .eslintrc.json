@@ -13,8 +13,9 @@
     "rules": {
       "linebreak-style": "off",
       "no-tabs": "off",
-      "indent": ["error", 2],
-      "max-len": "off"
+       "indent": ["error", 2, { "SwitchCase": 1 }],
+      "max-len": "off",
+      "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
       // "no-param-reassign": [2, { "props": false }]
     }
 }
