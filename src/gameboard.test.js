@@ -1,5 +1,5 @@
-import Gameboard from './scripts/gameboard';
-import { Ship } from './scripts/ship'
+import Gameboard from './scripts/gameboard.js';
+import { Ship } from './scripts/ship.js'
 
 test('missedAttacks returns empty array before any attacks are made', () => {
   expect(Gameboard().getMissedAttacks()).toEqual([]);
@@ -12,9 +12,13 @@ test('getCurrentShips returns empty array before any ships are positioned', () =
 test('placeShip successfully adds ship in designated location', () => {
   const gameboard = Gameboard();
   gameboard.placeShip(0, 4);
-  expect(gameboard.getCurrentShips()).toEqual([{name: 'battleship', position: [0, 10, 20, 30], sunk: false}]);
+  expect(gameboard.getCurrentShips()[0].position).toEqual([0, 10, 20, 30]);
 });
 
+test('placeShip throws error for invalid ship placement location', () => {
+  const gameboard = Gameboard();
+  expect(() => (gameboard.placeShip(97, 4))).toThrow('Error: invalid ship position');
+});
 
 test('isValidPosition correctly identifies valid position', () => {
   expect(Gameboard().isValidPosition(11, 5, 'vertical')).toBe(true);
@@ -53,9 +57,31 @@ test('isValidPosition correctly identifies valid position on board with multiple
 // });
 
 
-// test('rotateShip correctly changes ship position', () => {
-//   const gameboard = Gameboard();
-//   gameboard.placeShip(22, 4);
-//   gameboard.rotateShip()
-//   expect(gameboard.getCurrentShips()).toEqual([{name: 'battleship', position: [22, 32, 42, 52], sunk: false}]);
-// });
+test('rotateShip correctly rotates ship horizontally about the origin coordinate', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  gameboard.rotateShip(gameboard.getCurrentShips()[0]);
+  expect(gameboard.getCurrentShips()[0].position).toEqual([22, 23, 24, 25]);
+});
+
+test('rotateShip correctly rotates ship vertically about the origin coordinate', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  gameboard.placeShip(51, 3);
+  gameboard.rotateShip(gameboard.getCurrentShips()[0]);
+  gameboard.rotateShip(gameboard.getCurrentShips()[0]);
+  expect(gameboard.getCurrentShips()[0].position).toEqual([22, 32, 42, 52]);
+});
+
+test('rotateShip throws error where ship rotation causes ship overlap', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  gameboard.placeShip(14, 5);
+  expect(() => (gameboard.rotateShip(gameboard.getCurrentShips()[0]))).toThrow('Error: invalid rotation');
+});
+
+test('rotateShip throws error where ship rotation causes ship to pass outside game grid', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(29, 4);
+  expect(() => (gameboard.rotateShip(gameboard.getCurrentShips()[0]))).toThrow('Error: invalid rotation');
+});

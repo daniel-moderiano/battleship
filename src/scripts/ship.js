@@ -47,6 +47,7 @@ function Ship(length) {
   const position = [];
 
   const setPosition = (originCoordinate, shipOrientation) => {
+    position.length = 0;
     calculateShipPosition(originCoordinate, length, shipOrientation).forEach((coordinate) => {
       position.push(coordinate);
     });

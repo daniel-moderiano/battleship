@@ -1,4 +1,4 @@
-import { Ship, calculateShipPosition } from './ship';
+import { Ship, calculateShipPosition } from './ship.js';
 
 function Gameboard() {
   const missedAttacks = [];
@@ -21,7 +21,8 @@ function Gameboard() {
       currentPositions.push(ship.position);
     });
 
-    if (currentPositions.flat().some((position) => shipPosition.includes(position))) {
+    // Compare all the current occupied positions with the expected positions of the ship to be placed
+    if (currentPositions.flat().some((position) => shipPosition.slice(1).includes(position))) {
       return false;
     }
 
@@ -29,9 +30,32 @@ function Gameboard() {
   };
 
   const placeShip = (originCoordinate, length) => {
+    // New ships by default will onyl be placeable vertically, then can be optionally rotated
+    if (!isValidPosition(originCoordinate, length, 'vertical')) {
+      throw new Error('Error: invalid ship position');
+    }
     const newShip = Ship(length);
     newShip.setPosition(originCoordinate, newShip.orientation);
-    currentShips.push({ name: newShip.name, position: newShip.position, sunk: false });
+    currentShips.push(newShip);
+  };
+
+  const rotateShip = (ship) => {
+    if (ship.orientation === 'vertical') {
+      if (!isValidPosition(ship.position[0], ship.length, 'horizontal')) {
+        throw new Error('Error: invalid rotation');
+      } else {
+        ship.setPosition(ship.position[0], 'horizontal');
+        ship.orientation = 'horizontal';
+        return;
+      }
+    }
+
+    if (!isValidPosition(ship.position[0], ship.length, 'vertical')) {
+      throw new Error('Error: invalid rotation');
+    } else {
+      ship.setPosition(ship.position[0], 'vertical');
+      ship.orientation = 'horizontal';
+    }
   };
 
   return {
@@ -39,6 +63,7 @@ function Gameboard() {
     getCurrentShips,
     placeShip,
     isValidPosition,
+    rotateShip,
   };
 }
 
