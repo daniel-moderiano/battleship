@@ -1,4 +1,4 @@
-import Ship from './scripts/ship.js';
+import { Ship } from './scripts/ship.js';
 
 test('createShip returns ship object correct length property', () => {
   expect(Ship(5).length).toBe(5);
@@ -50,5 +50,7 @@ test('Can change orientation of ship', () => {
   testShip.orientation = 'horizontal';
   expect(testShip.orientation).toBe('horizontal');
 });
+
+
 
 

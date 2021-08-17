@@ -1,4 +1,4 @@
-import Ship from './ship';
+import { Ship, calculateShipPosition } from './ship';
 
 function Gameboard() {
   const missedAttacks = [];
@@ -8,14 +8,20 @@ function Gameboard() {
   const getCurrentShips = () => currentShips;
 
   const isValidPosition = (originCoordinate, shipLength, shipOrientation) => {
-    let shipEdge;
-    if (shipOrientation === 'horizontal') {
-      shipEdge = originCoordinate + shipLength - 1;
-    } else {
-      shipEdge = originCoordinate + ((shipLength - 1) * 10);
+    const shipPosition = calculateShipPosition(originCoordinate, shipLength, shipOrientation);
+
+    // This comparison determines whether the ship exceeds the edge of the board
+    if (shipPosition[shipLength - 1] >= 100 || (shipPosition[shipLength - 1] % 10) < (originCoordinate % 10)) {
+      return false;
     }
 
-    if (shipEdge >= 100 || (shipEdge % 10) < (originCoordinate % 10)) {
+    // This comparison determines whether there is any ship overlap
+    const currentPositions = [];
+    getCurrentShips().forEach((ship) => {
+      currentPositions.push(ship.position);
+    });
+
+    if (currentPositions.flat().some((position) => shipPosition.includes(position))) {
       return false;
     }
 
@@ -28,7 +34,12 @@ function Gameboard() {
     currentShips.push({ name: newShip.name, position: newShip.position, sunk: false });
   };
 
-  return { getMissedAttacks, getCurrentShips, placeShip, isValidPosition };
+  return {
+    getMissedAttacks,
+    getCurrentShips,
+    placeShip,
+    isValidPosition,
+  };
 }
 
 export default Gameboard;

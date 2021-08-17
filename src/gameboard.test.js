@@ -1,5 +1,5 @@
 import Gameboard from './scripts/gameboard';
-import Ship from './scripts/ship'
+import { Ship } from './scripts/ship'
 
 test('missedAttacks returns empty array before any attacks are made', () => {
   expect(Gameboard().getMissedAttacks()).toEqual([]);
@@ -32,5 +32,30 @@ test('isValidPosition correctly identifies invalid position', () => {
   expect(Gameboard().isValidPosition(78, 4, 'vertical')).toBe(false);
 });
 
+test('isValidPosition correctly identifies invalid position due to overlapping ships', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  expect(gameboard.isValidPosition(31, 3, 'horizontal')).toBe(false);
+});
 
-test.todo('rotateShip correctly changes ship position');
+test('isValidPosition correctly identifies valid position on board with multiple ships', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  gameboard.placeShip(56, 3);
+  gameboard.placeShip(71, 3);
+  expect(gameboard.isValidPosition(25, 5, 'horizontal')).toBe(true);
+});
+
+// test('shipsRemaining returns > 0 when not all ships are sunk', () => {
+//   const gameboard = Gameboard();
+//   gameboard.placeShip(0, 4);
+//   expect(gameboard.shipsRemaining()).toBe(1);
+// });
+
+
+// test('rotateShip correctly changes ship position', () => {
+//   const gameboard = Gameboard();
+//   gameboard.placeShip(22, 4);
+//   gameboard.rotateShip()
+//   expect(gameboard.getCurrentShips()).toEqual([{name: 'battleship', position: [22, 32, 42, 52], sunk: false}]);
+// });
