@@ -5,16 +5,18 @@ function shipNameFromLength(length) {
       shipName = 'destroyer';
       break;
     case 3:
-      shipName = 'destroyer';
+      shipName = 'cruiser';
       break;
     case 4:
-      shipName = 'destroyer';
+      shipName = 'battleship';
       break;
     case 5:
-      shipName = 'destroyer';
+      shipName = 'carrier';
       break;
-    return shipName;
+    default:
+      break;
   }
+  return shipName;
 }
 
 function Ship(length) {
@@ -53,7 +55,15 @@ function Ship(length) {
 
   const isSunk = () => hits.length === length;
 
-  return { name, length, orientation, hit, isSunk, setPosition, position };
+  return {
+    name,
+    length,
+    orientation,
+    hit,
+    isSunk,
+    setPosition,
+    position,
+  };
 }
 
 export default Ship;

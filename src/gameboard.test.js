@@ -11,6 +11,26 @@ test('getCurrentShips returns empty array before any ships are positioned', () =
 
 test('placeShip successfully adds ship in designated location', () => {
   const gameboard = Gameboard();
-  gameboard.placeShip('cruiser', 0);
-  expect(gameboard.getCurrentShips()).toEqual([{name: 'cruiser', position: [0, 10, 20]}]);
+  gameboard.placeShip(0, 4);
+  expect(gameboard.getCurrentShips()).toEqual([{name: 'battleship', position: [0, 10, 20, 30], sunk: false}]);
 });
+
+
+test('isValidPosition correctly identifies valid position', () => {
+  expect(Gameboard().isValidPosition(11, 5, 'vertical')).toBe(true);
+});
+
+test('isValidPosition correctly identifies valid position', () => {
+  expect(Gameboard().isValidPosition(36, 4, 'horizontal')).toBe(true);
+});
+
+test('isValidPosition correctly identifies invalid position', () => {
+  expect(Gameboard().isValidPosition(27, 5, 'horizontal')).toBe(false);
+});
+
+test('isValidPosition correctly identifies invalid position', () => {
+  expect(Gameboard().isValidPosition(78, 4, 'vertical')).toBe(false);
+});
+
+
+test.todo('rotateShip correctly changes ship position');
