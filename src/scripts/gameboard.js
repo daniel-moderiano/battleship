@@ -58,12 +58,24 @@ function Gameboard() {
     }
   };
 
+  const receiveAttack = (coordinate) => {
+    const ships = getCurrentShips();
+    for (let i = 0; i < currentShips.length; i++) {
+      if (ships[i].position.includes(coordinate)) {
+        ships[i].hit(coordinate);
+        return true;
+      }
+    }
+    missedAttacks.push(coordinate);
+  };
+
   return {
     getMissedAttacks,
     getCurrentShips,
     placeShip,
     isValidPosition,
     rotateShip,
+    receiveAttack,
   };
 }
 

@@ -85,3 +85,24 @@ test('rotateShip throws error where ship rotation causes ship to pass outside ga
   gameboard.placeShip(29, 4);
   expect(() => (gameboard.rotateShip(gameboard.getCurrentShips()[0]))).toThrow('Error: invalid rotation');
 });
+
+test('receiveAttack successfully hits ship', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  gameboard.receiveAttack(32)
+  expect(gameboard.getCurrentShips()[0].hits).toEqual([32]);
+});
+
+test('receiveAttack records missed shot', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  gameboard.receiveAttack(80)
+  expect(gameboard.getMissedAttacks()).toEqual([80]);
+});
+
+test('receiveAttack does not include hits in missed attacks array', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, 4);
+  gameboard.receiveAttack(32)
+  expect(gameboard.getMissedAttacks()).toEqual([]);
+});

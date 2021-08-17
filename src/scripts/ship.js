@@ -69,6 +69,7 @@ function Ship(length) {
     isSunk,
     setPosition,
     position,
+    hits,
   };
 }
 
