@@ -36,3 +36,7 @@ test('Player can successfully sink ship on enemy board', () => {
   human.attack(comp.board, 52);
   expect(comp.board.remainingShips()).toBe(0);
 });
+
+test('Player creates correct fleet of ships on initialisation', () => {
+  expect(Player('John').ships[0].length).toBe(5);
+});

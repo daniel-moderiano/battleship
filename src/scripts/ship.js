@@ -49,12 +49,4 @@ function Ship(length) {
   };
 }
 
-const FLEET = [
-  Ship(5),
-  Ship(5),
-  Ship(5),
-  Ship(5),
-  Ship(5),
-]
-
 export { calculateShipPosition, Ship };
