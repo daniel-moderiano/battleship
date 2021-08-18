@@ -39,6 +39,4 @@ game.playerTwo.board.placeShip(75, game.playerTwo.ships[2]);
 game.playerTwo.board.placeShip(57, game.playerTwo.ships[3]);
 game.playerTwo.board.placeShip(29, game.playerTwo.ships[4]);
 
-console.log(game.playerOne.board.getCurrentShips(), game.playerTwo.board.getCurrentShips());
-
 export { Game };

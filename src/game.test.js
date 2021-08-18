@@ -37,3 +37,4 @@ test('ResetTurn returns game turn to 0', () => {
   game.resetTurn();
   expect(game.currentTurn()).toBe(0);
 });
+
