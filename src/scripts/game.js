@@ -1,13 +1,44 @@
 import { Gameboard } from './gameboard.js';
-import { Player } from './player';
+import { Player } from './player.js';
 import { Ship } from './ship.js';
 
-function createNewGame(playerOneName, playerTwoName = 'PC') {
+function Game(playerOneName, playerTwoName = 'PC') {
   const playerOne = Player(playerOneName);
   const playerTwo = Player(playerTwoName);
-  return { playerOne, playerTwo }
+
+  let turn = 0;
+
+  const changeTurn = () => {
+    if (turn === 0) {
+      turn += 1;
+    } else {
+      turn = 0;
+    }
+  };
+
+  const currentTurn = () => turn;
+
+  const resetTurn = () => {
+    turn = 0;
+  };
+
+  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn }
 }
 
-const game = createNewGame('Dan', 'Sam');
+const game = Game('Dan', 'Sam');
 
-export { createNewGame };
+game.playerOne.board.placeShip(0, game.playerOne.ships[0]);
+game.playerOne.board.placeShip(23, game.playerOne.ships[1]);
+game.playerOne.board.placeShip(75, game.playerOne.ships[2]);
+game.playerOne.board.placeShip(57, game.playerOne.ships[3]);
+game.playerOne.board.placeShip(29, game.playerOne.ships[4]);
+
+game.playerTwo.board.placeShip(0, game.playerTwo.ships[0]);
+game.playerTwo.board.placeShip(23, game.playerTwo.ships[1]);
+game.playerTwo.board.placeShip(75, game.playerTwo.ships[2]);
+game.playerTwo.board.placeShip(57, game.playerTwo.ships[3]);
+game.playerTwo.board.placeShip(29, game.playerTwo.ships[4]);
+
+console.log(game.playerOne.board.getCurrentShips(), game.playerTwo.board.getCurrentShips());
+
+export { Game };
