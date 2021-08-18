@@ -1,4 +1,5 @@
 import { Player } from "./scripts/player.js";
+import { Ship } from './scripts/ship.js'
 
 test('Player function creates player objects', () => {
   expect(Player('John').name).toEqual('John');
@@ -18,7 +19,7 @@ test('Player can successfully attack empty enemy board', () => {
 test('Player can successfully attack ship on enemy board', () => {
   const comp = Player('PC');
   const human = Player('John');
-  comp.board.placeShip(22, 4);
+  comp.board.placeShip(22, Ship(4));
   human.attack(comp.board, 22);
   human.attack(comp.board, 17);
   human.attack(comp.board, 64);
@@ -29,7 +30,7 @@ test('Player can successfully attack ship on enemy board', () => {
 test('Player can successfully sink ship on enemy board', () => {
   const comp = Player('PC');
   const human = Player('John');
-  comp.board.placeShip(22, 4);
+  comp.board.placeShip(22, Ship(4));
   human.attack(comp.board, 22);
   human.attack(comp.board, 32);
   human.attack(comp.board, 42);

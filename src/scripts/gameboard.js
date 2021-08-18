@@ -31,14 +31,13 @@ function Gameboard() {
     return true;
   };
 
-  const placeShip = (originCoordinate, length) => {
+  const placeShip = (originCoordinate, ship) => {
     // New ships by default will onyl be placeable vertically, then can be optionally rotated
-    if (!isValidPosition(originCoordinate, length, 'vertical')) {
+    if (!isValidPosition(originCoordinate, ship.length, 'vertical')) {
       throw new Error('Error: invalid ship position');
     }
-    const newShip = Ship(length);
-    newShip.setPosition(originCoordinate, newShip.orientation);
-    currentShips.push(newShip);
+    ship.setPosition(originCoordinate, ship.orientation);
+    currentShips.push(ship);
   };
 
   const rotateShip = (ship) => {
@@ -98,4 +97,4 @@ function Gameboard() {
   };
 }
 
-export default Gameboard;
+export { Gameboard };

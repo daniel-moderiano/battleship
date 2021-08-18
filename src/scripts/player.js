@@ -1,5 +1,5 @@
-import Gameboard from './gameboard.js'
-import { calculateShipPosition, Ship } from './ship.js'
+import { Gameboard } from './gameboard.js'
+import { Ship } from './ship.js'
 
 function Player(name) {
   const board = Gameboard();
