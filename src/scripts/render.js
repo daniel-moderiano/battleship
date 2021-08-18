@@ -1,9 +1,7 @@
 const tables = document.querySelectorAll('.board__table');
 
 function createTable(table) {
-
   let count = 0;
-
   for (let i = 0; i < 10; i++) {
     const tr = document.createElement('tr');
     tr.classList.add('board__row');
@@ -17,8 +15,3 @@ function createTable(table) {
     }
   }
 }
-
-tables.forEach((table) => {
-  createTable(table);
-});
-
