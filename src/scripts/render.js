@@ -21,9 +21,9 @@ function createTable(table) {
   }
 }
 
-function renderShip(ship) {
+function renderShip(boardNum, ship) {
   ship.position.forEach((coordinate) => {
-    document.querySelector(`[data-coordinate='${coordinate}']`).classList.add('board__cell--ship');
+    document.querySelector(`.board__table-${boardNum} [data-coordinate='${coordinate}']`).classList.add('board__cell--ship');
   });
 }
 

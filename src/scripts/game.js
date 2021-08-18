@@ -26,20 +26,33 @@ function Game(playerOneName, playerTwoName = 'PC') {
   return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn }
 }
 
+
+// MOCK GAME
+
 const game = Game('Dan', 'Sam');
 
+// Place ships
 game.playerOne.board.placeShip(0, game.playerOne.ships[0]);
 game.playerOne.board.placeShip(23, game.playerOne.ships[1]);
 game.playerOne.board.placeShip(75, game.playerOne.ships[2]);
 game.playerOne.board.placeShip(57, game.playerOne.ships[3]);
 game.playerOne.board.placeShip(29, game.playerOne.ships[4]);
 
-game.playerTwo.board.placeShip(0, game.playerTwo.ships[0]);
-game.playerTwo.board.placeShip(23, game.playerTwo.ships[1]);
-game.playerTwo.board.placeShip(75, game.playerTwo.ships[2]);
-game.playerTwo.board.placeShip(57, game.playerTwo.ships[3]);
+game.playerTwo.board.placeShip(5, game.playerTwo.ships[0]);
+game.playerTwo.board.placeShip(27, game.playerTwo.ships[1]);
+game.playerTwo.board.placeShip(76, game.playerTwo.ships[2]);
+game.playerTwo.board.placeShip(52, game.playerTwo.ships[3]);
 game.playerTwo.board.placeShip(29, game.playerTwo.ships[4]);
 
-renderShip(game.playerTwo.ships[0]);
+// Render ships on boards
+game.playerOne.ships.forEach((ship) => {
+  renderShip(1, ship);
+});
+
+// game.playerTwo.ships.forEach((ship) => {
+//   renderShip(2, ship);
+// });
+
+
 
 export { Game };
