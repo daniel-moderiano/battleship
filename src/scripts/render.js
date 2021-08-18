@@ -1,3 +1,8 @@
+import { Gameboard } from './gameboard.js';
+import { Player } from './player.js';
+import { Ship } from './ship.js';
+import { Game } from './game.js'
+
 const tables = document.querySelectorAll('.board__table');
 
 function createTable(table) {
@@ -15,3 +20,11 @@ function createTable(table) {
     }
   }
 }
+
+function renderShip(ship) {
+  ship.position.forEach((coordinate) => {
+    document.querySelector(`[data-coordinate='${coordinate}']`).classList.add('board__cell--ship');
+  });
+}
+
+export { renderShip };

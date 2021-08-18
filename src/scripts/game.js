@@ -1,6 +1,7 @@
 import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
+import { renderShip } from './render.js'
 
 function Game(playerOneName, playerTwoName = 'PC') {
   const playerOne = Player(playerOneName);
@@ -38,5 +39,7 @@ game.playerTwo.board.placeShip(23, game.playerTwo.ships[1]);
 game.playerTwo.board.placeShip(75, game.playerTwo.ships[2]);
 game.playerTwo.board.placeShip(57, game.playerTwo.ships[3]);
 game.playerTwo.board.placeShip(29, game.playerTwo.ships[4]);
+
+renderShip(game.playerTwo.ships[0]);
 
 export { Game };
