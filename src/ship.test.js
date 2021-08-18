@@ -8,10 +8,6 @@ test('createShip throws error for lengths < 2 and > 5', () => {
   expect(() => (Ship(0))).toThrow('Invalid ship length, must be between 2 and 5 inclusive');
 });
 
-test('ship name correctly selected for given length', () => {
-  expect(Ship(4).name).toBe('battleship');
-});
-
 test('isSunk returns false on freshly created ship with no hits', () => {
   const testShip = Ship(3);
   expect(testShip.isSunk()).toBe(false);

@@ -1,24 +1,3 @@
-function shipNameFromLength(length) {
-  let shipName;
-  switch (length) {
-    case 2:
-      shipName = 'destroyer';
-      break;
-    case 3:
-      shipName = 'cruiser';
-      break;
-    case 4:
-      shipName = 'battleship';
-      break;
-    case 5:
-      shipName = 'carrier';
-      break;
-    default:
-      break;
-  }
-  return shipName;
-}
-
 const calculateShipPosition = (originCoordinate, shipLength, shipOrientation) => {
   const position = [];
   position[0] = originCoordinate;
@@ -40,8 +19,6 @@ function Ship(length) {
     throw new Error('Invalid ship length, must be between 2 and 5 inclusive');
   }
 
-  const name = shipNameFromLength(length);
-
   const orientation = 'vertical';
 
   const position = [];
@@ -62,7 +39,6 @@ function Ship(length) {
   const isSunk = () => hits.length === length;
 
   return {
-    name,
     length,
     orientation,
     hit,
@@ -72,5 +48,13 @@ function Ship(length) {
     hits,
   };
 }
+
+const FLEET = [
+  Ship(5),
+  Ship(5),
+  Ship(5),
+  Ship(5),
+  Ship(5),
+]
 
 export { calculateShipPosition, Ship };
