@@ -31,6 +31,12 @@ test('Change turn switches from turn 1 to 0', () => {
   expect(game.currentTurn()).toBe(0);
 });
 
+test('Play turn switches player and turn accordingly', () => {
+  const game = Game('Dan');
+  game.playTurn();
+  expect(game.getCurrentPlayer().name).toBe('PC');
+});
+
 test('ResetTurn returns game turn to 0', () => {
   const game = Game('Dan');
   game.changeTurn();
@@ -38,3 +44,25 @@ test('ResetTurn returns game turn to 0', () => {
   expect(game.currentTurn()).toBe(0);
 });
 
+test('gameStart correctly initialises turn to zero', () => {
+  const game = Game('Dan');
+  game.changeTurn();
+  game.gameStart();
+  expect(game.currentTurn()).toBe(0);
+});
+
+test('gameStart correctly initialises current player', () => {
+  const game = Game('Dan');
+  game.changeTurn();
+  game.gameStart();
+  expect(game.getCurrentPlayer().name).toBe('Dan');
+});
+
+test('gameStart correctly sets turn and player mid-game', () => {
+  const game = Game('Dan');
+  game.playTurn();
+  game.playTurn();
+  game.playTurn();
+  game.gameStart();
+  expect(game.getCurrentPlayer().name).toBe('Dan');
+});
