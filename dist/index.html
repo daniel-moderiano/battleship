@@ -9,20 +9,28 @@
   <title>Battleship</title>
 </head>
 <body>
-  <header class="header">
-    <h1 class="header__title">Battleship</h1>
-  </header>
-  <main class="main">
-    <div class="board">
-      <div class="board__grid"></div>
-      <div class="board__title"></div>
-    </div>
-    <div class="board">
-      <div class="board__grid"></div>
-      <div class="board__title"></div>
-    </div>
-  </main>
-  <footer class="footer"></footer>
+  <div class="container">
+    <header class="header">
+      <h1 class="header__title">Battleship</h1>
+    </header>
+    <main class="main">
+      <div class="board">
+        <div class="board__grid">
+          <table class="board__table board__table-p1"></table>
+        </div>
+        <div class="board__title"></div>
+      </div>
+      <div class="board">
+        <div class="board__grid">
+          <table class="board__table board__table-p2"></table>
+        </div>
+        <div class="board__title"></div>
+      </div>
+    </main>
+    <footer class="footer"></footer>
+  </div>
+  <script src="../src/scripts/render.js"></script>
   <script src="../src/index.js"></script>
 </body>
 </html>
+

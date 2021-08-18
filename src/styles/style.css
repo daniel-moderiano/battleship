@@ -1,0 +1,55 @@
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header {
+  height: 3rem;
+  background-color: rgb(255, 220, 220);
+}
+
+.main {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  margin-bottom: 20rem;
+}
+
+.board {
+  height: 30rem;
+  width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.board__grid {
+
+}
+
+.board__table {
+  width: 20rem;
+  height: 20rem;
+}
+
+table, tr, td {
+  border: 1px solid black;
+}
+
+
+.footer {
+  height: 2rem;
+}
