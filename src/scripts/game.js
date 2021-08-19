@@ -85,8 +85,9 @@ function Game(playerOneName, playerTwoName = 'PC') {
 
   // Computer will, by default, always be player two
   const computerTurn = () => {
-    const invalidCells = playerOne.board.getAllAttackedCoordinates();
-    const cellChoice = Math.floor((Math.random() * 99) + 1);
+    const validCells = playerTwo.board.getRemainingFreeCells();
+    const cellChoice = Math.floor((Math.random() * validCells.length));
+    return validCells[cellChoice];
   }
 
   // Player 1 board
@@ -123,6 +124,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
           gameOver();
           // End game
         } else {
+          console.log(computerTurn());
           turnComplete();
         }
       }).catch((err) => console.log(err));
