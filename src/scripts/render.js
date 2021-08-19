@@ -27,4 +27,12 @@ function renderShip(boardNum, ship) {
   });
 }
 
-export { renderShip };
+function markCell(cell, didHit) {
+  if (didHit) {
+    cell.classList.add('board__cell--hit');
+  } else {
+    cell.classList.add('board__cell--miss');
+  }
+}
+
+export { renderShip, markCell };

@@ -68,11 +68,14 @@ function Gameboard() {
       if (ships[i].position.includes(coordinate)) {
         ships[i].hit(coordinate);
         allAttackedCoordinates.push(coordinate);
+        console.log('Hit');
         return true;
       }
     }
     allAttackedCoordinates.push(coordinate);
     missedAttacks.push(coordinate);
+    console.log('Miss');
+    return false;
   };
 
   const remainingShips = () => {

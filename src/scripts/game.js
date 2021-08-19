@@ -1,7 +1,7 @@
 import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
-import { renderShip } from './render.js';
+import { renderShip, markCell } from './render.js';
 
 function Game(playerOneName, playerTwoName = 'PC') {
   const playerOne = Player(playerOneName);
@@ -63,12 +63,11 @@ function Game(playerOneName, playerTwoName = 'PC') {
     // If the parent node chain works, the target by definition must be a board cell
     if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
       const p = new Promise((resolve) => {
-        playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-        resolve('placed attack');
+        const didHit = playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+        markCell(e.target, didHit);
+        resolve();
       });
       p.then(() => {
-        console.log('Attack attempted');
-        console.log(playerOne.board.getMissedAttacks());
         turnComplete();
       }).catch((err) => console.log(err));
     }
@@ -79,12 +78,11 @@ function Game(playerOneName, playerTwoName = 'PC') {
     // If the parent node chain works, the target by definition must be a board cell
     if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
       const p = new Promise((resolve) => {
-        playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-        resolve('placed attack');
+        const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+        markCell(e.target, didHit);
+        resolve();
       });
       p.then(() => {
-        console.log('Attack attempted');
-        console.log(playerTwo.board.getMissedAttacks());
         turnComplete();
       }).catch((err) => console.log(err));
     }
