@@ -58,6 +58,8 @@ function Game(playerOneName, playerTwoName = 'PC') {
     setActiveBoards();
   };
 
+  const checkLose = (player) => player.board.remainingShips() === 0;
+
   // Player 1 board
   document.querySelector('.board__table-1').addEventListener('click', (e) => {
     // If the parent node chain works, the target by definition must be a board cell
@@ -68,7 +70,12 @@ function Game(playerOneName, playerTwoName = 'PC') {
         resolve();
       });
       p.then(() => {
-        turnComplete();
+        if (checkLose(playerOne)) {
+          console.log('Game Over!');
+          // End game
+        } else {
+          turnComplete();
+        }
       }).catch((err) => console.log(err));
     }
   });
@@ -83,7 +90,12 @@ function Game(playerOneName, playerTwoName = 'PC') {
         resolve();
       });
       p.then(() => {
-        turnComplete();
+        if (checkLose(playerTwo)) {
+          console.log('Game Over!');
+          // End game
+        } else {
+          turnComplete();
+        }
       }).catch((err) => console.log(err));
     }
   });
@@ -105,10 +117,10 @@ game.playerOne.board.placeShip(75, game.playerOne.ships[2]);
 game.playerOne.board.placeShip(57, game.playerOne.ships[3]);
 game.playerOne.board.placeShip(29, game.playerOne.ships[4]);
 
-game.playerTwo.board.placeShip(5, game.playerTwo.ships[0]);
-game.playerTwo.board.placeShip(27, game.playerTwo.ships[1]);
-game.playerTwo.board.placeShip(76, game.playerTwo.ships[2]);
-game.playerTwo.board.placeShip(52, game.playerTwo.ships[3]);
+// game.playerTwo.board.placeShip(5, game.playerTwo.ships[0]);
+// game.playerTwo.board.placeShip(27, game.playerTwo.ships[1]);
+// game.playerTwo.board.placeShip(76, game.playerTwo.ships[2]);
+// game.playerTwo.board.placeShip(52, game.playerTwo.ships[3]);
 game.playerTwo.board.placeShip(29, game.playerTwo.ships[4]);
 
 game.playerOne.allocateDOMBoard(document.querySelector('.board__table-1'));
@@ -125,7 +137,6 @@ game.playerTwo.ships.forEach((ship) => {
 });
 
 game.gameStart();
-game.turnComplete();
 
 // game.playerOne.deactivateDOMBoard();
 
