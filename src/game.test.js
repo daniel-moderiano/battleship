@@ -31,7 +31,7 @@ test('Change turn switches from turn 1 to 0', () => {
   expect(game.currentTurn()).toBe(0);
 });
 
-test('Play turn switches player and turn accordingly', () => {
+test('turnComplete switches player and turn accordingly', () => {
   const game = Game('Dan');
   game.playTurn();
   expect(game.getCurrentPlayer().name).toBe('PC');

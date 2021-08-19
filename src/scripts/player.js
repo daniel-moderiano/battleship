@@ -1,6 +1,7 @@
-import { Gameboard } from './gameboard.js'
+/* eslint-disable radix */
+import { Gameboard } from './gameboard.js';
 import { Ship } from './ship.js';
-import { captureClickedCell } from './controller.js';
+import { Game } from './game.js';
 
 function Player(name) {
   const board = Gameboard();
@@ -13,20 +14,20 @@ function Player(name) {
 
   const getDOMBoard = () => DOMBoard;
 
-  function attackClickedCell(e) {
+  const attackClickedCell = (e) => {
     if (e.target.classList.contains('board__cell')) {
       board.receiveAttack(parseInt(e.target.dataset.coordinate));
       console.log(board.getMissedAttacks());
       console.log(board.remainingShips());
     }
-  }
+  };
 
   const activateDOMBoard = () => {
-    DOMBoard.addEventListener('click', attackClickedCell);
+    DOMBoard.classList.add('board__table--active');
   };
 
   const deactivateDOMBoard = () => {
-    DOMBoard.removeEventListener('click', attackClickedCell);
+    DOMBoard.classList.remove('board__table--active');
   };
 
   function createFleet() {

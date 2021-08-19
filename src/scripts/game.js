@@ -51,13 +51,48 @@ function Game(playerOneName, playerTwoName = 'PC') {
     setActiveBoards();
   };
 
-  const playTurn = () => {
+  const turnComplete = () => {
     // play function
     changeTurn();
     changeCurrentPlayer();
-  }
+    setActiveBoards();
+  };
 
-  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStart, getCurrentPlayer, changeCurrentPlayer, playTurn }
+  // Player 1 board
+  document.querySelector('.board__table-1').addEventListener('click', (e) => {
+    // If the parent node chain works, the target by definition must be a board cell
+    if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
+      const p = new Promise((resolve) => {
+        playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+        resolve('placed attack');
+      });
+      p.then(() => {
+        console.log('Attack attempted');
+        console.log(playerOne.board.getMissedAttacks());
+        turnComplete();
+      }).catch((err) => console.log(err));
+    }
+  });
+
+  // Player 2 board
+  document.querySelector('.board__table-2').addEventListener('click', (e) => {
+    // If the parent node chain works, the target by definition must be a board cell
+    if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
+      const p = new Promise((resolve) => {
+        playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+        resolve('placed attack');
+      });
+      p.then(() => {
+        console.log('Attack attempted');
+        console.log(playerTwo.board.getMissedAttacks());
+        turnComplete();
+      }).catch((err) => console.log(err));
+    }
+  });
+
+  
+
+  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStart, getCurrentPlayer, changeCurrentPlayer, turnComplete }
 }
 
 
@@ -92,6 +127,7 @@ game.playerTwo.ships.forEach((ship) => {
 });
 
 game.gameStart();
+game.turnComplete();
 
 // game.playerOne.deactivateDOMBoard();
 
