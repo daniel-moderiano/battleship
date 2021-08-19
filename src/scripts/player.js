@@ -13,15 +13,20 @@ function Player(name) {
 
   const getDOMBoard = () => DOMBoard;
 
-  const activateDOMBoard = () => {
-    DOMBoard.addEventListener('click', (e) => {
-      board.receiveAttack(captureClickedCell(e));
+  function attackClickedCell(e) {
+    if (e.target.classList.contains('board__cell')) {
+      board.receiveAttack(parseInt(e.target.dataset.coordinate));
       console.log(board.getMissedAttacks());
-    });
+      console.log(board.remainingShips());
+    }
+  }
+
+  const activateDOMBoard = () => {
+    DOMBoard.addEventListener('click', attackClickedCell);
   };
 
   const deactivateDOMBoard = () => {
-    DOMBoard.removeEventListener('click', captureClickedCell);
+    DOMBoard.removeEventListener('click', attackClickedCell);
   };
 
   function createFleet() {

@@ -12,4 +12,10 @@ function captureClickedCell(e) {
   }
 }
 
+function attackClickedCell(e) {
+  if (e.target.classList.contains('board__cell')) {
+    board.receiveAttack(parseInt(e.target.dataset.coordinate));
+  }
+}
+
 export { captureClickedCell };

@@ -35,10 +35,20 @@ function Game(playerOneName, playerTwoName = 'PC') {
     currentPlayer = currentPlayers[currentTurn()];
   };
 
+  const setActiveBoards = () => {
+    if (currentTurn() === 0) {
+      playerOne.deactivateDOMBoard();
+      playerTwo.activateDOMBoard();
+    } else {
+      playerOne.activateDOMBoard();
+      playerTwo.deactivateDOMBoard();
+    }
+  };
+
   const gameStart = () => {
     resetTurn();
     changeCurrentPlayer();
-    getCurrentPlayer().activateDOMBoard();
+    setActiveBoards();
   };
 
   const playTurn = () => {
@@ -82,6 +92,8 @@ game.playerTwo.ships.forEach((ship) => {
 });
 
 game.gameStart();
+
+// game.playerOne.deactivateDOMBoard();
 
 // game.playerOne.getDOMBoard().addEventListener('click', () => console.log('clicked'));
 
