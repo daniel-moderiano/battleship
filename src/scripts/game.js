@@ -60,6 +60,13 @@ function Game(playerOneName, playerTwoName = 'PC') {
 
   const checkLose = (player) => player.board.remainingShips() === 0;
 
+  const gameOver = () => {
+    resetTurn();
+    playerOne.deactivateDOMBoard();
+    playerTwo.deactivateDOMBoard();
+    alert('Game Over!')
+  }
+
   // Player 1 board
   document.querySelector('.board__table-1').addEventListener('click', (e) => {
     // If the parent node chain works, the target by definition must be a board cell
@@ -71,7 +78,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
       });
       p.then(() => {
         if (checkLose(playerOne)) {
-          console.log('Game Over!');
+          gameOver();
           // End game
         } else {
           turnComplete();
@@ -91,7 +98,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
       });
       p.then(() => {
         if (checkLose(playerTwo)) {
-          console.log('Game Over!');
+          gameOver();
           // End game
         } else {
           turnComplete();
