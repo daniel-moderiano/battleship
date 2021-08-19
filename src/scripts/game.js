@@ -80,7 +80,13 @@ function Game(playerOneName, playerTwoName = 'PC') {
     resetTurn();
     playerOne.deactivateDOMBoard();
     playerTwo.deactivateDOMBoard();
-    alert('Game Over!')
+    console.log(`Game over, ${currentPlayer.name} wins!`);
+  };
+
+  // Computer will, by default, always be player two
+  const computerTurn = () => {
+    const invalidCells = playerOne.board.getAllAttackedCoordinates();
+    const cellChoice = Math.floor((Math.random() * 99) + 1);
   }
 
   // Player 1 board
@@ -135,10 +141,10 @@ const game = Game('Dan', 'Sam');
 
 // Place ships
 game.playerOne.board.placeShip(0, game.playerOne.ships[0]);
-game.playerOne.board.placeShip(23, game.playerOne.ships[1]);
-game.playerOne.board.placeShip(75, game.playerOne.ships[2]);
-game.playerOne.board.placeShip(57, game.playerOne.ships[3]);
-game.playerOne.board.placeShip(29, game.playerOne.ships[4]);
+// game.playerOne.board.placeShip(23, game.playerOne.ships[1]);
+// game.playerOne.board.placeShip(75, game.playerOne.ships[2]);
+// game.playerOne.board.placeShip(57, game.playerOne.ships[3]);
+// game.playerOne.board.placeShip(29, game.playerOne.ships[4]);
 
 // game.playerTwo.board.placeShip(5, game.playerTwo.ships[0]);
 // game.playerTwo.board.placeShip(27, game.playerTwo.ships[1]);
@@ -160,10 +166,5 @@ game.playerTwo.ships.forEach((ship) => {
 });
 
 game.gameStart();
-
-// game.playerOne.deactivateDOMBoard();
-
-// game.playerOne.getDOMBoard().addEventListener('click', () => console.log('clicked'));
-
 
 export { Game };
