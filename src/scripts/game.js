@@ -39,16 +39,31 @@ function Game(playerOneName, playerTwoName = 'PC') {
     if (currentTurn() === 0) {
       playerOne.deactivateDOMBoard();
       playerTwo.activateDOMBoard();
+      document.querySelector('.board__title-1').classList.add('board__title--active');
+      document.querySelector('.board__title-2').classList.remove('board__title--active');
     } else {
       playerOne.activateDOMBoard();
       playerTwo.deactivateDOMBoard();
+      document.querySelector('.board__title-2').classList.add('board__title--active');
+      document.querySelector('.board__title-1').classList.remove('board__title--active');
     }
   };
+
+  const indicateActivePlayer = () => {
+    if (currentTurn() === 0) {
+      document.querySelector('.board__title-1').classList.add('board__title--active');
+      document.querySelector('.board__title-2').classList.remove('board__title--active');
+    } else {
+      document.querySelector('.board__title-2').classList.add('board__title--active');
+      document.querySelector('.board__title-1').classList.remove('board__title--active');
+    }
+  }
 
   const gameStart = () => {
     resetTurn();
     changeCurrentPlayer();
     setActiveBoards();
+    indicateActivePlayer();
   };
 
   const turnComplete = () => {
@@ -56,6 +71,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
     changeTurn();
     changeCurrentPlayer();
     setActiveBoards();
+    indicateActivePlayer();
   };
 
   const checkLose = (player) => player.board.remainingShips() === 0;

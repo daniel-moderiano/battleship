@@ -14,14 +14,6 @@ function Player(name) {
 
   const getDOMBoard = () => DOMBoard;
 
-  const attackClickedCell = (e) => {
-    if (e.target.classList.contains('board__cell')) {
-      board.receiveAttack(parseInt(e.target.dataset.coordinate));
-      console.log(board.getMissedAttacks());
-      console.log(board.remainingShips());
-    }
-  };
-
   const activateDOMBoard = () => {
     DOMBoard.classList.add('board__table--active');
   };

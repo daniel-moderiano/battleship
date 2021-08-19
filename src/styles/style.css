@@ -54,6 +54,10 @@ body {
   height: 20rem;
 }
 
+.board__table--inactive {
+  opacity: 0.5;
+}
+
 .board__cell--ship {
   background-color: rgb(233, 60, 60);
 }
@@ -66,6 +70,10 @@ body {
   background-color: rgb(24, 155, 42);
 }
 
+.board__title--active {
+  font-style: italic;
+}
+
 table, tr, td {
   border: 1px solid black;
 }
@@ -73,7 +81,6 @@ table, tr, td {
 td:hover {
   background-color: rgb(120, 187, 176);
 }
-
 
 .footer {
   height: 2rem;
