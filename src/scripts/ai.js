@@ -14,10 +14,6 @@ const topMiddleCells = [1, 2, 3, 4, 5, 6, 7, 8];
 const bottomMiddleCells = [91, 92, 93, 94, 95, 96, 97, 98];
 const rightMiddleCells = [19, 29, 39, 49, 59, 69, 79, 89]; 
 const leftMiddleCells = [10, 20, 30, 40, 50, 60, 70, 80]; 
-const topLeftCell = 0;
-const topRightCell = 9;
-const bottomLeftCell = 90;
-const bottomRightCell = 99;
 
 const attackedCells = [2, 4, 6, 12, 16, 17, 18];
 
@@ -63,3 +59,4 @@ function filterAttackedCells(validCells) {
   return validCells.filter((cell) => !attackedCells.includes(cell));
 } 
 
+export { calculateValidCells }
