@@ -88,7 +88,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
     const validCells = playerTwo.board.getRemainingFreeCells();
     const cellChoice = Math.floor((Math.random() * validCells.length));
     return validCells[cellChoice];
-  }
+  };
 
   // Player 1 board
   document.querySelector('.board__table-1').addEventListener('click', (e) => {
