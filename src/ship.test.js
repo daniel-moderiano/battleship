@@ -47,6 +47,14 @@ test('Can change orientation of ship', () => {
   expect(testShip.orientation).toBe('horizontal');
 });
 
+test('ResetShip removes all hits', () => {
+  const testShip = Ship(3);
+  testShip.hit(1);
+  testShip.hit(2);
+  testShip.resetShip();
+  expect(testShip.hits).toEqual([]);
+});
+
 
 
 

@@ -90,6 +90,12 @@ function Gameboard() {
     return numberOfShipsRemaining;
   };
 
+  const resetBoard = () => {
+    missedAttacks.length = 0;
+    currentShips.length = 0;
+    allAttackedCoordinates.length = 0;
+  };
+
   return {
     getMissedAttacks,
     getCurrentShips,
@@ -100,6 +106,7 @@ function Gameboard() {
     remainingShips,
     getAllAttackedCoordinates,
     getRemainingFreeCells,
+    resetBoard,
   };
 }
 

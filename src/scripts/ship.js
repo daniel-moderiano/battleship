@@ -19,7 +19,7 @@ function Ship(length) {
     throw new Error('Invalid ship length, must be between 2 and 5 inclusive');
   }
 
-  const orientation = 'vertical';
+  let orientation = 'vertical';
 
   const position = [];
 
@@ -38,6 +38,12 @@ function Ship(length) {
 
   const isSunk = () => hits.length === length;
 
+  const resetShip = () => {
+    position.length = 0;
+    orientation = 'vertical';
+    hits.length = 0;
+  };
+
   return {
     length,
     orientation,
@@ -46,6 +52,7 @@ function Ship(length) {
     setPosition,
     position,
     hits,
+    resetShip,
   };
 }
 

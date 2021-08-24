@@ -33,11 +33,17 @@ function Player(name) {
 
   const ships = createFleet();
 
+  function resetAllShips() {
+    ships.forEach((ship) => {
+      ship.resetShip();
+    });
+  }
+
   const attack = (enemyBoard, coordinate) => {
     enemyBoard.receiveAttack(coordinate);
   };
 
-  return { name, board, attack, ships, allocateDOMBoard, getDOMBoard, activateDOMBoard, deactivateDOMBoard };
+  return { name, board, attack, ships, allocateDOMBoard, getDOMBoard, activateDOMBoard, deactivateDOMBoard, resetAllShips };
 }
 
 export { Player };
