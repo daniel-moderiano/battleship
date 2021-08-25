@@ -68,4 +68,6 @@ function filterAttackedCells(validCells, attackedCells) {
   return validCells.filter((cell) => !attackedCells.includes(cell));
 } 
 
+// TODO: AI choice is undefined when choosing a cell that has all adjacent cells already hit
+
 export { calculateValidCells, filterAttackedCells };

@@ -2,6 +2,7 @@ import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
 import { renderShip, markCell } from './render.js';
+import { calculateValidCells, filterAttackedCells } from './ai.js';
 
 function Game(playerOneName, playerTwoName = 'PC') {
   const playerOne = Player(playerOneName);
@@ -59,7 +60,14 @@ function Game(playerOneName, playerTwoName = 'PC') {
     }
   };
 
-  const gameStart = () => {
+  const gameStartOnePlayer = () => {
+    resetTurn();
+    changeCurrentPlayer();
+    setActiveBoards();
+    indicateActivePlayer();
+  };
+
+  const gameStartTwoPlayer = () => {
     resetTurn();
     changeCurrentPlayer();
     setActiveBoards();
@@ -93,11 +101,27 @@ function Game(playerOneName, playerTwoName = 'PC') {
   };
 
   // Computer will, by default, always be player two. Below is random cell choice
-  const computerTurn = () => {
+  const chooseRandomCell = () => {
     const validCells = playerTwo.board.getRemainingFreeCells();
     const cellChoice = Math.floor((Math.random() * validCells.length));
     return validCells[cellChoice];
   };
+
+  const chooseRandomCellTwo = () => {
+    const validCells = playerOne.board.getRemainingFreeCells();
+    const cellChoice = Math.floor((Math.random() * validCells.length));
+    return validCells[cellChoice];
+  };
+
+  const chooseComputerCell = (previousCellChoice) => {
+    const cellInput = parseInt(previousCellChoice);
+    const validCells = calculateValidCells(cellInput);
+    const attackedCells = playerTwo.board.getAllAttackedCoordinates();
+    const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
+    console.log((playerTwo.board.getAllAttackedCoordinates()));
+    return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
+  };
+
 
   // Player 1 board
   document.querySelector('.board__table-1').addEventListener('click', (e) => {
@@ -113,6 +137,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
           gameOver();
           // End game
         } else {
+          console.log(chooseRandomCellTwo());
           turnComplete();
         }
       }).catch((err) => console.log(err));
@@ -126,21 +151,25 @@ function Game(playerOneName, playerTwoName = 'PC') {
       const p = new Promise((resolve) => {
         const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
         markCell(e.target, didHit);
-        resolve();
+        resolve(didHit);
       });
-      p.then(() => {
+      p.then((didHit) => {
         if (checkLose(playerTwo)) {
           gameOver();
           // End game
         } else {
-          console.log(computerTurn());
+          if (didHit) {
+            console.log(`AI choice ${chooseComputerCell(e.target.dataset.coordinate)}`);
+          } else {
+            console.log(`Random choice ${chooseRandomCell()}`);
+          }
           turnComplete();
         }
       }).catch((err) => console.log(err));
     }
   });
 
-  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStart, getCurrentPlayer, changeCurrentPlayer, turnComplete, resetGame }
+  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStartOnePlayer, gameStartTwoPlayer, getCurrentPlayer, changeCurrentPlayer, turnComplete, resetGame }
 }
 
 export { Game };

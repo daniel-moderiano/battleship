@@ -47,14 +47,14 @@ test('ResetTurn returns game turn to 0', () => {
 test('gameStart correctly initialises turn to zero', () => {
   const game = Game('Dan');
   game.changeTurn();
-  game.gameStart();
+  game.gameStartOnePlayer();
   expect(game.currentTurn()).toBe(0);
 });
 
 test('gameStart correctly initialises current player', () => {
   const game = Game('Dan');
   game.changeTurn();
-  game.gameStart();
+  game.gameStartOnePlayer();
   expect(game.getCurrentPlayer().name).toBe('Dan');
 });
 
