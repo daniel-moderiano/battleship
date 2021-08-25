@@ -20,6 +20,11 @@ function attackClickedCell(e) {
   }
 }
 
+function checkAmountOfPlayers() {
+  if (document.querySelector('#one-player').checked === true) {
+    return 1;
+  }
+  return 2;
+}
 
-
-export { captureClickedCell };
+export { captureClickedCell, checkAmountOfPlayers };

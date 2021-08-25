@@ -3,6 +3,7 @@ import { Player } from './scripts/player.js';
 import { Ship } from './scripts/ship.js';
 import { Game } from './scripts/game.js';
 import { renderShip, clearBoardsVisually } from './scripts/render.js';
+import { checkAmountOfPlayers } from './scripts/controller.js';
 
 const playBtn = document.querySelector('.play-btn');
 const status = document.querySelector('.game-status');
@@ -28,7 +29,6 @@ game.playerTwo.board.placeShip(29, game.playerTwo.ships[4]);
 game.playerOne.allocateDOMBoard(document.querySelector('.board__table-1'));
 game.playerTwo.allocateDOMBoard(document.querySelector('.board__table-2'));
 
-
 // Render ships on boards
 game.playerOne.ships.forEach((ship) => {
   renderShip(1, ship);
@@ -38,14 +38,14 @@ game.playerTwo.ships.forEach((ship) => {
   renderShip(2, ship);
 });
 
-game.gameStart();
-
 playBtn.addEventListener('click', () => {
   // if (!game.playerOne.allShipsPlaced() || !game.playerTwo.allShipsPlaced()) {
   //   throw new Error('Not all ships placed');
   // }
+  console.log(checkAmountOfPlayers());
+  game.gameStart();
   status.textContent = 'Game reset';
-  game.resetGame();
-  clearBoardsVisually();
+  // game.resetGame();
+  // clearBoardsVisually();
   // console.log(game.playerOne.ships);
 });
