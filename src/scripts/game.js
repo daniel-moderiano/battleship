@@ -60,20 +60,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
     }
   };
 
-  const gameStartOnePlayer = () => {
-    resetTurn();
-    changeCurrentPlayer();
-    setActiveBoards();
-    indicateActivePlayer();
-  };
-
-  const gameStartTwoPlayer = () => {
-    resetTurn();
-    changeCurrentPlayer();
-    setActiveBoards();
-    indicateActivePlayer();
-  };
-
   const turnComplete = () => {
     // play function
     changeTurn();
@@ -124,53 +110,72 @@ function Game(playerOneName, playerTwoName = 'PC') {
     return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
   };
 
-  // Player 1 board
-  document.querySelector('.board__table-1').addEventListener('click', (e) => {
-    // If the parent node chain works, the target by definition must be a board cell
-    if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
-      const p = new Promise((resolve) => {
-        const didHit = playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-        markCell(e.target, didHit);
-        resolve();
-      });
-      p.then(() => {
-        if (checkLose(playerOne)) {
-          gameOver();
-          // End game
-        } else {
-          console.log(chooseRandomCellTwo());
-          turnComplete();
-        }
-      }).catch((err) => console.log(err));
-    }
-  });
-
-  // Player 2 board
-  document.querySelector('.board__table-2').addEventListener('click', (e) => {
-    // If the parent node chain works, the target by definition must be a board cell
-    if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
-      const p = new Promise((resolve) => {
-        const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-        markCell(e.target, didHit);
-        resolve(didHit);
-      });
-      p.then((didHit) => {
-        if (checkLose(playerTwo)) {
-          gameOver();
-          // End game
-        } else {
-          if (didHit) {
-            console.log(`AI choice ${chooseComputerCell(e.target.dataset.coordinate)}`);
+  function onePlayerGameLoop() {
+    // Player 1 board
+    document.querySelector('.board__table-1').addEventListener('click', (e) => {
+      // If the parent node chain works, the target by definition must be a board cell
+      if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
+        const p = new Promise((resolve) => {
+          const didHit = playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+          markCell(e.target, didHit);
+          resolve();
+        });
+        p.then(() => {
+          if (checkLose(playerOne)) {
+            gameOver();
+            // End game
           } else {
-            console.log(`Random choice ${chooseRandomCell()}`);
+            console.log(chooseRandomCellTwo());
+            turnComplete();
           }
-          turnComplete();
-        }
-      }).catch((err) => console.log(err));
-    }
-  });
+        }).catch((err) => console.log(err));
+      }
+    });
 
-  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStartOnePlayer, gameStartTwoPlayer, getCurrentPlayer, changeCurrentPlayer, turnComplete, resetGame }
+    // Player 2 board
+    document.querySelector('.board__table-2').addEventListener('click', (e) => {
+      // If the parent node chain works, the target by definition must be a board cell
+      if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
+        const p = new Promise((resolve) => {
+          const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+          markCell(e.target, didHit);
+          resolve(didHit);
+        });
+        p.then((didHit) => {
+          if (checkLose(playerTwo)) {
+            gameOver();
+            // End game
+          } else {
+            if (didHit) {
+              console.log(`AI choice ${chooseComputerCell(e.target.dataset.coordinate)}`);
+            } else {
+              console.log(`Random choice ${chooseRandomCell()}`);
+            }
+            turnComplete();
+          }
+        }).catch((err) => console.log(err));
+      }
+    });
+  }
+
+  // onePlayerGameLoop();
+
+  const gameStartOnePlayer = () => {
+    resetTurn();
+    changeCurrentPlayer();
+    setActiveBoards();
+    indicateActivePlayer();
+    onePlayerGameLoop();
+  };
+
+  const gameStartTwoPlayer = () => {
+    resetTurn();
+    changeCurrentPlayer();
+    setActiveBoards();
+    indicateActivePlayer();
+  };
+
+  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStartOnePlayer, gameStartTwoPlayer, getCurrentPlayer, changeCurrentPlayer, turnComplete, resetGame, onePlayerGameLoop }
 }
 
 export { Game };

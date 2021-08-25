@@ -42,14 +42,15 @@ playBtn.addEventListener('click', () => {
   // if (!game.playerOne.allShipsPlaced() || !game.playerTwo.allShipsPlaced()) {
   //   throw new Error('Not all ships placed');
   // }
-  game.gameStartOnePlayer();
+
+  if (checkAmountOfPlayers() === 1) {
+    game.gameStartOnePlayer();
+  }
+  // game.gameSetupOnePlayer();
+  
   status.textContent = 'Game reset';
   // game.resetGame();
   // clearBoardsVisually();
   // console.log(game.playerOne.ships);
 });
 
-function chooseRandom() {
-  const test = [1, 2, 3, 4];
-  console.log(Math.floor(Math.random() * (test.length + 1)));
-};
