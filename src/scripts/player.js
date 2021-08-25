@@ -45,7 +45,6 @@ function Player(name) {
 
   const allShipsPlaced = () => {
     for (let i = 0; i < ships.length; i++) {
-      console.log(ships[i]);
       if (ships[i].position.length === 0) {
         return false;
       }

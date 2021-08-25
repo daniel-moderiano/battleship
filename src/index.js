@@ -2,7 +2,7 @@ import { Gameboard } from './scripts/gameboard.js';
 import { Player } from './scripts/player.js';
 import { Ship } from './scripts/ship.js';
 import { Game } from './scripts/game.js';
-import { renderShip } from './scripts/render.js';
+import { renderShip, clearBoardsVisually } from './scripts/render.js';
 
 const playBtn = document.querySelector('.play-btn');
 const status = document.querySelector('.game-status');
@@ -13,10 +13,10 @@ const game = Game('Player 1', 'Player 2');
 game.playerOne.board.resetBoard();
 game.playerTwo.board.resetBoard();
 // Place ships
-game.playerOne.board.placeShip(0, game.playerOne.ships[0]);
-game.playerOne.board.placeShip(23, game.playerOne.ships[1]);
-game.playerOne.board.placeShip(75, game.playerOne.ships[2]);
-game.playerOne.board.placeShip(57, game.playerOne.ships[3]);
+// game.playerOne.board.placeShip(0, game.playerOne.ships[0]);
+// game.playerOne.board.placeShip(23, game.playerOne.ships[1]);
+// game.playerOne.board.placeShip(75, game.playerOne.ships[2]);
+// game.playerOne.board.placeShip(57, game.playerOne.ships[3]);
 game.playerOne.board.placeShip(29, game.playerOne.ships[4]);
 
 // game.playerTwo.board.placeShip(5, game.playerTwo.ships[0]);
@@ -39,14 +39,13 @@ game.playerTwo.ships.forEach((ship) => {
 });
 
 game.gameStart();
-game.playerOne.allShipsPlaced();
 
 playBtn.addEventListener('click', () => {
-  status.textContent = 'Game started';
-  game.playerOne.allShipsPlaced();
+  // if (!game.playerOne.allShipsPlaced() || !game.playerTwo.allShipsPlaced()) {
+  //   throw new Error('Not all ships placed');
+  // }
+  status.textContent = 'Game reset';
   game.resetGame();
-  console.log(game.playerOne.ships);
+  clearBoardsVisually();
+  // console.log(game.playerOne.ships);
 });
-
-
-

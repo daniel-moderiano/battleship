@@ -35,5 +35,12 @@ function markCell(cell, didHit) {
   }
 }
 
+function clearBoardsVisually() {
+  document.querySelectorAll('.board__cell').forEach((cell) => {
+    cell.classList.remove('board__cell--miss');
+    cell.classList.remove('board__cell--hit');
+    cell.classList.remove('board__cell--ship');
+  });
+}
 
-export { renderShip, markCell };
+export { renderShip, markCell, clearBoardsVisually };
