@@ -43,7 +43,17 @@ function Player(name) {
     enemyBoard.receiveAttack(coordinate);
   };
 
-  return { name, board, attack, ships, allocateDOMBoard, getDOMBoard, activateDOMBoard, deactivateDOMBoard, resetAllShips };
+  const allShipsPlaced = () => {
+    for (let i = 0; i < ships.length; i++) {
+      console.log(ships[i]);
+      if (ships[i].position.length === 0) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  return { name, board, attack, ships, allocateDOMBoard, getDOMBoard, activateDOMBoard, deactivateDOMBoard, resetAllShips, allShipsPlaced };
 }
 
 export { Player };

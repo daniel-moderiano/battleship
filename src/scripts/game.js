@@ -140,12 +140,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
     }
   });
 
-  
-
   return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStart, getCurrentPlayer, changeCurrentPlayer, turnComplete, resetGame }
 }
-
-
-
 
 export { Game };

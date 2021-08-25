@@ -3,6 +3,8 @@ import { Player } from './player.js';
 import { Ship } from './ship.js';
 import { Game } from './game.js';
 
+
+
 const tableOne = document.querySelector('.board__table-1');
 const tableTwo = document.querySelector('.board__table-2');
 
@@ -17,5 +19,7 @@ function attackClickedCell(e) {
     board.receiveAttack();
   }
 }
+
+
 
 export { captureClickedCell };
