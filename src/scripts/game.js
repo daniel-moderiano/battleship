@@ -118,10 +118,11 @@ function Game(playerOneName, playerTwoName = 'PC') {
     const validCells = calculateValidCells(cellInput);
     const attackedCells = playerTwo.board.getAllAttackedCoordinates();
     const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
-    console.log((playerTwo.board.getAllAttackedCoordinates()));
+    if (filteredCellChoices.length === 0) {
+      return chooseRandomCell();
+    }
     return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
   };
-
 
   // Player 1 board
   document.querySelector('.board__table-1').addEventListener('click', (e) => {
