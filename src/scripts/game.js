@@ -149,16 +149,17 @@ function Game(playerOneName, playerTwoName = 'PC') {
             let currentCell;
             if (didPreviousCellHit) {
               currentCell = chooseComputerCell(previousCell);
-              console.log(`AI choice ${currentCell}`);
             } else {
               currentCell = chooseRandomCell();
-              console.log(`Random choice ${currentCell}`);
             }
             console.log(`Previous cell was ${previousCell}, next attack at ${currentCell}`);
             previousCell = currentCell;
 
             didPreviousCellHit = playerOne.board.receiveAttack(parseInt(currentCell));
-            markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), didPreviousCellHit);
+            setTimeout(() => {
+              markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), didPreviousCellHit);
+            }, 500);
+           
             turnComplete();
           })
           .catch((err) => {
