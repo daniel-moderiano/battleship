@@ -66,7 +66,7 @@ function calculateValidCells(cell) {
 // Use array.filter on the array returns from calculateValidCells to remove any cells that are currently marked as a hit
 function filterAttackedCells(validCells, attackedCells) {
   return validCells.filter((cell) => !attackedCells.includes(cell));
-} 
+}
 
 // TODO: AI choice is undefined when choosing a cell that has all adjacent cells already hit
 

@@ -88,12 +88,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
 
   // Computer will, by default, always be player two. Below is random cell choice
   const chooseRandomCell = () => {
-    const validCells = playerTwo.board.getRemainingFreeCells();
-    const cellChoice = Math.floor((Math.random() * validCells.length));
-    return validCells[cellChoice];
-  };
-
-  const chooseRandomCellTwo = () => {
     const validCells = playerOne.board.getRemainingFreeCells();
     const cellChoice = Math.floor((Math.random() * validCells.length));
     return validCells[cellChoice];
@@ -102,7 +96,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
   const chooseComputerCell = (previousCellChoice) => {
     const cellInput = parseInt(previousCellChoice);
     const validCells = calculateValidCells(cellInput);
-    const attackedCells = playerTwo.board.getAllAttackedCoordinates();
+    const attackedCells = playerOne.board.getAllAttackedCoordinates();
     const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
     if (filteredCellChoices.length === 0) {
       return chooseRandomCell();
@@ -111,6 +105,8 @@ function Game(playerOneName, playerTwoName = 'PC') {
   };
 
   function onePlayerGameLoop() {
+    let previousCell = chooseRandomCell();
+    let didPreviousCellHit = false;
     // Player 1 board
     document.querySelector('.board__table-1').addEventListener('click', (e) => {
       // If the parent node chain works, the target by definition must be a board cell
@@ -125,7 +121,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
             gameOver();
             // End game
           } else {
-            console.log(chooseRandomCellTwo());
             turnComplete();
           }
         }).catch((err) => console.log(err));
@@ -139,18 +134,80 @@ function Game(playerOneName, playerTwoName = 'PC') {
         const p = new Promise((resolve) => {
           const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
           markCell(e.target, didHit);
-          resolve(didHit);
+          resolve();
         });
-        p.then((didHit) => {
+        p.then(() => {
+          if (checkLose(playerTwo)) {
+            gameOver();
+            throw new Error('Game Over');
+            // End game
+          } else {
+            turnComplete();
+          }
+        })
+          .then(() => {
+            let currentCell;
+            if (didPreviousCellHit) {
+              currentCell = chooseComputerCell(previousCell);
+              console.log(`AI choice ${currentCell}`);
+            } else {
+              currentCell = chooseRandomCell();
+              console.log(`Random choice ${currentCell}`);
+            }
+            console.log(`Previous cell was ${previousCell}, next attack at ${currentCell}`);
+            previousCell = currentCell;
+
+            didPreviousCellHit = playerOne.board.receiveAttack(parseInt(currentCell));
+            markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), didPreviousCellHit);
+            turnComplete();
+          })
+          .catch((err) => {
+            if (err.message === 'Game Over') {
+              // Game over logic here
+              console.log('TODO: game over logic');
+            } else {
+              console.log(err);
+            }
+          });
+      }
+    });
+  }
+
+  function twoPlayerGameLoop() {
+    // Player 1 board
+    document.querySelector('.board__table-1').addEventListener('click', (e) => {
+      // If the parent node chain works, the target by definition must be a board cell
+      if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
+        const p = new Promise((resolve) => {
+          const didHit = playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+          markCell(e.target, didHit);
+          resolve();
+        });
+        p.then(() => {
+          if (checkLose(playerOne)) {
+            gameOver();
+            // End game
+          } else {
+            turnComplete();
+          }
+        }).catch((err) => console.log(err));
+      }
+    });
+
+    // Player 2 board
+    document.querySelector('.board__table-2').addEventListener('click', (e) => {
+      // If the parent node chain works, the target by definition must be a board cell
+      if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
+        const p = new Promise((resolve) => {
+          const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+          markCell(e.target, didHit);
+          resolve();
+        });
+        p.then(() => {
           if (checkLose(playerTwo)) {
             gameOver();
             // End game
           } else {
-            if (didHit) {
-              console.log(`AI choice ${chooseComputerCell(e.target.dataset.coordinate)}`);
-            } else {
-              console.log(`Random choice ${chooseRandomCell()}`);
-            }
             turnComplete();
           }
         }).catch((err) => console.log(err));
@@ -173,6 +230,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
     changeCurrentPlayer();
     setActiveBoards();
     indicateActivePlayer();
+    twoPlayerGameLoop();
   };
 
   return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStartOnePlayer, gameStartTwoPlayer, getCurrentPlayer, changeCurrentPlayer, turnComplete, resetGame, onePlayerGameLoop }

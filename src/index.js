@@ -20,10 +20,10 @@ game.playerOne.board.placeShip(75, game.playerOne.ships[2]);
 game.playerOne.board.placeShip(57, game.playerOne.ships[3]);
 game.playerOne.board.placeShip(29, game.playerOne.ships[4]);
 
-game.playerTwo.board.placeShip(5, game.playerTwo.ships[0]);
-game.playerTwo.board.placeShip(27, game.playerTwo.ships[1]);
-game.playerTwo.board.placeShip(76, game.playerTwo.ships[2]);
-game.playerTwo.board.placeShip(52, game.playerTwo.ships[3]);
+// game.playerTwo.board.placeShip(5, game.playerTwo.ships[0]);
+// game.playerTwo.board.placeShip(27, game.playerTwo.ships[1]);
+// game.playerTwo.board.placeShip(76, game.playerTwo.ships[2]);
+// game.playerTwo.board.placeShip(52, game.playerTwo.ships[3]);
 game.playerTwo.board.placeShip(29, game.playerTwo.ships[4]);
 
 game.playerOne.allocateDOMBoard(document.querySelector('.board__table-1'));
@@ -45,6 +45,8 @@ playBtn.addEventListener('click', () => {
 
   if (checkAmountOfPlayers() === 1) {
     game.gameStartOnePlayer();
+  } else {
+    game.gameStartTwoPlayer();
   }
   // game.gameSetupOnePlayer();
   
