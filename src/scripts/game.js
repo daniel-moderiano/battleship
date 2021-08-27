@@ -98,9 +98,9 @@ function Game(playerOneName, playerTwoName = 'PC') {
     const validCells = calculateValidCells(cellInput);
     const attackedCells = playerOne.board.getAllAttackedCoordinates();
     const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
-    if (filteredCellChoices.length === 0) {
-      return chooseRandomCell();
-    }
+    // if (filteredCellChoices.length === 0) {
+    //   return chooseRandomCell();
+    // }
     return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
   };
 
@@ -132,13 +132,17 @@ function Game(playerOneName, playerTwoName = 'PC') {
         })
           .then(() => {
             let currentCell;
-            
+
             // Use AI to choose next cell if previous cell was a successful hit
             if (didPreviousCellHit.length !== 0) {
               currentCell = chooseComputerCell(previousCell);
             // If previous cell missed, but there is a currently un-sunk ship, choose next cell based on most recent hit
             } else if (didPreviousCellHit.length === 0 && currentTargetHits.length !== 0) {
               currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1]);
+              if (currentCell === undefined) {
+                // Undefined cell in this logic tree indicates that one end of the ship has been reached, but the ship is not yet sunk. The solution is to switch to the other end of the ship.
+                currentCell = chooseComputerCell(currentTargetHits[0]);
+              }
             // Otherwise select random cell
             } else {
               currentCell = chooseRandomCell();
@@ -161,13 +165,14 @@ function Game(playerOneName, playerTwoName = 'PC') {
                   currentTargetHits.push(currentCell);
                 }
               }
-              if (checkLose(playerTwo)) {
+              if (checkLose(playerOne)) {
                 gameOver();
                 throw new Error('Game Over');
                 // End game
               } else {
                 turnComplete();
               }
+              console.log(currentTargetHits);
             }, 500);
           })
           .catch((err) => {

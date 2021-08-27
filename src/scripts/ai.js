@@ -57,7 +57,7 @@ function calculateValidCells(cell) {
       validCells = [cell - 1, cell + 1, cell - 10];
       break;
     default:
-      validCells = [cell - 1, cell + 1, cell - 10, cell + 10]
+      validCells = [cell - 1, cell + 1, cell - 10, cell + 10];
       break;
   }
   return validCells;
