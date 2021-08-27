@@ -106,31 +106,8 @@ function Game(playerOneName, playerTwoName = 'PC') {
 
   function onePlayerGameLoop() {
     let previousCell = chooseRandomCell();
-    let didPreviousCellHit = false;
-    // Player 1 board
-    document.querySelector('.board__table-1').addEventListener('click', (e) => {
-      // If the parent node chain works, the target by definition must be a board cell
-      if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
-        const p = new Promise((resolve) => {
-          const didHit = playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-          if (didHit.length === 0) {
-            markCell(e.target, false);
-          } else {
-            markCell(e.target, true);
-          }
-          resolve();
-        });
-        p.then(() => {
-          if (checkLose(playerOne)) {
-            gameOver();
-            // End game
-          } else {
-            turnComplete();
-          }
-        }).catch((err) => console.log(err));
-      }
-    });
-
+    let didPreviousCellHit = [];
+    let currentTargetHits = [];
     // Player 2 board
     document.querySelector('.board__table-2').addEventListener('click', (e) => {
       // If the parent node chain works, the target by definition must be a board cell
@@ -155,8 +132,14 @@ function Game(playerOneName, playerTwoName = 'PC') {
         })
           .then(() => {
             let currentCell;
+            
+            // Use AI to choose next cell if previous cell was a successful hit
             if (didPreviousCellHit.length !== 0) {
               currentCell = chooseComputerCell(previousCell);
+            // If previous cell missed, but there is a currently un-sunk ship, choose next cell based on most recent hit
+            } else if (didPreviousCellHit.length === 0 && currentTargetHits.length !== 0) {
+              currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1]);
+            // Otherwise select random cell
             } else {
               currentCell = chooseRandomCell();
             }
@@ -169,10 +152,23 @@ function Game(playerOneName, playerTwoName = 'PC') {
                 markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), false);
               } else {
                 markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), true);
+                if (didPreviousCellHit[0].isSunk()) {
+                  // Ensure the computer selects random choice if a ship is sunk on the previous attack
+                  didPreviousCellHit.length = 0;
+                  // Clear the current target array
+                  currentTargetHits.length = 0;
+                } else {
+                  currentTargetHits.push(currentCell);
+                }
               }
-              turnComplete();
+              if (checkLose(playerTwo)) {
+                gameOver();
+                throw new Error('Game Over');
+                // End game
+              } else {
+                turnComplete();
+              }
             }, 500);
-            
           })
           .catch((err) => {
             if (err.message === 'Game Over') {
