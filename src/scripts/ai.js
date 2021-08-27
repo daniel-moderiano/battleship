@@ -63,11 +63,55 @@ function calculateValidCells(cell) {
   return validCells;
 }
 
+// Function only to be called when 2 or more hits already exist on a ship, hence only certain cells included
+function calculateValidHorizontalCells(cell) {
+  let validCells = [];
+  switch (true) {
+    case topMiddleCells.includes(cell):
+      validCells = [cell - 1, cell + 1];
+      break;
+    case bottomMiddleCells.includes(cell):
+      validCells = [cell - 1, cell + 1];
+      break;
+    default:
+      validCells = [cell - 1, cell + 1];
+      break;
+  }
+  return validCells;
+}
+
+// Function only to be called when 2 or more hits already exist on a ship, hence only certain cells included
+function calculateValidVerticalCells(cell) {
+  let validCells = [];
+  switch (true) {
+    case leftMiddleCells.includes(cell):
+      validCells = [cell - 10, cell + 10];
+      break;
+    case rightMiddleCells.includes(cell):
+      validCells = [cell - 10, cell + 10];
+      break;
+    default:
+      validCells = [cell - 10, cell + 10];
+      break;
+  }
+  return validCells;
+}
+
 // Use array.filter on the array returns from calculateValidCells to remove any cells that are currently marked as a hit
 function filterAttackedCells(validCells, attackedCells) {
   return validCells.filter((cell) => !attackedCells.includes(cell));
 }
 
-// TODO: AI choice is undefined when choosing a cell that has all adjacent cells already hit
+const test = [85, 95];
+const test1 = [4, 5];
+const test2 = [5, 4];
+const test3 = [42, 32];
 
-export { calculateValidCells, filterAttackedCells };
+function determineOrientation(currentShipHits) {
+  if (Math.abs(currentShipHits[0] - currentShipHits[1]) > 1) {
+    return 'vertical';
+  }
+  return 'horizontal';
+}
+
+export { calculateValidCells, filterAttackedCells, determineOrientation, calculateValidVerticalCells, calculateValidHorizontalCells };

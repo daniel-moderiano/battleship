@@ -2,7 +2,7 @@ import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
 import { renderShip, markCell } from './render.js';
-import { calculateValidCells, filterAttackedCells } from './ai.js';
+import { calculateValidCells, filterAttackedCells, determineOrientation } from './ai.js';
 
 function Game(playerOneName, playerTwoName = 'PC') {
   const playerOne = Player(playerOneName);
@@ -98,9 +98,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
     const validCells = calculateValidCells(cellInput);
     const attackedCells = playerOne.board.getAllAttackedCoordinates();
     const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
-    // if (filteredCellChoices.length === 0) {
-    //   return chooseRandomCell();
-    // }
     return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
   };
 
@@ -143,7 +140,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
                 // Undefined cell in this logic tree indicates that one end of the ship has been reached, but the ship is not yet sunk. The solution is to switch to the other end of the ship.
                 currentCell = chooseComputerCell(currentTargetHits[0]);
               }
-            // Otherwise select random cell
+            // If 2 or more current ship hits, check the orientation of the ship to guide better AI selection
             } else {
               currentCell = chooseRandomCell();
             }
