@@ -113,7 +113,11 @@ function Game(playerOneName, playerTwoName = 'PC') {
       if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
         const p = new Promise((resolve) => {
           const didHit = playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-          markCell(e.target, didHit);
+          if (didHit.length === 0) {
+            markCell(e.target, false);
+          } else {
+            markCell(e.target, true);
+          }
           resolve();
         });
         p.then(() => {
@@ -133,7 +137,11 @@ function Game(playerOneName, playerTwoName = 'PC') {
       if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
         const p = new Promise((resolve) => {
           const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-          markCell(e.target, didHit);
+          if (didHit.length === 0) {
+            markCell(e.target, false);
+          } else {
+            markCell(e.target, true);
+          }
           resolve();
         });
         p.then(() => {
@@ -147,7 +155,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
         })
           .then(() => {
             let currentCell;
-            if (didPreviousCellHit) {
+            if (didPreviousCellHit.length !== 0) {
               currentCell = chooseComputerCell(previousCell);
             } else {
               currentCell = chooseRandomCell();
@@ -157,10 +165,14 @@ function Game(playerOneName, playerTwoName = 'PC') {
 
             didPreviousCellHit = playerOne.board.receiveAttack(parseInt(currentCell));
             setTimeout(() => {
-              markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), didPreviousCellHit);
+              if (didPreviousCellHit.length === 0) {
+                markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), false);
+              } else {
+                markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), true);
+              }
+              turnComplete();
             }, 500);
-           
-            turnComplete();
+            
           })
           .catch((err) => {
             if (err.message === 'Game Over') {

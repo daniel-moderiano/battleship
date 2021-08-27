@@ -65,19 +65,23 @@ function Gameboard() {
     if (allAttackedCoordinates.includes(coordinate)) {
       throw new Error('Error: coordinate already attacked');
     }
+
+    const attackResult = [];
+
     const ships = getCurrentShips();
     for (let i = 0; i < currentShips.length; i++) {
       if (ships[i].position.includes(coordinate)) {
         ships[i].hit(coordinate);
+        attackResult.push(ships[i]);
         allAttackedCoordinates.push(coordinate);
         console.log('Hit');
-        return true;
+        return attackResult;
       }
     }
     allAttackedCoordinates.push(coordinate);
     missedAttacks.push(coordinate);
     console.log('Miss');
-    return false;
+    return attackResult;
   };
 
   const remainingShips = () => {
