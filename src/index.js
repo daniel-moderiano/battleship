@@ -15,10 +15,10 @@ game.playerOne.board.resetBoard();
 game.playerTwo.board.resetBoard();
 // Place ships
 game.playerOne.board.placeShip(0, game.playerOne.ships[0]);
-game.playerOne.board.placeShip(23, game.playerOne.ships[1]);
-game.playerOne.board.placeShip(75, game.playerOne.ships[2]);
-game.playerOne.board.placeShip(57, game.playerOne.ships[3]);
-game.playerOne.board.placeShip(29, game.playerOne.ships[4]);
+game.playerOne.board.placeShip(2, game.playerOne.ships[1]);
+game.playerOne.board.placeShip(4, game.playerOne.ships[2]);
+game.playerOne.board.placeShip(6, game.playerOne.ships[3]);
+game.playerOne.board.placeShip(8, game.playerOne.ships[4]);
 
 // game.playerTwo.board.placeShip(5, game.playerTwo.ships[0]);
 // game.playerTwo.board.placeShip(27, game.playerTwo.ships[1]);

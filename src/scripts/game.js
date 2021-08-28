@@ -2,7 +2,7 @@ import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
 import { renderShip, markCell } from './render.js';
-import { calculateValidCells, filterAttackedCells, determineOrientation } from './ai.js';
+import { calculateValidCells, filterAttackedCells, determineOrientation, calculateValidVerticalCells, calculateValidHorizontalCells } from './ai.js';
 
 function Game(playerOneName, playerTwoName = 'PC') {
   const playerOne = Player(playerOneName);
@@ -101,6 +101,28 @@ function Game(playerOneName, playerTwoName = 'PC') {
     return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
   };
 
+  const chooseComputerCellHorizontal = (previousCellChoice) => {
+    const cellInput = parseInt(previousCellChoice);
+    const validCells = calculateValidHorizontalCells(cellInput);
+    if (validCells === 'none') {
+      return undefined;
+    }
+    const attackedCells = playerOne.board.getAllAttackedCoordinates();
+    const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
+    return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
+  };
+
+  const chooseComputerCellVertical = (previousCellChoice) => {
+    const cellInput = parseInt(previousCellChoice);
+    const validCells = calculateValidVerticalCells(cellInput);
+    if (validCells === 'none') {
+      return undefined;
+    }
+    const attackedCells = playerOne.board.getAllAttackedCoordinates();
+    const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
+    return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
+  };
+
   function onePlayerGameLoop() {
     let previousCell = chooseRandomCell();
     let didPreviousCellHit = [];
@@ -132,15 +154,43 @@ function Game(playerOneName, playerTwoName = 'PC') {
 
             // Use AI to choose next cell if previous cell was a successful hit
             if (didPreviousCellHit.length !== 0) {
-              currentCell = chooseComputerCell(previousCell);
+              // Use orientation of ship to guide choice if ship has already sustained 2+ hits
+              if (currentTargetHits.length > 1) {
+                if (determineOrientation(currentTargetHits) === 'horizontal') {
+                  currentCell = chooseComputerCellHorizontal(previousCell);
+                  if (currentCell === undefined) {
+                    currentCell = chooseComputerCellHorizontal(currentTargetHits[0]);
+                  }
+                } else {
+                  currentCell = chooseComputerCellVertical(previousCell);
+                  if (currentCell === undefined) {
+                    currentCell = chooseComputerCellVertical(currentTargetHits[0]);
+                  }
+                }
+              } else {
+                currentCell = chooseComputerCell(previousCell);
+              }
             // If previous cell missed, but there is a currently un-sunk ship, choose next cell based on most recent hit
             } else if (didPreviousCellHit.length === 0 && currentTargetHits.length !== 0) {
-              currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1]);
-              if (currentCell === undefined) {
-                // Undefined cell in this logic tree indicates that one end of the ship has been reached, but the ship is not yet sunk. The solution is to switch to the other end of the ship.
-                currentCell = chooseComputerCell(currentTargetHits[0]);
+              if (currentTargetHits.length > 1) {
+                if (determineOrientation(currentTargetHits) === 'horizontal') {
+                  currentCell = chooseComputerCellHorizontal(currentTargetHits[currentTargetHits.length - 1]);
+                  if (currentCell === undefined) {
+                    currentCell = chooseComputerCellHorizontal(currentTargetHits[0]);
+                  }
+                } else {
+                  currentCell = chooseComputerCellVertical(currentTargetHits[currentTargetHits.length - 1]);
+                  if (currentCell === undefined) {
+                    currentCell = chooseComputerCellVertical(currentTargetHits[0]);
+                  }
+                }
+              } else {
+                currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1]);
+                if (currentCell === undefined) {
+                  // Undefined cell in this logic tree indicates that one end of the ship has been reached, but the ship is not yet sunk. The solution is to switch to the other end of the ship.
+                  currentCell = chooseComputerCell(currentTargetHits[0]);
+                }
               }
-            // If 2 or more current ship hits, check the orientation of the ship to guide better AI selection
             } else {
               currentCell = chooseRandomCell();
             }

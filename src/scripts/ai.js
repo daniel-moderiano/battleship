@@ -67,11 +67,29 @@ function calculateValidCells(cell) {
 function calculateValidHorizontalCells(cell) {
   let validCells = [];
   switch (true) {
+    case cell === 0:
+      validCells = 'none';
+      break;
+    case cell === 9:
+      validCells = 'none';
+      break;
+    case cell === 90:
+      validCells = 'none';
+      break;
+    case cell === 99:
+      validCells = 'none';
+      break;
     case topMiddleCells.includes(cell):
       validCells = [cell - 1, cell + 1];
       break;
     case bottomMiddleCells.includes(cell):
       validCells = [cell - 1, cell + 1];
+      break;
+    case leftMiddleCells.includes(cell):
+      validCells = 'none';
+      break;
+    case rightMiddleCells.includes(cell):
+      validCells = 'none';
       break;
     default:
       validCells = [cell - 1, cell + 1];
@@ -84,11 +102,29 @@ function calculateValidHorizontalCells(cell) {
 function calculateValidVerticalCells(cell) {
   let validCells = [];
   switch (true) {
+    case cell === 0:
+      validCells = 'none';
+      break;
+    case cell === 9:
+      validCells = 'none';
+      break;
+    case cell === 90:
+      validCells = 'none';
+      break;
+    case cell === 99:
+      validCells = 'none';
+      break;
     case leftMiddleCells.includes(cell):
       validCells = [cell - 10, cell + 10];
       break;
     case rightMiddleCells.includes(cell):
       validCells = [cell - 10, cell + 10];
+      break;
+    case topMiddleCells.includes(cell):
+      validCells = 'none';
+      break;
+    case bottomMiddleCells.includes(cell):
+      validCells = 'none';
       break;
     default:
       validCells = [cell - 10, cell + 10];
