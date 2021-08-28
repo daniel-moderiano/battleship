@@ -61,6 +61,7 @@ function Gameboard() {
     }
   };
 
+  // TODO: currently receiveAttack returns the ship that was hit in the form of an array. This is not appropriate really, and should somehow be abstracted to a different function.
   const receiveAttack = (coordinate) => {
     if (allAttackedCoordinates.includes(coordinate)) {
       throw new Error('Error: coordinate already attacked');

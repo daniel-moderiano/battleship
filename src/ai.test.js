@@ -1,4 +1,4 @@
-import { calculateValidCells, filterAttackedCells } from './scripts/ai.js';
+import { calculateValidCells, filterAttackedCells, calculateValidHorizontalCells, calculateValidVerticalCells } from './scripts/ai.js';
 
 test('Identifies correct adjacent cells on corner cell input', () => {
   expect(calculateValidCells(0)).toEqual([1, 10]);
@@ -23,4 +23,12 @@ test('Identifies correct adjacent cells on middle cell input', () => {
 test('Previously attacked cells filtered from validCells', () => {
   const attackedCells = [1, 2, 3, 4, 5, 22, 50, 78]
   expect(filterAttackedCells(calculateValidCells(12), attackedCells)).toEqual([11, 13]);
+});
+
+test('Identifies correct adjacent cells using horizontal function', () => {
+  expect(calculateValidHorizontalCells(22)).toEqual([21, 23]);
+});
+
+test('Identifies correct adjacent cells using vertical function', () => {
+  expect(calculateValidVerticalCells(22)).toEqual([12, 32]);
 });
