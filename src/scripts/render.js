@@ -21,7 +21,7 @@ import { Game } from './game.js'
 //   }
 // }
 
-// Create fleet of five ship DOM objects that can be dragged on to board for later use
+// Create ship DOM objects that can be dragged on to board for later use
 function createDraggableShip(length) {
   const shipyard = document.querySelector('.ships');
   const table = document.createElement('table');
@@ -33,6 +33,15 @@ function createDraggableShip(length) {
     table.appendChild(tr);
   }
   shipyard.appendChild(table);
+}
+
+// Fleets of ships will always be of the following structure, so a function can be hardcoded
+function createDOMShipFleet() {
+  createDraggableShip(5);
+  createDraggableShip(4);
+  createDraggableShip(3);
+  createDraggableShip(3);
+  createDraggableShip(2);
 }
 
 function renderShip(boardNum, ship) {
@@ -57,4 +66,4 @@ function clearBoardsVisually() {
   });
 }
 
-export { renderShip, markCell, clearBoardsVisually, createDraggableShip };
+export { renderShip, markCell, clearBoardsVisually, createDraggableShip, createDOMShipFleet };

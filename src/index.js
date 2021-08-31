@@ -2,7 +2,7 @@ import { Gameboard } from './scripts/gameboard.js';
 import { Player } from './scripts/player.js';
 import { Ship } from './scripts/ship.js';
 import { Game } from './scripts/game.js';
-import { renderShip, clearBoardsVisually, createDraggableShip } from './scripts/render.js';
+import { renderShip, clearBoardsVisually, createDraggableShip, createDOMShipFleet } from './scripts/render.js';
 import { checkAmountOfPlayers } from './scripts/controller.js';
 
 const playBtn = document.querySelector('.play-btn');
@@ -63,4 +63,4 @@ playBtn.addEventListener('click', () => {
   // console.log(game.playerOne.ships);
 });
 
-createDraggableShip(4);
+createDOMShipFleet();

@@ -75,9 +75,12 @@ body {
 }
 
 .ship {
-  width: 100px;
-  height: 100px;
   margin: 1rem;
+}
+
+.ship td {
+  width: 20px;
+  height: 20px;
 }
 
 table, tr, td {
