@@ -75,6 +75,16 @@ test('rotateShip correctly rotates ship vertically about the origin coordinate',
   expect(gameboard.getCurrentShips()[0].position).toEqual([22, 32, 42, 52]);
 });
 
+test('rotateShip correctly rotates ship > 2 times', () => {
+  const gameboard = Gameboard();
+  gameboard.placeShip(22, Ship(4));
+  gameboard.rotateShip(gameboard.getCurrentShips()[0]);
+  gameboard.rotateShip(gameboard.getCurrentShips()[0]);
+  gameboard.rotateShip(gameboard.getCurrentShips()[0]);
+  gameboard.rotateShip(gameboard.getCurrentShips()[0]);
+  expect(gameboard.getCurrentShips()[0].position).toEqual([22, 32, 42, 52]);
+});
+
 test('rotateShip throws error where ship rotation causes ship overlap', () => {
   const gameboard = Gameboard();
   gameboard.placeShip(22, Ship(4));

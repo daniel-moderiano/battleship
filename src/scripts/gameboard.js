@@ -49,6 +49,7 @@ function Gameboard() {
     ship.setPosition(originCoordinate, ship.orientation);
   };
 
+
   const rotateShip = (ship) => {
     if (ship.orientation === 'vertical') {
       if (!isValidPosition(ship.position[0], ship.length, 'horizontal', true)) {
@@ -64,7 +65,7 @@ function Gameboard() {
       throw new Error('Error: invalid rotation');
     } else {
       ship.setPosition(ship.position[0], 'vertical');
-      ship.orientation = 'horizontal';
+      ship.orientation = 'vertical';
     }
   };
 

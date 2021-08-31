@@ -3,11 +3,13 @@ import { Player } from './scripts/player.js';
 import { Ship } from './scripts/ship.js';
 import { Game } from './scripts/game.js';
 import { renderShip, clearBoardsVisually, createDraggableShip, createDOMShipFleet, refreshDOMBoardShips } from './scripts/render.js';
-import { checkAmountOfPlayers, dragAndDrop } from './scripts/controller.js';
+import { checkAmountOfPlayers, dragAndDrop, rotateOnClick } from './scripts/controller.js';
 
 const playBtn = document.querySelector('.play-btn');
 const status = document.querySelector('.game-status');
 status.textContent = 'Waiting for start';
+
+let gameActive = false;
 
 const game = Game('Player 1', 'Player 2');
 
@@ -41,6 +43,12 @@ game.playerTwo.allocateDOMBoard(document.querySelector('.board__table-2'));
 //   renderShip(1, ship);
 // });
 
+game.playerOne.getDOMBoard().addEventListener('click', (e) => {
+  if (e.target.classList.contains('board__cell')) {
+    rotateOnClick(e, game.playerOne);
+  }
+});
+
 game.playerTwo.ships.forEach((ship) => {
   renderShip(2, ship);
 });
@@ -52,8 +60,10 @@ playBtn.addEventListener('click', () => {
 
   if (checkAmountOfPlayers() === 1) {
     game.gameStartOnePlayer();
+    gameActive = true;
   } else {
     game.gameStartTwoPlayer();
+    gameActive = true;
   }
   // game.gameSetupOnePlayer();
   

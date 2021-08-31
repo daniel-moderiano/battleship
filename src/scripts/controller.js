@@ -13,6 +13,19 @@ function captureClickedCell(e) {
   }
 }
 
+function rotateOnClick(e, player) {
+  if (e.target.classList.contains('board__cell--ship')) {
+    console.log(player.ships);
+    const coordinate = parseInt(e.target.dataset.coordinate);
+    player.ships.forEach((ship) => {
+      if (ship.position.includes(coordinate)) {
+        player.board.rotateShip(ship);
+      }
+    });
+  }
+  refreshDOMBoardShips(player);
+}
+
 function checkAmountOfPlayers() {
   if (document.querySelector('#one-player').checked === true) {
     return 1;
@@ -89,4 +102,4 @@ function dragAndDrop(player) {
   });
 }
 
-export { captureClickedCell, checkAmountOfPlayers, dragAndDrop };
+export { captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick };
