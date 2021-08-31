@@ -2,6 +2,7 @@ import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
 import { Game } from './game.js';
+import { renderShip } from './render.js';
 
 const tableOne = document.querySelector('.board__table-1');
 const tableTwo = document.querySelector('.board__table-2');
@@ -72,6 +73,7 @@ function dragAndDrop(player) {
   function dragDrop() {
     if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
       player.board.placeShip(parseInt(this.dataset.coordinate), player.ships[currentShipID]);
+      renderShip(1, player.ships[currentShipID]);
     }
     console.log(player.board.getCurrentShips());
     this.classList.remove('board__cell--hovered');
