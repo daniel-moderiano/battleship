@@ -2,7 +2,7 @@ import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
 import { Game } from './game.js';
-import { renderShip } from './render.js';
+import { addShipHover, removeShipHover, renderShip } from './render.js';
 
 const tableOne = document.querySelector('.board__table-1');
 const tableTwo = document.querySelector('.board__table-2');
@@ -10,12 +10,6 @@ const tableTwo = document.querySelector('.board__table-2');
 function captureClickedCell(e) {
   if (e.target.classList.contains('board__cell')) {
     return parseInt(e.target.dataset.coordinate);
-  }
-}
-
-function attackClickedCell(e) {
-  if (e.target.classList.contains('board__cell')) {
-    board.receiveAttack();
   }
 }
 
@@ -33,12 +27,6 @@ function dragAndDrop(player) {
   let currentShipLength = null;
   let currentShipOrientation = null;
   let currentShipID = null;
-
-  // function saveData(e) {
-  //   currentShipLength = e.target.dataset.length;
-  //   currentShipOrientation = e.target.dataset.orientation;
-  //   console.log('Runs');
-  // }
 
   // Drag functions
   // Data transfer is used to communicate the length of the ship while dragging/dropping
@@ -62,11 +50,18 @@ function dragAndDrop(player) {
 
   function dragEnter() {
     if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
-      this.classList.add('board__cell--hovered');
+      setTimeout(() => {
+        addShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
+        this.classList.add('board__cell--hovered');
+      }, 0);
     }
   }
 
   function dragLeave() {
+    if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
+      // removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
+     removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
+    }
     this.classList.remove('board__cell--hovered');
   }
 
@@ -75,6 +70,7 @@ function dragAndDrop(player) {
       player.board.placeShip(parseInt(this.dataset.coordinate), player.ships[currentShipID]);
       renderShip(1, player.ships[currentShipID]);
     }
+    removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
     console.log(player.board.getCurrentShips());
     this.classList.remove('board__cell--hovered');
   }
