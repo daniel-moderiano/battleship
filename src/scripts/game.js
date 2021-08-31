@@ -194,7 +194,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
             } else {
               currentCell = chooseRandomCell();
             }
-            console.log(`Previous cell was ${previousCell}, next attack at ${currentCell}`);
             previousCell = currentCell;
 
             didPreviousCellHit = playerOne.board.receiveAttack(parseInt(currentCell));
@@ -219,7 +218,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
               } else {
                 turnComplete();
               }
-              console.log(currentTargetHits);
             }, 500);
           })
           .catch((err) => {

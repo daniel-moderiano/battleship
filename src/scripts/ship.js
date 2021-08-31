@@ -1,3 +1,4 @@
+// Returns an array with all the coordinates of a ship based on length and orientation
 const calculateShipPosition = (originCoordinate, shipLength, shipOrientation) => {
   const position = [];
   position[0] = originCoordinate;

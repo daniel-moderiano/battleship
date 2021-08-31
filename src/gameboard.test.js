@@ -50,6 +50,15 @@ test('isValidPosition correctly identifies valid position on board with multiple
   expect(gameboard.isValidPosition(25, 5, 'horizontal')).toBe(true);
 });
 
+test('isValidPosition correctly identifies valid position with multiple ships at different orientations', () => {
+  const gameboard = Gameboard();
+  const newShip = Ship(5);
+  gameboard.rotateShip(newShip);
+  gameboard.placeShip(0, newShip);
+  gameboard.placeShip(6, Ship(3));
+  expect(gameboard.isValidPosition(2, 4, 'vertical')).toBe(false);
+});
+
 test('rotateShip correctly rotates ship horizontally about the origin coordinate', () => {
   const gameboard = Gameboard();
   gameboard.placeShip(22, Ship(4));
