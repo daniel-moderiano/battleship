@@ -46,9 +46,9 @@ game.playerTwo.ships.forEach((ship) => {
 });
 
 playBtn.addEventListener('click', () => {
-  // if (!game.playerOne.allShipsPlaced() || !game.playerTwo.allShipsPlaced()) {
-  //   throw new Error('Not all ships placed');
-  // }
+  if (!game.playerOne.allShipsPlaced()) {
+    throw new Error('Not all ships placed');
+  }
 
   if (checkAmountOfPlayers() === 1) {
     game.gameStartOnePlayer();
