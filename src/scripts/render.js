@@ -23,12 +23,15 @@ import { Game } from './game.js'
 
 // Create ship DOM objects that can be dragged on to board for later use
 function createDraggableShip(length) {
-  const shipyard = document.querySelector('.ships');
+  const shipyard = document.querySelector('.shipyard');
   const table = document.createElement('table');
   table.classList.add('ship');
+  table.setAttribute('draggable', 'true');
   for (let i = 0; i < length; i++) {
     const tr = document.createElement('tr');
+    tr.classList.add('ship-row');
     const td = document.createElement('td');
+    td.classList.add('ship-cell');
     tr.appendChild(td);
     table.appendChild(tr);
   }

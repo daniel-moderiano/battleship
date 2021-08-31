@@ -74,22 +74,33 @@ body {
   font-style: italic;
 }
 
-.ship {
-  margin: 1rem;
-}
-
-.ship td {
-  width: 20px;
-  height: 20px;
-}
-
-table, tr, td {
+.board__cell {
+  height: 2rem;
+  width: 2rem;
   border: 1px solid black;
 }
 
-td:hover {
+.board__cell:hover {
   background-color: rgb(120, 187, 176);
 }
+
+.shipyard {
+  display: flex;
+  align-items: flex-start;
+}
+
+.ship {
+  margin: 0.3rem;
+  width: 2rem;
+  cursor: pointer;
+}
+
+.ship-cell {
+  height: 2rem;
+  border: 1px solid black;
+}
+
+
 
 .footer {
   height: 2rem;
