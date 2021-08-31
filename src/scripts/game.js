@@ -127,6 +127,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
     let previousCell = chooseRandomCell();
     let didPreviousCellHit = [];
     let currentTargetHits = [];
+    let currentTargetShip = null;
     // Player 2 board
     document.querySelector('.board__table-2').addEventListener('click', (e) => {
       // If the parent node chain works, the target by definition must be a board cell
@@ -197,6 +198,21 @@ function Game(playerOneName, playerTwoName = 'PC') {
             previousCell = currentCell;
 
             didPreviousCellHit = playerOne.board.receiveAttack(parseInt(currentCell));
+
+            if (currentTargetShip !== null) {
+              if (didPreviousCellHit.length !== 0) {
+                if (didPreviousCellHit[0] !== currentTargetShip) {
+                  [currentTargetShip] = didPreviousCellHit;
+                  currentTargetHits.length = 0;
+                  currentTargetHits.push(currentCell);
+                }
+              }
+            }
+
+            if (didPreviousCellHit.length !== 0) {
+              [currentTargetShip] = didPreviousCellHit;
+            }
+
             setTimeout(() => {
               if (didPreviousCellHit.length === 0) {
                 markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), false);
@@ -205,8 +221,9 @@ function Game(playerOneName, playerTwoName = 'PC') {
                 if (didPreviousCellHit[0].isSunk()) {
                   // Ensure the computer selects random choice if a ship is sunk on the previous attack
                   didPreviousCellHit.length = 0;
-                  // Clear the current target array
+                  // Clear the current target array and currentShip variable
                   currentTargetHits.length = 0;
+                  currentTargetShip = null;
                 } else {
                   currentTargetHits.push(currentCell);
                 }
@@ -219,6 +236,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
                 turnComplete();
               }
             }, 500);
+            console.log(currentTargetShip);
           })
           .catch((err) => {
             if (err.message === 'Game Over') {
