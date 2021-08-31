@@ -1,4 +1,4 @@
-// The AI implemented in this version of Battleship is limited in two key ways. First: it does not judge remaining free cells in terms of whether any of the remaining ship lengths would 'fit' in a gap it selects, and second: if two ships are adjacent to one another, the algorithm will not differentiate and in some cases fail to sink either before moving on
+// The AI implemented in this version of Battleship is limited in two key ways. First: it does not judge remaining free cells in terms of whether any of the remaining ship lengths would 'fit' in a gap it selects, and second: if two ships are adjacent to one another, the algorithm will not differentiate and in most cases will only be able to sink one
 function createCellArr() {
   const allCells = [];
   for (let i = 0; i < 10; i++) {

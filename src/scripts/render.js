@@ -21,6 +21,20 @@ import { Game } from './game.js'
 //   }
 // }
 
+// Create fleet of five ship DOM objects that can be dragged on to board for later use
+function createDraggableShip(length) {
+  const shipyard = document.querySelector('.ships');
+  const table = document.createElement('table');
+  table.classList.add('ship');
+  for (let i = 0; i < length; i++) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    tr.appendChild(td);
+    table.appendChild(tr);
+  }
+  shipyard.appendChild(table);
+}
+
 function renderShip(boardNum, ship) {
   ship.position.forEach((coordinate) => {
     document.querySelector(`.board__table-${boardNum} [data-coordinate='${coordinate}']`).classList.add('board__cell--ship');
@@ -43,4 +57,4 @@ function clearBoardsVisually() {
   });
 }
 
-export { renderShip, markCell, clearBoardsVisually };
+export { renderShip, markCell, clearBoardsVisually, createDraggableShip };

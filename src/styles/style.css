@@ -74,6 +74,12 @@ body {
   font-style: italic;
 }
 
+.ship {
+  width: 100px;
+  height: 100px;
+  margin: 1rem;
+}
+
 table, tr, td {
   border: 1px solid black;
 }
