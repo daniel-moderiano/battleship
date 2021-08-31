@@ -65,4 +65,4 @@ playBtn.addEventListener('click', () => {
 
 createDOMShipFleet();
 
-dragAndDrop();
+dragAndDrop(game.playerOne.board);
