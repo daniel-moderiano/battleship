@@ -35,7 +35,6 @@ function Gameboard() {
         return false;
       }
     }
-
     return true;
   };
 
@@ -43,8 +42,11 @@ function Gameboard() {
     if (!isValidPosition(originCoordinate, ship.length, ship.orientation)) {
       throw new Error('Error: invalid ship position');
     }
+    // If the ship already exists on the board, then this must be a move only operation. Don't push to currentShips
+    if (!currentShips.some((ships) => ships === ship)) {
+      currentShips.push(ship);
+    }
     ship.setPosition(originCoordinate, ship.orientation);
-    currentShips.push(ship);
   };
 
   const rotateShip = (ship) => {
