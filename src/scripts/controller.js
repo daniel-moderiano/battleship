@@ -25,12 +25,13 @@ function checkAmountOfPlayers() {
   return 2;
 }
 
-function dragAndDrop(gameboard) {
+function dragAndDrop(player) {
   // Drag and Drop
   const shipDOMObjects = document.querySelectorAll('.ship');
   const boardCells = document.querySelectorAll('.board__cell');
   let currentShipLength = null;
   let currentShipOrientation = null;
+  let currentShipID = null;
 
   // function saveData(e) {
   //   currentShipLength = e.target.dataset.length;
@@ -43,14 +44,15 @@ function dragAndDrop(gameboard) {
   function dragStart(e) {
     currentShipLength = parseInt(e.target.dataset.length);
     currentShipOrientation = e.target.dataset.orientation;
+    currentShipID = e.target.dataset.id;
     const shipData = { length: parseInt(e.target.dataset.length), orientation: e.target.dataset.orientation };
     e.dataTransfer.setData('text/plain', JSON.stringify(shipData));
   }
 
   function dragEnd(e) {
-    console.log('Drag ended');
-    currentShipLength = e.target.dataset.length;
-    currentShipOrientation = e.target.dataset.orientation;
+    currentShipLength = null;
+    currentShipOrientation = null;
+    currentShipID = null;
   }
 
   function dragOver(e) {
@@ -58,18 +60,20 @@ function dragAndDrop(gameboard) {
   }
 
   function dragEnter() {
-    if (gameboard.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
+    if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
       this.classList.add('board__cell--hovered');
     }
-    console.log(gameboard.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation));
-    console.log(gameboard);
   }
 
   function dragLeave() {
     this.classList.remove('board__cell--hovered');
   }
 
-  function dragDrop(e) {
+  function dragDrop() {
+    if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
+      player.board.placeShip(parseInt(this.dataset.coordinate), player.ships[currentShipID]);
+    }
+    console.log(player.board.getCurrentShips());
     this.classList.remove('board__cell--hovered');
   }
 
