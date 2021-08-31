@@ -33,13 +33,17 @@ function checkAmountOfPlayers() {
   return 2;
 }
 
+
+
 function dragAndDrop(player) {
   // Drag and Drop
   const shipDOMObjects = document.querySelectorAll('.ship');
   const boardCells = document.querySelectorAll('.board__cell');
+  const shipyard = document.querySelector('.shipyard');
   let currentShipLength = null;
   let currentShipOrientation = null;
   let currentShipID = null;
+  let currentShipObject = null;
 
   // Drag functions
   // Data transfer is used to communicate the length of the ship while dragging/dropping
@@ -47,6 +51,7 @@ function dragAndDrop(player) {
     currentShipLength = parseInt(e.target.dataset.length);
     currentShipOrientation = e.target.dataset.orientation;
     currentShipID = e.target.dataset.id;
+    currentShipObject = e.target;
     const shipData = { length: parseInt(e.target.dataset.length), orientation: e.target.dataset.orientation };
     e.dataTransfer.setData('text/plain', JSON.stringify(shipData));
   }
@@ -55,6 +60,7 @@ function dragAndDrop(player) {
     currentShipLength = null;
     currentShipOrientation = null;
     currentShipID = null;
+    currentShipObject = null;
   }
 
   function dragOver(e) {
@@ -82,10 +88,12 @@ function dragAndDrop(player) {
     if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
       player.board.placeShip(parseInt(this.dataset.coordinate), player.ships[currentShipID]);
       refreshDOMBoardShips(player);
+      shipyard.removeChild(currentShipObject);  
     }
     removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
     console.log(player.board.getCurrentShips());
     this.classList.remove('board__cell--hovered');
+      
   }
 
   // Add listeners
