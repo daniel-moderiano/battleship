@@ -56,6 +56,11 @@ function renderShip(boardNum, ship) {
   });
 }
 
+function refreshDOMBoardShips(player) {
+  document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.remove('board__cell--ship'));
+  player.board.getCurrentShips().forEach((ship) => renderShip(1, ship));
+}
+
 function markCell(cell, didHit) {
   if (didHit) {
     cell.classList.add('board__cell--hit');
@@ -98,4 +103,4 @@ function clearBoardsVisually() {
   });
 }
 
-export { renderShip, markCell, clearBoardsVisually, createDraggableShip, createDOMShipFleet, addShipHover, removeShipHover };
+export { renderShip, markCell, clearBoardsVisually, createDraggableShip, createDOMShipFleet, addShipHover, removeShipHover, refreshDOMBoardShips };
