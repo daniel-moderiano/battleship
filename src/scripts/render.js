@@ -34,6 +34,8 @@ function createDraggableShip(length) {
     td.classList.add('ship-cell');
     tr.appendChild(td);
     table.appendChild(tr);
+    table.dataset.length = i + 1;
+    table.dataset.orientation = 'vertical';
   }
   shipyard.appendChild(table);
 }

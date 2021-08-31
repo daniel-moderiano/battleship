@@ -3,7 +3,7 @@ import { Player } from './scripts/player.js';
 import { Ship } from './scripts/ship.js';
 import { Game } from './scripts/game.js';
 import { renderShip, clearBoardsVisually, createDraggableShip, createDOMShipFleet } from './scripts/render.js';
-import { checkAmountOfPlayers } from './scripts/controller.js';
+import { checkAmountOfPlayers, dragAndDrop } from './scripts/controller.js';
 
 const playBtn = document.querySelector('.play-btn');
 const status = document.querySelector('.game-status');
@@ -64,3 +64,5 @@ playBtn.addEventListener('click', () => {
 });
 
 createDOMShipFleet();
+
+dragAndDrop();

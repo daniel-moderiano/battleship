@@ -84,6 +84,10 @@ body {
   background-color: rgb(120, 187, 176);
 }
 
+.board__cell--hovered {
+  background-color: rgb(243, 255, 80);
+}
+
 .shipyard {
   display: flex;
   align-items: flex-start;
@@ -92,7 +96,7 @@ body {
 .ship {
   margin: 0.3rem;
   width: 2rem;
-  cursor: pointer;
+  cursor: move;
 }
 
 .ship-cell {
