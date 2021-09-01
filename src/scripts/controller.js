@@ -13,29 +13,21 @@ function captureClickedCell(e) {
   }
 }
 
-// function rotateOnClick(e, player) {
-//   if (e.target.classList.contains('board__cell--ship')) {
-//     console.log(player.ships);
-//     const coordinate = parseInt(e.target.dataset.coordinate);
-//     player.ships.forEach((ship) => {
-//       if (ship.position.includes(coordinate)) {
-//         player.board.rotateShip(ship);
-//       }
-//     });
-//   }
-//   refreshDOMBoardShips(player);
-// }
-
-
-function rotateOnClick(e) {
-  if (e.target.parentNode.parentNode.classList.contains('ship--placed')) {
-    e.target.parentNode.parentNode.classList.toggle('ship--horizontal');
+function rotateOnClick(e, player) {
+  const shipElement = e.target.parentNode.parentNode;
+  if (shipElement.classList.contains('ship--placed')) {
+    shipElement.classList.toggle('ship--horizontal');
+    // Rotate player ship
+    player.board.rotateShip(player.ships[shipElement.dataset.id]);
   }
+  console.log(player.ships);
 }
 
-function addShipListeners() {
+function addShipListeners(player) {
   document.querySelectorAll('.ship').forEach((ship) => {
-    ship.addEventListener('click', rotateOnClick);
+    ship.addEventListener('click', (e) => {
+      rotateOnClick(e, player);
+    });
   });
 }
 

@@ -71,4 +71,4 @@ createDOMShipFleet();
 
 dragAndDrop(game.playerOne);
 
-addShipListeners();
+addShipListeners(game.playerOne);
