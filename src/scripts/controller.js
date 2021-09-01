@@ -16,9 +16,14 @@ function captureClickedCell(e) {
 function rotateOnClick(e, player) {
   const shipElement = e.target.parentNode.parentNode;
   if (shipElement.classList.contains('ship--placed')) {
-    shipElement.classList.toggle('ship--horizontal');
     // Rotate player ship
-    player.board.rotateShip(player.ships[shipElement.dataset.id]);
+    try {
+      player.board.rotateShip(player.ships[shipElement.dataset.id]);
+      shipElement.classList.toggle('ship--horizontal');
+    } catch (error) {
+      //TODO: CSS style to wobble or change ship colour, indicating invalid rotation?
+      console.log(error);
+    }
   }
   console.log(player.ships);
 }

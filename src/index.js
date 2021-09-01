@@ -55,9 +55,10 @@ playBtn.addEventListener('click', () => {
   if (checkAmountOfPlayers() === 1) {
     game.gameStartOnePlayer();
     gameActive = true;
+    refreshDOMBoardShips(game.playerOne);
   } else {
     game.gameStartTwoPlayer();
-    gameActive = true;
+    refreshDOMBoardShips(game.playerOne);
   }
   // game.gameSetupOnePlayer();
   

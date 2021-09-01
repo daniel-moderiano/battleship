@@ -57,8 +57,11 @@ function renderShip(boardNum, ship) {
 }
 
 function refreshDOMBoardShips(player) {
+  // Add in colour indications for current ships
   document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.remove('board__cell--ship'));
   player.board.getCurrentShips().forEach((ship) => renderShip(1, ship));
+  // Remove actual ship DOM elements to help styling and prevent user moving ships mid game
+  document.querySelectorAll('.ship').forEach((ship) => ship.remove());
 }
 
 function markCell(cell, didHit) {
