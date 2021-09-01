@@ -50,8 +50,8 @@ body {
 }
 
 .board__table {
-  width: 20rem;
-  height: 20rem;
+  /* width: 20rem; */
+  /* height: 20rem; */
 }
 
 .board__table--inactive {
@@ -78,6 +78,7 @@ body {
   height: 2rem;
   width: 2rem;
   border: 1px solid black;
+  position: relative;
 }
 
 .board__cell:hover {
@@ -91,12 +92,27 @@ body {
 .shipyard {
   display: flex;
   align-items: flex-start;
+  width: 15rem;
 }
 
 .ship {
   margin: 0.3rem;
   width: 2rem;
   cursor: move;
+}
+
+.ship--placed {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(46, 120, 206);
+  z-index: 10;
+  border: hidden;
+}
+
+.ship--horizontal {
+  transform-origin: 1rem 1rem;
+  transform: rotate(270deg);
 }
 
 .ship-cell {

@@ -13,17 +13,30 @@ function captureClickedCell(e) {
   }
 }
 
-function rotateOnClick(e, player) {
-  if (e.target.classList.contains('board__cell--ship')) {
-    console.log(player.ships);
-    const coordinate = parseInt(e.target.dataset.coordinate);
-    player.ships.forEach((ship) => {
-      if (ship.position.includes(coordinate)) {
-        player.board.rotateShip(ship);
-      }
-    });
+// function rotateOnClick(e, player) {
+//   if (e.target.classList.contains('board__cell--ship')) {
+//     console.log(player.ships);
+//     const coordinate = parseInt(e.target.dataset.coordinate);
+//     player.ships.forEach((ship) => {
+//       if (ship.position.includes(coordinate)) {
+//         player.board.rotateShip(ship);
+//       }
+//     });
+//   }
+//   refreshDOMBoardShips(player);
+// }
+
+
+function rotateOnClick(e) {
+  if (e.target.parentNode.parentNode.classList.contains('ship--placed')) {
+    e.target.parentNode.parentNode.classList.toggle('ship--horizontal');
   }
-  refreshDOMBoardShips(player);
+}
+
+function addShipListeners() {
+  document.querySelectorAll('.ship').forEach((ship) => {
+    ship.addEventListener('click', rotateOnClick);
+  });
 }
 
 function checkAmountOfPlayers() {
@@ -52,8 +65,6 @@ function dragAndDrop(player) {
     currentShipOrientation = e.target.dataset.orientation;
     currentShipID = e.target.dataset.id;
     currentShipObject = e.target;
-    const shipData = { length: parseInt(e.target.dataset.length), orientation: e.target.dataset.orientation };
-    e.dataTransfer.setData('text/plain', JSON.stringify(shipData));
   }
 
   function dragEnd(e) {
@@ -69,26 +80,32 @@ function dragAndDrop(player) {
 
   function dragEnter() {
     if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
-      setTimeout(() => {
-        addShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
-        this.classList.add('board__cell--hovered');
-      }, 0);
+      // setTimeout(() => {
+      //   addShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
+      //   this.classList.add('board__cell--hovered');
+      // }, 0);
+      currentShipObject.classList.add('ship--placed');
+      this.appendChild(currentShipObject);
     }
   }
 
   function dragLeave() {
     if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
       // removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
-     removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
+    //  removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
     }
-    this.classList.remove('board__cell--hovered');
+    // this.classList.remove('board__cell--hovered');
+    currentShipObject.classList.add('ship--placed');
+    // this.remove(currentShipObject);
   }
 
   function dragDrop() {
     if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
       player.board.placeShip(parseInt(this.dataset.coordinate), player.ships[currentShipID]);
-      refreshDOMBoardShips(player);
-      shipyard.removeChild(currentShipObject);  
+      // refreshDOMBoardShips(player);
+      // shipyard.removeChild(currentShipObject);
+      currentShipObject.classList.add('ship--placed');
+      this.appendChild(currentShipObject);
     }
     removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
     console.log(player.board.getCurrentShips());
@@ -110,4 +127,4 @@ function dragAndDrop(player) {
   });
 }
 
-export { captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick };
+export { captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick, addShipListeners };

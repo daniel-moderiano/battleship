@@ -3,7 +3,7 @@ import { Player } from './scripts/player.js';
 import { Ship } from './scripts/ship.js';
 import { Game } from './scripts/game.js';
 import { renderShip, clearBoardsVisually, createDraggableShip, createDOMShipFleet, refreshDOMBoardShips } from './scripts/render.js';
-import { checkAmountOfPlayers, dragAndDrop, rotateOnClick } from './scripts/controller.js';
+import { addShipListeners, checkAmountOfPlayers, dragAndDrop, rotateOnClick } from './scripts/controller.js';
 
 const playBtn = document.querySelector('.play-btn');
 const status = document.querySelector('.game-status');
@@ -43,12 +43,6 @@ game.playerTwo.allocateDOMBoard(document.querySelector('.board__table-2'));
 //   renderShip(1, ship);
 // });
 
-game.playerOne.getDOMBoard().addEventListener('click', (e) => {
-  if (e.target.classList.contains('board__cell')) {
-    rotateOnClick(e, game.playerOne);
-  }
-});
-
 game.playerTwo.ships.forEach((ship) => {
   renderShip(2, ship);
 });
@@ -76,3 +70,5 @@ playBtn.addEventListener('click', () => {
 createDOMShipFleet();
 
 dragAndDrop(game.playerOne);
+
+addShipListeners();
