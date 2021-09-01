@@ -41,6 +41,10 @@ body {
   height: 100%;
 }
 
+.board--hidden {
+  display: none;
+}
+
 .board__grid {
   padding: 1rem;
 }
@@ -81,12 +85,8 @@ body {
   position: relative;
 }
 
-.board__cell:hover {
+.board__cell--active:hover {
   background-color: rgb(120, 187, 176);
-}
-
-.board__cell--hovered {
-  background-color: rgb(243, 255, 80);
 }
 
 .shipyard {
@@ -123,8 +123,6 @@ body {
   height: 2rem;
   border: 1px solid black;
 }
-
-
 
 .footer {
   height: 2rem;

@@ -21,7 +21,6 @@ function rotateOnClick(e, player) {
       player.board.rotateShip(player.ships[shipElement.dataset.id]);
       shipElement.classList.toggle('ship--horizontal');
     } catch (error) {
-      //TODO: CSS style to wobble or change ship colour, indicating invalid rotation?
       console.log(error);
       shipElement.classList.add('ship--error');
       setTimeout(() => shipElement.classList.remove('ship--error'), 100);
@@ -87,7 +86,9 @@ function dragAndDrop(player) {
       currentShipObject.classList.add('ship--placed');
       this.appendChild(currentShipObject);
     }
-    if (player.allShipsPlaced()) {
+    if (player.allShipsPlaced() && checkAmountOfPlayers() === 2) {
+      // Switch boards and refresh shipyard
+    } else if (player.allShipsPlaced()) {
       shipyard.remove();
     }
   }
@@ -105,4 +106,16 @@ function dragAndDrop(player) {
   });
 }
 
-export { captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick, addShipListeners };
+// Add listeners to radio buttons. These will switch the pre-game to one or two player mode. Default one player
+function addPlayerNumberControls() {
+  document.querySelector('#one-player').addEventListener('change', () => {
+    document.querySelector('.board-two').classList.remove('board--hidden');
+  });
+
+  document.querySelector('#two-player').addEventListener('change', () => {
+    // Hide the second board initially to allow player one to place their ships, then the board will switch to player two's to place their ships
+    document.querySelector('.board-two').classList.add('board--hidden');
+  });
+}
+
+export { captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick, addShipListeners, addPlayerNumberControls };
