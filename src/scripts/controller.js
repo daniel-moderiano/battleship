@@ -48,6 +48,7 @@ function dragAndDrop(player) {
   // Drag and Drop
   const shipDOMObjects = document.querySelectorAll('.ship');
   const boardCells = document.querySelectorAll('.board__cell');
+  const shipyard = document.querySelector('.shipyard');
   let currentShipLength = null;
   let currentShipOrientation = null;
   let currentShipID = null;
@@ -85,6 +86,9 @@ function dragAndDrop(player) {
       player.board.placeShip(parseInt(this.dataset.coordinate), player.ships[currentShipID]);
       currentShipObject.classList.add('ship--placed');
       this.appendChild(currentShipObject);
+    }
+    if (player.allShipsPlaced()) {
+      shipyard.remove();
     }
   }
 
