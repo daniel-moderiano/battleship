@@ -2,7 +2,7 @@ import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
 import { Game } from './game.js';
-import { addShipHover, removeShipHover, renderShip, refreshDOMBoardShips } from './render.js';
+import { addShipHover, removeShipHover, renderShip, refreshDOMBoardShips, createDOMShipFleet } from './render.js';
 
 const tableOne = document.querySelector('.board__table-1');
 const tableTwo = document.querySelector('.board__table-2');
@@ -52,6 +52,7 @@ function dragAndDrop(player) {
   let currentShipOrientation = null;
   let currentShipID = null;
   let currentShipObject = null;
+  let currentBoard = 1;
 
   // Drag functions
   // Data transfer is used to communicate the length of the ship while dragging/dropping
@@ -86,9 +87,28 @@ function dragAndDrop(player) {
       currentShipObject.classList.add('ship--placed');
       this.appendChild(currentShipObject);
     }
+
+    // Depending on the game, i.e. one vs two players, different actions will need to be taken once all ships are placed
     if (player.allShipsPlaced() && checkAmountOfPlayers() === 2) {
-      // Switch boards and refresh shipyard
+      // Switch boards and refresh shipyard to allow player two to place ships if they have not already
+      if (currentBoard === 1) {
+        // Switch boards
+        document.querySelector('.board-one').classList.add('board--hidden');
+        document.querySelector('.board-two').classList.remove('board--hidden');
+        // Refresh shipyard
+        createDOMShipFleet();
+        // Adjust board count
+        currentBoard = 2;
+      } else {
+        // Switch board and remove shipyard
+        shipyard.remove();
+        document.querySelector('.board-two').classList.add('board--hidden');
+        document.querySelector('.board-one').classList.remove('board--hidden');
+        // Reset board
+        currentBoard = 1;
+      }
     } else if (player.allShipsPlaced()) {
+      // Remove the shipyard to center both boards, ready for one player mode
       shipyard.remove();
     }
   }

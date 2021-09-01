@@ -24,16 +24,22 @@ game.playerOne.allocateDOMBoard(document.querySelector('.board__table-1'));
 game.playerTwo.allocateDOMBoard(document.querySelector('.board__table-2'));
 
 playBtn.addEventListener('click', () => {
-  document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
-  if (!game.playerOne.allShipsPlaced()) {
-    throw new Error('Not all ships placed');
-  }
+  
+  
 
   if (checkAmountOfPlayers() === 1) {
+    if (!game.playerOne.allShipsPlaced()) {
+      throw new Error('Not all ships placed');
+    }
+    document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
     game.gameStartOnePlayer();
     gameActive = true;
     refreshDOMBoardShips(game.playerOne);
   } else {
+    if (!game.playerTwo.allShipsPlaced() || !game.playerOne.allShipsPlaced()) {
+      throw new Error('Not all ships placed');
+    }
+    document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
     game.gameStartTwoPlayer();
     refreshDOMBoardShips(game.playerOne);
   }
