@@ -23,9 +23,10 @@ function rotateOnClick(e, player) {
     } catch (error) {
       //TODO: CSS style to wobble or change ship colour, indicating invalid rotation?
       console.log(error);
+      shipElement.classList.add('ship--error');
+      setTimeout(() => shipElement.classList.remove('ship--error'), 100);
     }
   }
-  console.log(player.ships);
 }
 
 function addShipListeners(player) {
@@ -43,13 +44,10 @@ function checkAmountOfPlayers() {
   return 2;
 }
 
-
-
 function dragAndDrop(player) {
   // Drag and Drop
   const shipDOMObjects = document.querySelectorAll('.ship');
   const boardCells = document.querySelectorAll('.board__cell');
-  const shipyard = document.querySelector('.shipyard');
   let currentShipLength = null;
   let currentShipOrientation = null;
   let currentShipID = null;
@@ -64,7 +62,7 @@ function dragAndDrop(player) {
     currentShipObject = e.target;
   }
 
-  function dragEnd(e) {
+  function dragEnd() {
     currentShipLength = null;
     currentShipOrientation = null;
     currentShipID = null;
@@ -77,37 +75,17 @@ function dragAndDrop(player) {
 
   function dragEnter() {
     if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
-      // setTimeout(() => {
-      //   addShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
-      //   this.classList.add('board__cell--hovered');
-      // }, 0);
       currentShipObject.classList.add('ship--placed');
       this.appendChild(currentShipObject);
     }
-  }
-
-  function dragLeave() {
-    if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
-      // removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
-    //  removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
-    }
-    // this.classList.remove('board__cell--hovered');
-    currentShipObject.classList.add('ship--placed');
-    // this.remove(currentShipObject);
   }
 
   function dragDrop() {
     if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
       player.board.placeShip(parseInt(this.dataset.coordinate), player.ships[currentShipID]);
-      // refreshDOMBoardShips(player);
-      // shipyard.removeChild(currentShipObject);
       currentShipObject.classList.add('ship--placed');
       this.appendChild(currentShipObject);
     }
-    removeShipHover(1, parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation);
-    console.log(player.board.getCurrentShips());
-    this.classList.remove('board__cell--hovered');
-      
   }
 
   // Add listeners
@@ -119,7 +97,6 @@ function dragAndDrop(player) {
   boardCells.forEach((cell) => {
     cell.addEventListener('dragover', dragOver);
     cell.addEventListener('dragenter', dragEnter);
-    cell.addEventListener('dragleave', dragLeave);
     cell.addEventListener('drop', dragDrop);
   });
 }
