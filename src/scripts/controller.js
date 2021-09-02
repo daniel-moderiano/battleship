@@ -2,7 +2,7 @@ import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
 import { Game } from './game.js';
-import { addShipHover, removeShipHover, renderShip, refreshDOMBoardShips, createDOMShipFleet } from './render.js';
+import { renderShip, refreshDOMBoardShips, createDOMShipFleet } from './render.js';
 
 const tableOne = document.querySelector('.board__table-1');
 const tableTwo = document.querySelector('.board__table-2');
@@ -46,7 +46,8 @@ function checkAmountOfPlayers() {
 function dragAndDrop(player) {
   // Drag and Drop
   const shipDOMObjects = document.querySelectorAll('.ship');
-  const boardCells = document.querySelectorAll('.board__cell');
+  // Select only the cells in the specified player's DOM board
+  const boardCells = [...document.querySelectorAll('.board__cell')].filter((cell) => player.getDOMBoard().contains(cell));
   const shipyard = document.querySelector('.shipyard');
   let currentShipLength = null;
   let currentShipOrientation = null;
@@ -76,18 +77,17 @@ function dragAndDrop(player) {
 
   function dragEnter() {
     if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
+      player.board.placeShip(parseInt(this.dataset.coordinate), player.ships[currentShipID]);
       currentShipObject.classList.add('ship--placed');
       this.appendChild(currentShipObject);
     }
   }
 
-  function dragDrop() {
-    if (player.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
-      player.board.placeShip(parseInt(this.dataset.coordinate), player.ships[currentShipID]);
-      currentShipObject.classList.add('ship--placed');
-      this.appendChild(currentShipObject);
-    }
+  function dragLeave() {
+    // TODO
+  }
 
+  function dragDrop() {
     // Depending on the game, i.e. one vs two players, different actions will need to be taken once all ships are placed
     if (player.allShipsPlaced() && checkAmountOfPlayers() === 2) {
       // Switch boards and refresh shipyard to allow player two to place ships if they have not already
@@ -102,7 +102,7 @@ function dragAndDrop(player) {
       } else {
         // Switch board and remove shipyard
         shipyard.remove();
-        document.querySelector('.board-two').classList.add('board--hidden');
+        // document.querySelector('.board-two').classList.add('board--hidden');
         document.querySelector('.board-one').classList.remove('board--hidden');
         // Reset board
         currentBoard = 1;
@@ -117,14 +117,21 @@ function dragAndDrop(player) {
   shipDOMObjects.forEach((ship) => {
     ship.addEventListener('dragstart', dragStart);
     ship.addEventListener('dragend', dragEnd);
+    ship.addEventListener('mouseup', (e) => console.log(e.target));
   });
 
   boardCells.forEach((cell) => {
     cell.addEventListener('dragover', dragOver);
     cell.addEventListener('dragenter', dragEnter);
+    cell.addEventListener('dragleave', dragLeave);
     cell.addEventListener('drop', dragDrop);
   });
+
+  player.getDOMBoard().addEventListener('mouseup', () => console.log('changed'));
+
 }
+
+
 
 // Add listeners to radio buttons. These will switch the pre-game to one or two player mode. Default one player
 function addPlayerNumberControls() {

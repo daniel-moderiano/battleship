@@ -18,13 +18,14 @@ game.playerTwo.board.resetBoard();
 // Place ships
 
 // DO NOT REMOVE as this will cause immediate game over for player 2
-game.playerTwo.board.placeShip(29, game.playerTwo.ships[4]);
+// game.playerTwo.board.placeShip(29, game.playerTwo.ships[4]);
 
 game.playerOne.allocateDOMBoard(document.querySelector('.board__table-1'));
 game.playerTwo.allocateDOMBoard(document.querySelector('.board__table-2'));
 
 playBtn.addEventListener('click', () => {
-  
+  console.log(game.playerTwo.board.getCurrentShips());
+  console.log(game.playerOne.board.getCurrentShips());
   
 
   if (checkAmountOfPlayers() === 1) {
@@ -53,7 +54,12 @@ playBtn.addEventListener('click', () => {
 
 createDOMShipFleet();
 
-dragAndDrop(game.playerOne);
+if (checkAmountOfPlayers() === 1) {
+  dragAndDrop(game.playerOne);
+} else {
+  dragAndDrop(game.playerOne);
+  dragAndDrop(game.playerTwo);
+}
 
 addShipListeners(game.playerOne);
 addPlayerNumberControls();

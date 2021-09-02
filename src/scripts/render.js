@@ -72,32 +72,6 @@ function markCell(cell, didHit) {
   }
 }
 
-function addShipHover(boardNum, currentCell, length, orientation) {
-  if (orientation === 'vertical') {
-    for (let i = 1; i < length; i++) {
-      document.querySelector(`.board__table-${boardNum} [data-coordinate='${currentCell + (i * 10)}']`).classList.add('board__cell--hovered');
-    }
-  } else {
-    for (let i = currentCell + 1; i < length - 1; i + 1) {
-      console.log('working horizontal');
-      document.querySelector(`.board__table-${boardNum} [data-coordinate='${i}']`).classList.add('board__cell--hovered');
-    }
-  }
-}
-
-function removeShipHover(boardNum, currentCell, length, orientation) {
-  if (orientation === 'vertical') {
-    for (let i = 1; i < length; i++) {
-      document.querySelector(`.board__table-${boardNum} [data-coordinate='${currentCell + (i * 10)}']`).classList.remove('board__cell--hovered');
-    }
-  } else {
-    for (let i = currentCell + 1; i < length - 1; i + 1) {
-      console.log('working horizontal');
-      document.querySelector(`.board__table-${boardNum} [data-coordinate='${i}']`).classList.remove('board__cell--hovered');
-    }
-  }
-}
-
 function clearBoardsVisually() {
   document.querySelectorAll('.board__cell').forEach((cell) => {
     cell.classList.remove('board__cell--miss');
@@ -106,4 +80,4 @@ function clearBoardsVisually() {
   });
 }
 
-export { renderShip, markCell, clearBoardsVisually, createDraggableShip, createDOMShipFleet, addShipHover, removeShipHover, refreshDOMBoardShips };
+export { renderShip, markCell, clearBoardsVisually, createDraggableShip, createDOMShipFleet, refreshDOMBoardShips };
