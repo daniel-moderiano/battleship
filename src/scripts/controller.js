@@ -44,7 +44,7 @@ function checkAmountOfPlayers() {
 }
 
 // TODO: Must lock boards for editing once all ships placed
-function dragAndDrop(playerInControl, opponent) {
+function dragAndDrop(playerInControl) {
   // Drag and Drop
   const shipDOMObjects = document.querySelectorAll('.ship');
   // Select only the cells in the specified player's DOM board
@@ -105,7 +105,6 @@ function dragAndDrop(playerInControl, opponent) {
   }
 
   function playerTwoReady() {
-    console.log('working');
     window.removeEventListener('dragend', dragDrop);
     // Switch board and remove shipyard
     shipyard.remove();

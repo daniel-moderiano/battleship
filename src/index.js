@@ -35,7 +35,8 @@ playBtn.addEventListener('click', () => {
     }
     document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
     game.gameStartTwoPlayer();
-    refreshDOMBoardShips(game.playerOne);
+    refreshDOMBoardShips(game.playerOne, 1);
+    refreshDOMBoardShips(game.playerTwo, 2);
   }
   // game.gameSetupOnePlayer();
   status.textContent = 'Game reset';
@@ -48,11 +49,12 @@ createDOMShipFleet();
 
 if (checkAmountOfPlayers() === 1) {
   dragAndDrop(game.playerOne, game.playerTwo);
+  addShipListeners(game.playerOne);
 }
 
 window.addEventListener('boardswitched', () => {
   dragAndDrop(game.playerTwo, game.playerOne);
+  addShipListeners(game.playerTwo);
 });
 
-addShipListeners(game.playerOne);
 addPlayerNumberControls();
