@@ -275,19 +275,23 @@ function Game(playerOneName, playerTwoName = 'PC') {
       if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
         const p = new Promise((resolve) => {
           const didHit = playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-          markCell(e.target, didHit);
+          if (didHit.length === 0) {
+            markCell(e.target, false);
+          } else {
+            markCell(e.target, true);
+          }
           resolve();
         });
         p.then(() => {
           if (checkLose(playerOne)) {
             gameOver();
+            throw new Error('Game Over');
             // End game
           } else {
             turnComplete();
           }
         }).catch((err) => console.log(err));
-      }
-    });
+    }});
 
     // Player 2 board
     document.querySelector('.board__table-2').addEventListener('click', (e) => {
@@ -295,7 +299,11 @@ function Game(playerOneName, playerTwoName = 'PC') {
       if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
         const p = new Promise((resolve) => {
           const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-          markCell(e.target, didHit);
+          if (didHit.length === 0) {
+            markCell(e.target, false);
+          } else {
+            markCell(e.target, true);
+          }
           resolve();
         });
         p.then(() => {
@@ -310,11 +318,8 @@ function Game(playerOneName, playerTwoName = 'PC') {
     });
   }
 
-  // onePlayerGameLoop();
-
   const gameStartOnePlayer = () => {
     placeAIShips();
-    console.log(playerTwo.board.getCurrentShips());
     resetTurn();
     changeCurrentPlayer();
     setActiveBoards();

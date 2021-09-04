@@ -61,5 +61,3 @@ window.addEventListener('begintwoplayer', () => {
 });
 
 addPlayerNumberControls();
-
-game.placeAIShips();
