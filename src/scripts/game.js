@@ -124,11 +124,20 @@ function Game(playerOneName, playerTwoName = 'PC') {
   };
 
   function placeAIShips() {
-    playerTwo.board.placeShip(0, playerTwo.ships[0]);
-    playerTwo.board.placeShip(1, playerTwo.ships[1]);
-    playerTwo.board.placeShip(2, playerTwo.ships[2]);
-    playerTwo.board.placeShip(3, playerTwo.ships[3]);
-    playerTwo.board.placeShip(4, playerTwo.ships[4]);
+    const orientations = ['vertical', 'horizontal'];
+    for (let i = 0; i < 5; i++) {
+      const shipToBePlaced = playerTwo.ships[i];
+      // Randomly choose orientation to be used
+      const orientationChoice = orientations[(Math.floor(Math.random() * 2))];
+      shipToBePlaced.orientation = orientationChoice;
+      // Generate random coordinate from 0-99, and check that it is a valid position
+      let coordinate = Math.floor(Math.random() * 100);
+      while (!playerTwo.board.isValidPosition(coordinate, shipToBePlaced.length, orientationChoice, false)) {
+        coordinate = Math.floor(Math.random() * 100);
+      }
+      playerTwo.board.placeShip(coordinate, shipToBePlaced);
+    }
+    console.log(playerTwo.board.getCurrentShips());
   }
 
   function onePlayerGameLoop() {
@@ -303,6 +312,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
 
   const gameStartOnePlayer = () => {
     placeAIShips();
+    console.log(playerTwo.board.getCurrentShips());
     resetTurn();
     changeCurrentPlayer();
     setActiveBoards();

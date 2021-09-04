@@ -29,6 +29,7 @@ playBtn.addEventListener('click', () => {
     document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
     game.gameStartOnePlayer();
     refreshDOMBoardShips(game.playerOne, 1);
+    refreshDOMBoardShips(game.playerTwo, 2);
   } else {
     if (!game.playerTwo.allShipsPlaced() || !game.playerOne.allShipsPlaced()) {
       throw new Error('Not all ships placed');
@@ -57,7 +58,9 @@ window.addEventListener('begintwoplayer', () => {
   document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
   game.gameStartTwoPlayer();
   refreshDOMBoardShips(game.playerOne, 1);
-  refreshDOMBoardShips(game.playerTwo, 2)
+  refreshDOMBoardShips(game.playerTwo, 2);
 });
 
 addPlayerNumberControls();
+
+game.placeAIShips();
