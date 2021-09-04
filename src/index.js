@@ -9,8 +9,6 @@ const playBtn = document.querySelector('.play-btn');
 const status = document.querySelector('.game-status');
 status.textContent = 'Waiting for start';
 
-let gameActive = false;
-
 const game = Game('Player 1', 'Player 2');
 
 game.playerOne.board.resetBoard();
@@ -24,17 +22,12 @@ game.playerOne.allocateDOMBoard(document.querySelector('.board__table-1'));
 game.playerTwo.allocateDOMBoard(document.querySelector('.board__table-2'));
 
 playBtn.addEventListener('click', () => {
-  console.log(game.playerTwo.board.getCurrentShips());
-  console.log(game.playerOne.board.getCurrentShips());
-  
-
   if (checkAmountOfPlayers() === 1) {
     if (!game.playerOne.allShipsPlaced()) {
       throw new Error('Not all ships placed');
     }
     document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
     game.gameStartOnePlayer();
-    gameActive = true;
     refreshDOMBoardShips(game.playerOne);
   } else {
     if (!game.playerTwo.allShipsPlaced() || !game.playerOne.allShipsPlaced()) {
@@ -45,7 +38,6 @@ playBtn.addEventListener('click', () => {
     refreshDOMBoardShips(game.playerOne);
   }
   // game.gameSetupOnePlayer();
-  
   status.textContent = 'Game reset';
   // game.resetGame();
   // clearBoardsVisually();
@@ -55,11 +47,12 @@ playBtn.addEventListener('click', () => {
 createDOMShipFleet();
 
 if (checkAmountOfPlayers() === 1) {
-  dragAndDrop(game.playerOne);
-} else {
-  dragAndDrop(game.playerOne);
-  dragAndDrop(game.playerTwo);
+  dragAndDrop(game.playerOne, game.playerTwo);
 }
+
+window.addEventListener('boardswitched', () => {
+  dragAndDrop(game.playerTwo, game.playerOne);
+});
 
 addShipListeners(game.playerOne);
 addPlayerNumberControls();
