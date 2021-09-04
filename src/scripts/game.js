@@ -123,6 +123,14 @@ function Game(playerOneName, playerTwoName = 'PC') {
     return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
   };
 
+  function placeAIShips() {
+    playerTwo.board.placeShip(0, playerTwo.ships[0]);
+    playerTwo.board.placeShip(1, playerTwo.ships[1]);
+    playerTwo.board.placeShip(2, playerTwo.ships[2]);
+    playerTwo.board.placeShip(3, playerTwo.ships[3]);
+    playerTwo.board.placeShip(4, playerTwo.ships[4]);
+  }
+
   function onePlayerGameLoop() {
     let previousCell = chooseRandomCell();
     let didPreviousCellHit = [];
@@ -236,7 +244,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
                 turnComplete();
               }
             }, 500);
-            console.log(currentTargetShip);
           })
           .catch((err) => {
             if (err.message === 'Game Over') {
@@ -295,6 +302,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
   // onePlayerGameLoop();
 
   const gameStartOnePlayer = () => {
+    placeAIShips();
     resetTurn();
     changeCurrentPlayer();
     setActiveBoards();
@@ -310,7 +318,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
     twoPlayerGameLoop();
   };
 
-  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStartOnePlayer, gameStartTwoPlayer, getCurrentPlayer, changeCurrentPlayer, turnComplete, resetGame, onePlayerGameLoop }
+  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStartOnePlayer, gameStartTwoPlayer, getCurrentPlayer, changeCurrentPlayer, turnComplete, resetGame, onePlayerGameLoop, placeAIShips }
 }
 
 export { Game };
