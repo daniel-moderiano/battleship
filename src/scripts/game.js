@@ -154,6 +154,9 @@ function Game(playerOneName, playerTwoName = 'PC') {
             markCell(e.target, false);
           } else {
             markCell(e.target, true);
+            if (didHit[0].isSunk()) {
+              console.log(`Ship of class ${didHit[0].length} has been sunk!`);
+            }
           }
           resolve();
         });
