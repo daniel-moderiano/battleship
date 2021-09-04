@@ -137,7 +137,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
       }
       playerTwo.board.placeShip(coordinate, shipToBePlaced);
     }
-    console.log(playerTwo.board.getCurrentShips());
   }
 
   function onePlayerGameLoop() {
