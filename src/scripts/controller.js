@@ -113,6 +113,8 @@ function dragAndDrop(playerInControl) {
     document.querySelector('.board-one').classList.add('board--active');
     // Reset board
     currentBoardId = 1;
+    const event = new Event('begintwoplayer');
+    window.dispatchEvent(event);
   }
 
   function dragDrop() {
@@ -123,6 +125,7 @@ function dragAndDrop(playerInControl) {
         document.querySelector('.board__ready[data-id="1"]').addEventListener('click', playerOneReady);
       } else {
         // TODO: replace this code with similar logic above - have button press to say ships placed, then execute following code, followed by game start (lock boards for editing)
+        document.querySelector('.board__ready[data-id="2"]').textContent = 'Begin game';
         document.querySelector('.board__ready[data-id="2"]').addEventListener('click', playerTwoReady);
         // Lock boards for editing
       }
