@@ -124,6 +124,14 @@ body {
   border: 1px solid black;
 }
 
+.restart-btn {
+
+}
+
+.hidden {
+  display: none;
+}
+
 .footer {
   height: 2rem;
 }

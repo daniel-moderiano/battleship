@@ -11,6 +11,8 @@ status.textContent = 'Waiting for start';
 
 const game = Game('Player 1', 'Player 2');
 
+document.querySelector('.restart-btn').classList.add('hidden');
+
 game.playerOne.board.resetBoard();
 game.playerTwo.board.resetBoard();
 // Place ships

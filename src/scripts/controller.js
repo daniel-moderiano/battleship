@@ -98,6 +98,8 @@ function dragAndDrop(playerInControl) {
     const event = new Event('boardswitched');
     window.dispatchEvent(event);
     document.querySelector('.board__ready[data-id="1"]').remove();
+    document.querySelector('.play-btn').classList.add('hidden');
+    document.querySelector('.restart-btn').classList.remove('hidden');
   }
 
   function playerTwoReady() {
@@ -109,6 +111,8 @@ function dragAndDrop(playerInControl) {
     const event = new Event('begintwoplayer');
     window.dispatchEvent(event);
     document.querySelector('.board__ready[data-id="2"]').remove();
+    document.querySelector('.play-btn').classList.add('hidden');
+    document.querySelector('.restart-btn').classList.remove('hidden');
   }
 
   function dragDrop() {
