@@ -97,18 +97,18 @@ function dragAndDrop(playerInControl) {
     currentBoardId = 2;
     const event = new Event('boardswitched');
     window.dispatchEvent(event);
+    document.querySelector('.board__ready[data-id="1"]').remove();
   }
 
   function playerTwoReady() {
     window.removeEventListener('dragend', dragDrop);
     // Switch board and remove shipyard
     shipyard.remove();
-    // document.querySelector('.board-two').classList.add('board--hidden');
-    // document.querySelector('.board-one').classList.remove('board--hidden');
     // Reset board
     currentBoardId = 1;
     const event = new Event('begintwoplayer');
     window.dispatchEvent(event);
+    document.querySelector('.board__ready[data-id="2"]').remove();
   }
 
   function dragDrop() {
