@@ -80,4 +80,9 @@ function clearBoardsVisually() {
   });
 }
 
-export { renderShip, markCell, clearBoardsVisually, createDraggableShip, createDOMShipFleet, refreshDOMBoardShips };
+function switchBoards(boardToHide, boardToDisplay) {
+  boardToHide.classList.add('board--hidden');
+  boardToDisplay.classList.remove('board--hidden');
+}
+
+export { renderShip, markCell, clearBoardsVisually, createDraggableShip, createDOMShipFleet, refreshDOMBoardShips, switchBoards };

@@ -1,7 +1,7 @@
 import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
-import { renderShip, markCell } from './render.js';
+import { renderShip, markCell, switchBoards } from './render.js';
 import { calculateValidCells, filterAttackedCells, determineOrientation, calculateValidVerticalCells, calculateValidHorizontalCells } from './ai.js';
 
 function Game(playerOneName, playerTwoName = 'PC') {
@@ -289,9 +289,11 @@ function Game(playerOneName, playerTwoName = 'PC') {
             // End game
           } else {
             turnComplete();
+            setTimeout(() => switchBoards(document.querySelector('.board-one'), document.querySelector('.board-two')), 1000);
           }
         }).catch((err) => console.log(err));
-    }});
+      }
+    });
 
     // Player 2 board
     document.querySelector('.board__table-2').addEventListener('click', (e) => {
@@ -312,6 +314,8 @@ function Game(playerOneName, playerTwoName = 'PC') {
             // End game
           } else {
             turnComplete();
+            // Switch boards
+            setTimeout(() => switchBoards(document.querySelector('.board-two'), document.querySelector('.board-one')), 1000);
           }
         }).catch((err) => console.log(err));
       }

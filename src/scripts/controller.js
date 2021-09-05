@@ -43,7 +43,6 @@ function checkAmountOfPlayers() {
   return 2;
 }
 
-// TODO: Must lock boards for editing once all ships placed
 function dragAndDrop(playerInControl) {
   // Drag and Drop
   const shipDOMObjects = document.querySelectorAll('.ship');
@@ -59,11 +58,11 @@ function dragAndDrop(playerInControl) {
 
   // Drag functions
   // Data transfer is used to communicate the length of the ship while dragging/dropping
-  function dragStart(e) {
-    currentShipLength = parseInt(e.target.dataset.length);
-    currentShipOrientation = e.target.dataset.orientation;
-    currentShipID = e.target.dataset.id;
-    currentShipObject = e.target;
+  function dragStart() {
+    currentShipLength = parseInt(this.dataset.length);
+    currentShipOrientation = this.dataset.orientation;
+    currentShipID = this.dataset.id;
+    currentShipObject = this;
   }
 
   function dragEnd() {
@@ -83,10 +82,6 @@ function dragAndDrop(playerInControl) {
       currentShipObject.classList.add('ship--placed');
       this.appendChild(currentShipObject);
     }
-  }
-
-  function dragLeave() {
-    // TODO
   }
 
   function playerOneReady() {
@@ -109,8 +104,7 @@ function dragAndDrop(playerInControl) {
     // Switch board and remove shipyard
     shipyard.remove();
     // document.querySelector('.board-two').classList.add('board--hidden');
-    document.querySelector('.board-one').classList.remove('board--hidden');
-    document.querySelector('.board-one').classList.add('board--active');
+    // document.querySelector('.board-one').classList.remove('board--hidden');
     // Reset board
     currentBoardId = 1;
     const event = new Event('begintwoplayer');
@@ -118,17 +112,14 @@ function dragAndDrop(playerInControl) {
   }
 
   function dragDrop() {
-    console.log(playerInControl.board.getCurrentShips());
     // Depending on the game, i.e. one vs two players, different actions will need to be taken once all ships are placed
     if (playerInControl.allShipsPlaced() && checkAmountOfPlayers() === 2) {
       // Switch boards and refresh shipyard to allow player two to place ships if they have not already
       if (currentBoardId === 1) {
         document.querySelector('.board__ready[data-id="1"]').addEventListener('click', playerOneReady);
       } else {
-        // TODO: replace this code with similar logic above - have button press to say ships placed, then execute following code, followed by game start (lock boards for editing)
         document.querySelector('.board__ready[data-id="2"]').textContent = 'Begin game';
         document.querySelector('.board__ready[data-id="2"]').addEventListener('click', playerTwoReady);
-        // Lock boards for editing
       }
     } else if (playerInControl.allShipsPlaced()) {
       // Remove the shipyard to center both boards, ready for one player mode
@@ -145,8 +136,6 @@ function dragAndDrop(playerInControl) {
   boardCells.forEach((cell) => {
     cell.addEventListener('dragover', dragOver);
     cell.addEventListener('dragenter', dragEnter);
-    cell.addEventListener('dragleave', dragLeave);
-    // cell.addEventListener('drop', dragDrop);
   });
 
   window.addEventListener('dragend', dragDrop);
