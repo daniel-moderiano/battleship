@@ -289,16 +289,23 @@
         <button class="play-btn" type="button">Play</button>
         <button class="restart-btn" type="button">Restart</button>
         <span class="game-status"></span>
-        <div class="num-players">
-          <label for="one-player" class="num-players__label">1 player</label>
-          <input type="radio" name="num-players" id="one-player" class="num-players__radio" checked>
-          <label for="two-player" class="num-players__label">2 player</label>
-          <input type="radio" name="num-players" id="two-player" class="num-players__radio">
-        </div>
       </div>
     </main>
     <footer class="footer"></footer>
   </div>
+
+  <div class="modal">
+    <div class="modal__content">
+      <div class="num-players">
+        <label for="one-player" class="num-players__label">1 player</label>
+        <input type="radio" name="num-players" id="one-player" class="num-players__radio" checked>
+        <label for="two-player" class="num-players__label">2 player</label>
+        <input type="radio" name="num-players" id="two-player" class="num-players__radio">
+        <button class="num-players__btn" type="button">Start</button>
+      </div>
+    </div>
+  </div>
+
   <script src="../src/scripts/render.js" type="module"></script>
   <script src="../src/scripts/controller.js" type="module"></script>
   <script src="../src/index.js" type="module"></script>
