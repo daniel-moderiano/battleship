@@ -20,6 +20,11 @@ function rotateOnClick(e, player) {
     try {
       player.board.rotateShip(player.ships[shipElement.dataset.id]);
       shipElement.classList.toggle('ship--horizontal');
+      if (shipElement.dataset.orientation === 'vertical') {
+        shipElement.dataset.orientation = 'horizontal';
+      } else {
+        shipElement.dataset.orientation = 'vertical';
+      }
     } catch (error) {
       console.log(error);
       shipElement.classList.add('ship--error');
