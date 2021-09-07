@@ -76,7 +76,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
     playerOne.deactivateDOMBoard();
     playerTwo.deactivateDOMBoard();
     document.querySelector('.game-status').textContent = `Game over, ${currentPlayer.name} wins!`;
-    console.log(`Game over, ${currentPlayer.name} wins!`);
+    document.querySelector('.reset-btn').classList.remove('hidden');
   };
 
   const resetGame = () => {
@@ -159,10 +159,11 @@ function Game(playerOneName, playerTwoName = 'PC') {
           const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
           if (didHit.length === 0) {
             markCell(e.target, false);
+              document.querySelector('.game-status').textContent = 'The battle is on!';
           } else {
             markCell(e.target, true);
             if (didHit[0].isSunk()) {
-              console.log(`Ship of class ${didHit[0].length} has been sunk!`);
+              document.querySelector('.game-status').textContent = `You sunk one of ${playerTwo.name}'s ships!`;
             }
           }
           resolve();

@@ -7,11 +7,12 @@ import { addShipListeners, checkAmountOfPlayers, dragAndDrop, addPlayerBtnListen
 
 const playBtn = document.querySelector('.play-btn');
 const status = document.querySelector('.game-status');
+const error = document.querySelector('.error');
 status.textContent = 'Waiting for start';
 
 function createNewGame() {
   const game = Game('Player 1', 'Player 2');
-  document.querySelector('.restart-btn').classList.add('hidden');
+  document.querySelector('.reset-btn').classList.add('hidden');
 
   game.playerOne.board.resetBoard();
   game.playerTwo.board.resetBoard();
@@ -26,6 +27,7 @@ const game = createNewGame();
 playBtn.addEventListener('click', () => {
   if (checkAmountOfPlayers() === 1) {
     if (!game.playerOne.allShipsPlaced()) {
+      error.textContent = 'All ships must be placed first!';
       throw new Error('Not all ships placed');
     }
     document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
@@ -33,7 +35,10 @@ playBtn.addEventListener('click', () => {
     refreshDOMBoardShips(game.playerOne, 1);
     document.querySelector('.play-btn').classList.add('hidden');
     document.querySelector('.restart-btn').classList.remove('hidden');
+    document.querySelector('.shipyard').remove();
+    status.textContent = 'The battle is on!';
   } else if (!game.playerTwo.allShipsPlaced() || !game.playerOne.allShipsPlaced()) {
+    error.textContent = 'All ships must be placed first!';
     throw new Error('Not all ships placed');
   }
 });

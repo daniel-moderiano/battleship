@@ -106,7 +106,6 @@ function dragAndDrop(playerInControl) {
     window.dispatchEvent(event);
     document.querySelector('.board__ready[data-id="1"]').remove();
     document.querySelector('.play-btn').classList.add('hidden');
-    document.querySelector('.restart-btn').classList.remove('hidden');
   }
 
   function playerTwoReady() {
@@ -119,7 +118,6 @@ function dragAndDrop(playerInControl) {
     window.dispatchEvent(event);
     document.querySelector('.board__ready[data-id="2"]').remove();
     document.querySelector('.play-btn').classList.add('hidden');
-    document.querySelector('.restart-btn').classList.remove('hidden');
   }
 
   function dragDrop() {
@@ -134,11 +132,9 @@ function dragAndDrop(playerInControl) {
         document.querySelector('.board__ready[data-id="2"]').textContent = 'Begin game';
         document.querySelector('.board__ready[data-id="2"]').addEventListener('click', playerTwoReady);
       }
-    } else if (playerInControl.allShipsPlaced()) {
-      // Remove the shipyard to center both boards, and switch play/restart btns ready for one player mode
-      shipyard.remove();
+    } else {
+      document.querySelector('.error').textContent = '';
     }
-    console.log(playerInControl.board.getCurrentShips(), playerInControl.board.getAllAttackedCoordinates());
   }
 
   // Add listeners
@@ -179,6 +175,10 @@ function addPlayerBtnListener() {
 // Simply reload the page
 function addRestartBtnListener() {
   document.querySelector('.restart-btn').addEventListener('click', () => {
+    window.location.reload();
+  });
+
+  document.querySelector('.reset-btn').addEventListener('click', () => {
     window.location.reload();
   });
 }
