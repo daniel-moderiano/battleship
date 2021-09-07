@@ -41,12 +41,12 @@ playBtn.addEventListener('click', () => {
 createDOMShipFleet();
 
 if (checkAmountOfPlayers() === 1) {
-  dragAndDrop(game.playerOne, game.playerTwo);
+  dragAndDrop(game.playerOne);
   addShipListeners(game.playerOne);
 }
 
 window.addEventListener('boardswitched', () => {
-  dragAndDrop(game.playerTwo, game.playerOne);
+  dragAndDrop(game.playerTwo);
   addShipListeners(game.playerTwo);
 });
 

@@ -92,7 +92,7 @@ function dragAndDrop(playerInControl) {
   }
 
   function playerOneReady() {
-    window.removeEventListener('dragend', dragDrop);
+    // window.removeEventListener('dragend', dragDrop);
     // Switch boards
     document.querySelector('.board-one').classList.add('board--hidden');
     document.querySelector('.board-one').classList.remove('board--active');
@@ -110,7 +110,7 @@ function dragAndDrop(playerInControl) {
   }
 
   function playerTwoReady() {
-    window.removeEventListener('dragend', dragDrop);
+    // window.removeEventListener('dragend', dragDrop);
     // Switch board and remove shipyard
     shipyard.remove();
     // Reset board
@@ -176,17 +176,10 @@ function addPlayerBtnListener() {
   });
 }
 
-function returnToPlayerScreen() {
-  document.querySelector('.modal').style.display = 'flex';
-}
-
-function addRestartBtnListener(game) {
+// Simply reload the page
+function addRestartBtnListener() {
   document.querySelector('.restart-btn').addEventListener('click', () => {
-    game.resetGame();
-    dragAndDrop(game.playerOne, game.playerTwo);
-    addShipListeners(game.playerOne);
-    document.querySelector('.play-btn').classList.remove('hidden');
-    document.querySelector('.restart-btn').classList.add('hidden');
+    window.location.reload();
   });
 }
 
