@@ -56,3 +56,11 @@ window.addEventListener('begintwoplayer', () => {
 });
 
 addPlayerBtnListener();
+
+document.querySelector('.name-one').addEventListener('input', (e) => {
+  game.playerTwo.name = e.target.textContent;
+});
+
+document.querySelector('.name-two').addEventListener('input', (e) => {
+  game.playerTwo.name = e.target.textContent;
+});

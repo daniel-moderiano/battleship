@@ -129,6 +129,7 @@ function dragAndDrop(playerInControl) {
       // Remove the shipyard to center both boards, ready for one player mode
       shipyard.remove();
     }
+    console.log(playerInControl.getName());
   }
 
   // Add listeners

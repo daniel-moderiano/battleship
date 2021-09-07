@@ -52,7 +52,9 @@ function Player(name) {
     return true;
   };
 
-  return { name, board, attack, ships, allocateDOMBoard, getDOMBoard, activateDOMBoard, deactivateDOMBoard, resetAllShips, allShipsPlaced };
+  const getName = () => document.querySelector('.name-one').textContent;
+
+  return { name, board, attack, ships, allocateDOMBoard, getDOMBoard, activateDOMBoard, deactivateDOMBoard, resetAllShips, allShipsPlaced, getName };
 }
 
 export { Player };
