@@ -120,8 +120,10 @@ function dragAndDrop(playerInControl) {
     if (playerInControl.allShipsPlaced() && checkAmountOfPlayers() === 2) {
       // Switch boards and refresh shipyard to allow player two to place ships if they have not already
       if (currentBoardId === 1) {
+        document.querySelector('.board__ready[data-id="1"]').classList.remove('hidden');
         document.querySelector('.board__ready[data-id="1"]').addEventListener('click', playerOneReady);
       } else {
+        document.querySelector('.board__ready[data-id="2"]').classList.remove('hidden');
         document.querySelector('.board__ready[data-id="2"]').textContent = 'Begin game';
         document.querySelector('.board__ready[data-id="2"]').addEventListener('click', playerTwoReady);
       }
@@ -129,7 +131,6 @@ function dragAndDrop(playerInControl) {
       // Remove the shipyard to center both boards, ready for one player mode
       shipyard.remove();
     }
-    console.log(playerInControl.getName());
   }
 
   // Add listeners
