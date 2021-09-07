@@ -135,3 +135,30 @@ body {
 .footer {
   height: 2rem;
 }
+
+/* MODAL */
+
+.modal {
+	/* display: none; */
+  display: flex;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	background-color: #f4f4f4;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal__content {
+	background-color: #fff;
+	width: 20rem;
+	padding: 0.5rem 1.5rem 1rem 1.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	border-radius: 3px;
+}

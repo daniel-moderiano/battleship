@@ -145,16 +145,26 @@ function dragAndDrop(playerInControl) {
   window.addEventListener('dragend', dragDrop);
 }
 
-// Add listeners to radio buttons. These will switch the pre-game to one or two player mode. Default one player
-function addPlayerNumberControls() {
-  document.querySelector('#one-player').addEventListener('change', () => {
-    document.querySelector('.board-two').classList.remove('board--hidden');
-  });
+function displayOnePlayerSetup() {
+  document.querySelector('.board-two').classList.remove('board--hidden');
+}
 
-  document.querySelector('#two-player').addEventListener('change', () => {
-    // Hide the second board initially to allow player one to place their ships, then the board will switch to player two's to place their ships
-    document.querySelector('.board-two').classList.add('board--hidden');
+function displayTwoPlayerSetup() {
+  // Hide the second board initially to allow player one to place their ships, then the board will switch to player two's to place their ships
+  document.querySelector('.board-two').classList.add('board--hidden');
+}
+
+function addPlayerBtnListener() {
+  document.querySelector('.num-players__btn').addEventListener('click', () => {
+    document.querySelector('.modal').style.display = 'none';
+
+    if (checkAmountOfPlayers() === 1) {
+      displayOnePlayerSetup();
+    } else {
+      displayTwoPlayerSetup();
+    }
   });
 }
 
-export { captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick, addShipListeners, addPlayerNumberControls };
+
+export { captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick, addShipListeners, addPlayerBtnListener };

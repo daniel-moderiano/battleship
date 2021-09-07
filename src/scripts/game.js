@@ -1,8 +1,9 @@
 import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
-import { renderShip, markCell, switchBoards } from './render.js';
+import { renderShip, markCell, switchBoards, refreshDOMBoardShips, clearBoardsVisually, createDOMShipFleet, addShipyardToDOM } from './render.js';
 import { calculateValidCells, filterAttackedCells, determineOrientation, calculateValidVerticalCells, calculateValidHorizontalCells } from './ai.js';
+import { addShipListeners, dragAndDrop, addPlayerBtnListener } from './controller.js';
 
 function Game(playerOneName, playerTwoName = 'PC') {
   const playerOne = Player(playerOneName);
@@ -84,6 +85,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
     playerTwo.deactivateDOMBoard();
     playerOne.resetAllShips();
     playerTwo.resetAllShips();
+    clearBoardsVisually();
   };
 
   // Computer will, by default, always be player two. Below is random cell choice
