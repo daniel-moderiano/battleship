@@ -27,7 +27,8 @@ function addShipyardToDOM() {
   }
   const shipyard = document.createElement('div');
   shipyard.classList.add('shipyard');
-  document.querySelector('.boards').appendChild(shipyard);
+  const boards = document.querySelector('.boards');
+  boards.insertBefore(shipyard, boards.firstChild);
 }
 
 // Create ship DOM objects that can be dragged on to board for later use
@@ -86,6 +87,7 @@ function clearBoardsVisually() {
     cell.classList.remove('board__cell--miss');
     cell.classList.remove('board__cell--hit');
     cell.classList.remove('board__cell--ship');
+    cell.classList.remove('board__cell--active');
   });
   document.querySelectorAll('.ship').forEach((ship) => ship.remove());
 }
@@ -95,4 +97,10 @@ function switchBoards(boardToHide, boardToDisplay) {
   boardToDisplay.classList.remove('board--hidden');
 }
 
-export { renderShip, markCell, clearBoardsVisually, createDraggableShip, createDOMShipFleet, refreshDOMBoardShips, switchBoards, addShipyardToDOM };
+function resetGameVisually() {
+  document.querySelectorAll('.board').forEach((board) => board.classList.remove('board--hidden'));
+  addShipyardToDOM();
+  createDOMShipFleet();
+}
+
+export { renderShip, markCell, clearBoardsVisually, createDraggableShip, createDOMShipFleet, refreshDOMBoardShips, switchBoards, addShipyardToDOM, resetGameVisually };

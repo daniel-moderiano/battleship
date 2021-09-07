@@ -1,7 +1,7 @@
 import { Gameboard } from './gameboard.js';
 import { Player } from './player.js';
 import { Ship } from './ship.js';
-import { renderShip, markCell, switchBoards, refreshDOMBoardShips, clearBoardsVisually, createDOMShipFleet, addShipyardToDOM } from './render.js';
+import { renderShip, markCell, switchBoards, refreshDOMBoardShips, clearBoardsVisually, createDOMShipFleet, addShipyardToDOM, resetGameVisually } from './render.js';
 import { calculateValidCells, filterAttackedCells, determineOrientation, calculateValidVerticalCells, calculateValidHorizontalCells } from './ai.js';
 import { addShipListeners, dragAndDrop, addPlayerBtnListener } from './controller.js';
 
@@ -86,6 +86,11 @@ function Game(playerOneName, playerTwoName = 'PC') {
     playerOne.resetAllShips();
     playerTwo.resetAllShips();
     clearBoardsVisually();
+    resetGameVisually();
+    playerOne.board.resetBoard();
+    playerTwo.board.resetBoard();
+    document.querySelector('.board__title-1').classList.remove('board__title--active');
+    document.querySelector('.board__title-2').classList.remove('board__title--active');
   };
 
   // Computer will, by default, always be player two. Below is random cell choice
@@ -225,7 +230,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
                 if (didPreviousCellHit[0] !== currentTargetShip) {
                   [currentTargetShip] = didPreviousCellHit;
                   currentTargetHits.length = 0;
-                  currentTargetHits.push(currentCell);
+                  // currentTargetHits.push(currentCell);
                 }
               }
             }

@@ -3,7 +3,7 @@ import { Player } from './scripts/player.js';
 import { Ship } from './scripts/ship.js';
 import { Game } from './scripts/game.js';
 import { createDOMShipFleet, refreshDOMBoardShips, clearBoardsVisually } from './scripts/render.js';
-import { addShipListeners, checkAmountOfPlayers, dragAndDrop, addPlayerBtnListener } from './scripts/controller.js';
+import { addShipListeners, checkAmountOfPlayers, dragAndDrop, addPlayerBtnListener, addRestartBtnListener } from './scripts/controller.js';
 
 const playBtn = document.querySelector('.play-btn');
 const status = document.querySelector('.game-status');
@@ -31,6 +31,8 @@ playBtn.addEventListener('click', () => {
     document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
     game.gameStartOnePlayer();
     refreshDOMBoardShips(game.playerOne, 1);
+    document.querySelector('.play-btn').classList.add('hidden');
+    document.querySelector('.restart-btn').classList.remove('hidden');
   } else if (!game.playerTwo.allShipsPlaced() || !game.playerOne.allShipsPlaced()) {
     throw new Error('Not all ships placed');
   }
@@ -51,8 +53,8 @@ window.addEventListener('boardswitched', () => {
 window.addEventListener('begintwoplayer', () => {
   document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
   game.gameStartTwoPlayer();
-  refreshDOMBoardShips(game.playerOne, 1);
-  refreshDOMBoardShips(game.playerTwo, 2);
+  // refreshDOMBoardShips(game.playerOne, 1);
+  // refreshDOMBoardShips(game.playerTwo, 2);
 });
 
 addPlayerBtnListener();
@@ -64,3 +66,5 @@ document.querySelector('.name-one').addEventListener('input', (e) => {
 document.querySelector('.name-two').addEventListener('input', (e) => {
   game.playerTwo.name = e.target.textContent;
 });
+
+addRestartBtnListener(game);

@@ -20,12 +20,14 @@ function rotateOnClick(e, player) {
     try {
       player.board.rotateShip(player.ships[shipElement.dataset.id]);
       shipElement.classList.toggle('ship--horizontal');
+      // Switch the orientation on the ship object data-orientation attribute to prevent inability to place ship at edges
       if (shipElement.dataset.orientation === 'vertical') {
         shipElement.dataset.orientation = 'horizontal';
       } else {
         shipElement.dataset.orientation = 'vertical';
       }
     } catch (error) {
+      // Flash a red border around the ship if the user attempts to make an invalid rotation
       console.log(error);
       shipElement.classList.add('ship--error');
       setTimeout(() => shipElement.classList.remove('ship--error'), 100);
@@ -133,9 +135,10 @@ function dragAndDrop(playerInControl) {
         document.querySelector('.board__ready[data-id="2"]').addEventListener('click', playerTwoReady);
       }
     } else if (playerInControl.allShipsPlaced()) {
-      // Remove the shipyard to center both boards, ready for one player mode
+      // Remove the shipyard to center both boards, and switch play/restart btns ready for one player mode
       shipyard.remove();
     }
+    console.log(playerInControl.board.getCurrentShips(), playerInControl.board.getAllAttackedCoordinates());
   }
 
   // Add listeners
@@ -173,5 +176,18 @@ function addPlayerBtnListener() {
   });
 }
 
+function returnToPlayerScreen() {
+  document.querySelector('.modal').style.display = 'flex';
+}
 
-export { captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick, addShipListeners, addPlayerBtnListener };
+function addRestartBtnListener(game) {
+  document.querySelector('.restart-btn').addEventListener('click', () => {
+    game.resetGame();
+    dragAndDrop(game.playerOne, game.playerTwo);
+    addShipListeners(game.playerOne);
+    document.querySelector('.play-btn').classList.remove('hidden');
+    document.querySelector('.restart-btn').classList.add('hidden');
+  });
+}
+
+export { addRestartBtnListener, captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick, addShipListeners, addPlayerBtnListener };
