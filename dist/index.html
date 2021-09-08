@@ -298,11 +298,19 @@
 
   <div class="modal">
     <div class="modal__content">
+      <h1 class="modal__title">Battleship</h1>
       <div class="num-players">
-        <label for="one-player" class="num-players__label">1 player</label>
-        <input type="radio" name="num-players" id="one-player" class="num-players__radio" checked>
-        <label for="two-player" class="num-players__label">2 player</label>
-        <input type="radio" name="num-players" id="two-player" class="num-players__radio">
+        <div class="num-players__choice">
+          <input type="radio" name="num-players" id="one-player" class="num-players__radio" checked>
+          <label for="one-player" class="num-players__label">Single player</label>
+          
+        </div>
+
+        <div class="num-players__choice">
+          <input type="radio" name="num-players" id="two-player" class="num-players__radio">
+          <label for="two-player" class="num-players__label">Multiplayer</label>
+          
+        </div>
         <button class="num-players__btn" type="button">Start</button>
       </div>
     </div>
