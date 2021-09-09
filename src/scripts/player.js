@@ -33,6 +33,7 @@ function Player(name) {
 
   const ships = createFleet();
 
+  // A function only intended for AI player (though could be retooled as a 'place ships randomly' for human user in future)
   function placeAIShips() {
     const orientations = ['vertical', 'horizontal'];
     for (let i = 0; i < 5; i++) {

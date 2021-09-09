@@ -84,7 +84,7 @@ function dragAndDrop(playerInControl) {
   }
 
   function playerOneReady() {
-    // window.removeEventListener('dragend', dragDrop);
+    window.removeEventListener('dragend', dragDrop);
     // Switch boards
     document.querySelector('.board-one').classList.add('board--hidden');
     document.querySelector('.board-one').classList.remove('board--active');
@@ -113,6 +113,7 @@ function dragAndDrop(playerInControl) {
   }
 
   function dragDrop() {
+    console.log(playerInControl.allShipsPlaced());
     // Depending on the game, i.e. one vs two players, different actions will need to be taken once all ships are placed
     if (playerInControl.allShipsPlaced() && checkAmountOfPlayers() === 2) {
       // Switch boards and refresh shipyard to allow player two to place ships if they have not already

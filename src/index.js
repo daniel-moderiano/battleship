@@ -61,8 +61,9 @@ window.addEventListener('boardswitched', () => {
 window.addEventListener('begintwoplayer', () => {
   document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
   game.gameStartTwoPlayer();
-  // refreshDOMBoardShips(game.playerOne, 1);
-  // refreshDOMBoardShips(game.playerTwo, 2);
+  // TODO: need to refresh in such a way that ships are hidden for 2 player
+  refreshDOMBoardShips(game.playerOne, 1);
+  refreshDOMBoardShips(game.playerTwo, 2);
 });
 
 addPlayerBtnListener();
