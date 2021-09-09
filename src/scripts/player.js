@@ -33,6 +33,22 @@ function Player(name) {
 
   const ships = createFleet();
 
+  function placeAIShips() {
+    const orientations = ['vertical', 'horizontal'];
+    for (let i = 0; i < 5; i++) {
+      const shipToBePlaced = ships[i];
+      // Randomly choose orientation to be used
+      const orientationChoice = orientations[(Math.floor(Math.random() * 2))];
+      shipToBePlaced.orientation = orientationChoice;
+      // Generate random coordinate from 0-99, and check that it is a valid position
+      let coordinate = Math.floor(Math.random() * 100);
+      while (!board.isValidPosition(coordinate, shipToBePlaced.length, orientationChoice, false)) {
+        coordinate = Math.floor(Math.random() * 100);
+      }
+      board.placeShip(coordinate, shipToBePlaced);
+    }
+  }
+
   function resetAllShips() {
     ships.forEach((ship) => {
       ship.resetShip();
@@ -67,6 +83,7 @@ function Player(name) {
     resetAllShips,
     allShipsPlaced,
     getName,
+    placeAIShips,
   };
 }
 

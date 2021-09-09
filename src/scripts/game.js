@@ -108,22 +108,6 @@ function Game(playerOneName, playerTwoName) {
     return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
   };
 
-  function placeAIShips() {
-    const orientations = ['vertical', 'horizontal'];
-    for (let i = 0; i < 5; i++) {
-      const shipToBePlaced = playerTwo.ships[i];
-      // Randomly choose orientation to be used
-      const orientationChoice = orientations[(Math.floor(Math.random() * 2))];
-      shipToBePlaced.orientation = orientationChoice;
-      // Generate random coordinate from 0-99, and check that it is a valid position
-      let coordinate = Math.floor(Math.random() * 100);
-      while (!playerTwo.board.isValidPosition(coordinate, shipToBePlaced.length, orientationChoice, false)) {
-        coordinate = Math.floor(Math.random() * 100);
-      }
-      playerTwo.board.placeShip(coordinate, shipToBePlaced);
-    }
-  }
-
   function onePlayerGameLoop() {
     let previousCell = chooseRandomCell();
     let didPreviousCellHit = [];
@@ -309,7 +293,7 @@ function Game(playerOneName, playerTwoName) {
   }
 
   const gameStartOnePlayer = () => {
-    placeAIShips();
+    playerTwo.placeAIShips();
     resetTurn();
     changeCurrentPlayer();
     setActiveBoards();
