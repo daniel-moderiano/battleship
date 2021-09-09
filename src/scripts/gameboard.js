@@ -15,12 +15,11 @@ function Gameboard() {
     let isValid = true;
     const shipPosition = calculateShipPosition(originCoordinate, shipLength, shipOrientation);
 
-    // This comparison determines whether the ship exceeds the edge of the board
+    // This comparison determines whether the ship exceeds the edge of the board. Return false directly here to avoid running unneccesary code below. Applies to both orientations
     if (shipPosition[shipLength - 1] >= 100 || (shipPosition[shipLength - 1] % 10) < (originCoordinate % 10)) {
       return false;
     }
 
-    // This comparison determines whether there is any ship overlap
     const currentPositions = [];
     getCurrentShips().forEach((ship) => {
       currentPositions.push(ship.position);
@@ -39,7 +38,7 @@ function Gameboard() {
     if (!isValidPosition(originCoordinate, ship.length, ship.orientation)) {
       throw new Error('Error: invalid ship position');
     }
-    // If the ship already exists on the board, then this must be a move only operation. Don't push to currentShips
+    // If the ship already exists on the board, then the call to placeShip must be a move only operation. Don't push to currentShips array if this is the case.
     if (!currentShips.some((ships) => ships === ship)) {
       currentShips.push(ship);
     }
@@ -57,6 +56,7 @@ function Gameboard() {
       }
     }
 
+    // Logic for horizontally orientated ships
     if (!isValidPosition(ship.position[0], ship.length, 'vertical', true)) {
       throw new Error('Error: invalid rotation');
     } else {
@@ -65,7 +65,7 @@ function Gameboard() {
     }
   };
 
-  // TODO: currently receiveAttack returns the ship that was hit in the form of an array. This is not appropriate really, and should somehow be abstracted to a different function.
+  // Modified to return an array containing a ship object if a ship was hit, otherwise returns an empty array
   const receiveAttack = (coordinate) => {
     if (allAttackedCoordinates.includes(coordinate)) {
       throw new Error('Error: coordinate already attacked');
