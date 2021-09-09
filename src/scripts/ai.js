@@ -1,5 +1,6 @@
 // The AI implemented in this version of Battleship is limited in two key ways. First: it does not judge remaining free cells in terms of whether any of the remaining ship lengths would 'fit' in a gap it selects, and second: if two ships are adjacent to one another, the algorithm will not differentiate and in most cases will only be able to sink one
 
+// Reference arrays for later comparison in switch statements
 const topMiddleCells = [1, 2, 3, 4, 5, 6, 7, 8];
 const bottomMiddleCells = [91, 92, 93, 94, 95, 96, 97, 98];
 const rightMiddleCells = [19, 29, 39, 49, 59, 69, 79, 89];
@@ -115,6 +116,7 @@ function filterAttackedCells(validCells, attackedCells) {
   return validCells.filter((cell) => !attackedCells.includes(cell));
 }
 
+// Used to calculate whether a ship is vertical or horizontal based on the hits taken. Requires 2 or more hits
 function determineOrientation(currentShipHits) {
   if (Math.abs(currentShipHits[0] - currentShipHits[1]) > 1) {
     return 'vertical';
