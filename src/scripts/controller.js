@@ -1,11 +1,4 @@
-import { Gameboard } from './gameboard.js';
-import { Player } from './player.js';
-import { Ship } from './ship.js';
-import { Game } from './game.js';
-import { renderShip, refreshDOMBoardShips, createDOMShipFleet } from './render.js';
-
-const tableOne = document.querySelector('.board__table-1');
-const tableTwo = document.querySelector('.board__table-2');
+import { createDOMShipFleet } from './render';
 
 function captureClickedCell(e) {
   if (e.target.classList.contains('board__cell')) {
@@ -28,7 +21,6 @@ function rotateOnClick(e, player) {
       }
     } catch (error) {
       // Flash a red border around the ship if the user attempts to make an invalid rotation
-      console.log(error);
       shipElement.classList.add('ship--error');
       setTimeout(() => shipElement.classList.remove('ship--error'), 100);
     }
@@ -183,4 +175,12 @@ function addRestartBtnListener() {
   });
 }
 
-export { addRestartBtnListener, captureClickedCell, checkAmountOfPlayers, dragAndDrop, rotateOnClick, addShipListeners, addPlayerBtnListener };
+export {
+  addRestartBtnListener,
+  captureClickedCell,
+  checkAmountOfPlayers,
+  dragAndDrop,
+  rotateOnClick,
+  addShipListeners,
+  addPlayerBtnListener,
+};

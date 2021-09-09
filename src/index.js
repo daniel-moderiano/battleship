@@ -1,9 +1,12 @@
-import { Gameboard } from './scripts/gameboard.js';
-import { Player } from './scripts/player.js';
-import { Ship } from './scripts/ship.js';
-import { Game } from './scripts/game.js';
-import { createDOMShipFleet, refreshDOMBoardShips, clearBoardsVisually } from './scripts/render.js';
-import { addShipListeners, checkAmountOfPlayers, dragAndDrop, addPlayerBtnListener, addRestartBtnListener } from './scripts/controller.js';
+import { Game } from './scripts/game';
+import { createDOMShipFleet, refreshDOMBoardShips } from './scripts/render';
+import {
+  addShipListeners,
+  checkAmountOfPlayers,
+  dragAndDrop,
+  addPlayerBtnListener,
+  addRestartBtnListener,
+} from './scripts/controller';
 
 const playBtn = document.querySelector('.play-btn');
 const status = document.querySelector('.game-status');

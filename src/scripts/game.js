@@ -1,9 +1,19 @@
-import { Gameboard } from './gameboard.js';
-import { Player } from './player.js';
-import { Ship } from './ship.js';
-import { renderShip, markCell, switchBoards, refreshDOMBoardShips, clearBoardsVisually, createDOMShipFleet, addShipyardToDOM, resetGameVisually } from './render.js';
-import { calculateValidCells, filterAttackedCells, determineOrientation, calculateValidVerticalCells, calculateValidHorizontalCells } from './ai.js';
-import { addShipListeners, dragAndDrop, addPlayerBtnListener } from './controller.js';
+import { Player } from './player';
+
+import {
+  markCell,
+  switchBoards,
+  clearBoardsVisually,
+  resetGameVisually,
+} from './render';
+
+import {
+  calculateValidCells,
+  filterAttackedCells,
+  determineOrientation,
+  calculateValidVerticalCells,
+  calculateValidHorizontalCells,
+} from './ai';
 
 function Game(playerOneName, playerTwoName = 'PC') {
   const playerOne = Player(playerOneName);
@@ -149,7 +159,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
   function onePlayerGameLoop() {
     let previousCell = chooseRandomCell();
     let didPreviousCellHit = [];
-    let currentTargetHits = [];
+    const currentTargetHits = [];
     let currentTargetShip = null;
     // Player 2 board
     document.querySelector('.board__table-2').addEventListener('click', (e) => {
@@ -159,7 +169,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
           const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
           if (didHit.length === 0) {
             markCell(e.target, false);
-              document.querySelector('.game-status').textContent = 'The battle is on!';
+            document.querySelector('.game-status').textContent = 'The battle is on!';
           } else {
             markCell(e.target, true);
             if (didHit[0].isSunk()) {
@@ -347,7 +357,22 @@ function Game(playerOneName, playerTwoName = 'PC') {
     twoPlayerGameLoop();
   };
 
-  return { playerOne, playerTwo, currentTurn, changeTurn, resetTurn, getCurrentPlayers, gameStartOnePlayer, gameStartTwoPlayer, getCurrentPlayer, changeCurrentPlayer, turnComplete, resetGame, onePlayerGameLoop, placeAIShips }
+  return {
+    playerOne,
+    playerTwo,
+    currentTurn,
+    changeTurn,
+    resetTurn,
+    getCurrentPlayers,
+    gameStartOnePlayer,
+    gameStartTwoPlayer,
+    getCurrentPlayer,
+    changeCurrentPlayer,
+    turnComplete,
+    resetGame,
+    onePlayerGameLoop,
+    placeAIShips,
+  };
 }
 
 export { Game };

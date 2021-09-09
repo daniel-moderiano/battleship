@@ -1,7 +1,6 @@
 /* eslint-disable radix */
-import { Gameboard } from './gameboard.js';
-import { Ship } from './ship.js';
-import { Game } from './game.js';
+import { Gameboard } from './gameboard';
+import { Ship } from './ship';
 
 function Player(name) {
   const board = Gameboard();
@@ -54,7 +53,19 @@ function Player(name) {
 
   const getName = () => document.querySelector('.name-one').textContent;
 
-  return { name, board, attack, ships, allocateDOMBoard, getDOMBoard, activateDOMBoard, deactivateDOMBoard, resetAllShips, allShipsPlaced, getName };
+  return {
+    name,
+    board,
+    attack,
+    ships,
+    allocateDOMBoard,
+    getDOMBoard,
+    activateDOMBoard,
+    deactivateDOMBoard,
+    resetAllShips,
+    allShipsPlaced,
+    getName,
+  };
 }
 
 export { Player };
