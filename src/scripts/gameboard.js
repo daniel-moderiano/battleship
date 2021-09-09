@@ -43,7 +43,7 @@ function Gameboard() {
       currentShips.push(ship);
     }
     ship.setPosition(originCoordinate, ship.orientation);
-  };q
+  };
 
   const rotateShip = (ship) => {
     if (ship.orientation === 'vertical') {

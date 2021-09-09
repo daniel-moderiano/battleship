@@ -1,11 +1,6 @@
 import { Player } from './player';
 
-import {
-  markCell,
-  switchBoards,
-  clearBoardsVisually,
-  resetGameVisually,
-} from './render';
+import { markCell, switchBoards } from './render';
 
 import {
   calculateValidCells,
@@ -15,7 +10,7 @@ import {
   calculateValidHorizontalCells,
 } from './ai';
 
-function Game(playerOneName, playerTwoName = 'PC') {
+function Game(playerOneName, playerTwoName) {
   const playerOne = Player(playerOneName);
   const playerTwo = Player(playerTwoName);
 
@@ -38,10 +33,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
   const currentPlayers = [playerOne, playerTwo];
 
   let currentPlayer = currentPlayers[turn];
-
-  const getCurrentPlayers = () => currentPlayers;
-
-  const getCurrentPlayer = () => currentPlayer;
 
   const changeCurrentPlayer = () => {
     currentPlayer = currentPlayers[currentTurn()];
@@ -72,7 +63,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
   };
 
   const turnComplete = () => {
-    // play function
     changeTurn();
     changeCurrentPlayer();
     setActiveBoards();
@@ -89,20 +79,6 @@ function Game(playerOneName, playerTwoName = 'PC') {
     document.querySelector('.reset-btn').classList.remove('hidden');
   };
 
-  const resetGame = () => {
-    resetTurn();
-    playerOne.deactivateDOMBoard();
-    playerTwo.deactivateDOMBoard();
-    playerOne.resetAllShips();
-    playerTwo.resetAllShips();
-    clearBoardsVisually();
-    resetGameVisually();
-    playerOne.board.resetBoard();
-    playerTwo.board.resetBoard();
-    document.querySelector('.board__title-1').classList.remove('board__title--active');
-    document.querySelector('.board__title-2').classList.remove('board__title--active');
-  };
-
   // Computer will, by default, always be player two. Below is random cell choice
   const chooseRandomCell = () => {
     const validCells = playerOne.board.getRemainingFreeCells();
@@ -110,6 +86,7 @@ function Game(playerOneName, playerTwoName = 'PC') {
     return validCells[cellChoice];
   };
 
+  // Chooses an AI-guided cell prior to knowing the orientation of the ship
   const chooseComputerCell = (previousCellChoice) => {
     const cellInput = parseInt(previousCellChoice);
     const validCells = calculateValidCells(cellInput);
@@ -134,6 +111,26 @@ function Game(playerOneName, playerTwoName = 'PC') {
     const validCells = calculateValidVerticalCells(cellInput);
     if (validCells === 'none') {
       return undefined;
+    }
+    const attackedCells = playerOne.board.getAllAttackedCoordinates();
+    const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
+    return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
+  };
+
+  const chooseComputerCellAll = (previousCellChoice, currentShipOrientation = null) => {
+    const cellInput = parseInt(previousCellChoice);
+    if (currentShipOrientation === 'vertical') {
+      const validCells = calculateValidVerticalCells(cellInput);
+      if (validCells === 'none') {
+        return undefined;
+      }
+    } else if (currentShipOrientation === 'horizontal') {
+      const validCells = calculateValidHorizontalCells(cellInput);
+      if (validCells === 'none') {
+        return undefined;
+      }
+    } else {
+      const validCells = calculateValidCells(cellInput);
     }
     const attackedCells = playerOne.board.getAllAttackedCoordinates();
     const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
@@ -363,13 +360,10 @@ function Game(playerOneName, playerTwoName = 'PC') {
     currentTurn,
     changeTurn,
     resetTurn,
-    getCurrentPlayers,
     gameStartOnePlayer,
     gameStartTwoPlayer,
-    getCurrentPlayer,
     changeCurrentPlayer,
     turnComplete,
-    resetGame,
     onePlayerGameLoop,
     placeAIShips,
   };
