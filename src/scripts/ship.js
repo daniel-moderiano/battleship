@@ -20,12 +20,15 @@ function Ship(length) {
     throw new Error('Invalid ship length, must be between 2 and 5 inclusive');
   }
 
+  // Default is vertical because ship DOM objects are arranged vertically layout-wise
   let orientation = 'vertical';
 
   const position = [];
 
   const setPosition = (originCoordinate, shipOrientation) => {
+    // Clear any existing positional data
     position.length = 0;
+    // Fill with new data
     calculateShipPosition(originCoordinate, length, shipOrientation).forEach((coordinate) => {
       position.push(coordinate);
     });
