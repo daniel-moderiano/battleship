@@ -21,6 +21,7 @@ function Player(name) {
     DOMBoard.classList.remove('board__table--active');
   };
 
+  // Creates a set number of specified ships following original Battleship specs
   function createFleet() {
     const carrier = Ship(5);
     const battleship = Ship(4);
@@ -51,6 +52,7 @@ function Player(name) {
     return true;
   };
 
+  // Dynamically allocate name based on click-to-edit player names on UI
   const getName = () => document.querySelector('.name-one').textContent;
 
   return {
