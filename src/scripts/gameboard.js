@@ -12,6 +12,7 @@ function Gameboard() {
   const getAllAttackedCoordinates = () => allAttackedCoordinates;
 
   const isValidPosition = (originCoordinate, shipLength, shipOrientation, rotating = false) => {
+    let isValid = true;
     const shipPosition = calculateShipPosition(originCoordinate, shipLength, shipOrientation);
 
     // This comparison determines whether the ship exceeds the edge of the board
@@ -27,15 +28,11 @@ function Gameboard() {
 
     // Compare all the current occupied positions with the expected positions of the ship to be placed. If rotating a ship, exclude the origin coordinate overlap when checking position (slice(1) vs slice(0))
     if (rotating) {
-      if (currentPositions.flat().some((position) => shipPosition.slice(1).includes(position))) {
-        return false;
-      }
+      isValid = !(currentPositions.flat().some((position) => shipPosition.slice(1).includes(position)));
     } else {
-      if (currentPositions.flat().some((position) => shipPosition.slice(0).includes(position))) {
-        return false;
-      }
+      isValid = !(currentPositions.flat().some((position) => shipPosition.slice(0).includes(position)));
     }
-    return true;
+    return isValid;
   };
 
   const placeShip = (originCoordinate, ship) => {
