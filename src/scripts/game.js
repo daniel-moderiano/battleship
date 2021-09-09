@@ -86,51 +86,22 @@ function Game(playerOneName, playerTwoName) {
     return validCells[cellChoice];
   };
 
-  // Chooses an AI-guided cell prior to knowing the orientation of the ship
-  const chooseComputerCell = (previousCellChoice) => {
-    const cellInput = parseInt(previousCellChoice);
-    const validCells = calculateValidCells(cellInput);
-    const attackedCells = playerOne.board.getAllAttackedCoordinates();
-    const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
-    return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
-  };
-
-  const chooseComputerCellHorizontal = (previousCellChoice) => {
-    const cellInput = parseInt(previousCellChoice);
-    const validCells = calculateValidHorizontalCells(cellInput);
-    if (validCells === 'none') {
-      return undefined;
-    }
-    const attackedCells = playerOne.board.getAllAttackedCoordinates();
-    const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
-    return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
-  };
-
-  const chooseComputerCellVertical = (previousCellChoice) => {
-    const cellInput = parseInt(previousCellChoice);
-    const validCells = calculateValidVerticalCells(cellInput);
-    if (validCells === 'none') {
-      return undefined;
-    }
-    const attackedCells = playerOne.board.getAllAttackedCoordinates();
-    const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
-    return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
-  };
-
-  const chooseComputerCellAll = (previousCellChoice, currentShipOrientation = null) => {
+  // Chooses an AI-guided cell that varies depending on whether orientation is known or not
+  const chooseComputerCell = (previousCellChoice, currentShipOrientation = null) => {
+    let validCells;
     const cellInput = parseInt(previousCellChoice);
     if (currentShipOrientation === 'vertical') {
-      const validCells = calculateValidVerticalCells(cellInput);
+      validCells = calculateValidVerticalCells(cellInput);
       if (validCells === 'none') {
         return undefined;
       }
     } else if (currentShipOrientation === 'horizontal') {
-      const validCells = calculateValidHorizontalCells(cellInput);
+      validCells = calculateValidHorizontalCells(cellInput);
       if (validCells === 'none') {
         return undefined;
       }
     } else {
-      const validCells = calculateValidCells(cellInput);
+      validCells = calculateValidCells(cellInput);
     }
     const attackedCells = playerOne.board.getAllAttackedCoordinates();
     const filteredCellChoices = filterAttackedCells(validCells, attackedCells);
@@ -192,14 +163,14 @@ function Game(playerOneName, playerTwoName) {
               // Use orientation of ship to guide choice if ship has already sustained 2+ hits
               if (currentTargetHits.length > 1) {
                 if (determineOrientation(currentTargetHits) === 'horizontal') {
-                  currentCell = chooseComputerCellHorizontal(previousCell);
+                  currentCell = chooseComputerCell(previousCell, 'horizontal');
                   if (currentCell === undefined) {
-                    currentCell = chooseComputerCellHorizontal(currentTargetHits[0]);
+                    currentCell = chooseComputerCell(currentTargetHits[0], 'horizontal');
                   }
                 } else {
-                  currentCell = chooseComputerCellVertical(previousCell);
+                  currentCell = chooseComputerCell(previousCell, 'vertical');
                   if (currentCell === undefined) {
-                    currentCell = chooseComputerCellVertical(currentTargetHits[0]);
+                    currentCell = chooseComputerCell(currentTargetHits[0], 'vertical');
                   }
                 }
               } else {
@@ -209,14 +180,14 @@ function Game(playerOneName, playerTwoName) {
             } else if (didPreviousCellHit.length === 0 && currentTargetHits.length !== 0) {
               if (currentTargetHits.length > 1) {
                 if (determineOrientation(currentTargetHits) === 'horizontal') {
-                  currentCell = chooseComputerCellHorizontal(currentTargetHits[currentTargetHits.length - 1]);
+                  currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1], 'horizontal');
                   if (currentCell === undefined) {
-                    currentCell = chooseComputerCellHorizontal(currentTargetHits[0]);
+                    currentCell = chooseComputerCell(currentTargetHits[0], 'horizontal');
                   }
                 } else {
-                  currentCell = chooseComputerCellVertical(currentTargetHits[currentTargetHits.length - 1]);
+                  currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1], 'vertical');
                   if (currentCell === undefined) {
-                    currentCell = chooseComputerCellVertical(currentTargetHits[0]);
+                    currentCell = chooseComputerCell(currentTargetHits[0], 'vertical');
                   }
                 }
               } else {

@@ -1,6 +1,3 @@
-import { Gameboard } from './scripts/gameboard.js';
-import { Player } from './scripts/player';
-import { Ship } from './scripts/ship.js';
 import { Game } from './scripts/game.js';
 
 test('createNewGame generates two players with unique names for 2 player mode', () => {
