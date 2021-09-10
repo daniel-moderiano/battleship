@@ -133,7 +133,7 @@ function Game(playerOneName, playerTwoName) {
     let didPreviousCellHit = [];
     const currentTargetHits = [];
     let currentTargetShip = null;
-    // Player 2 board
+    // Player 2 board is the only boartd requiring click events in single player mode
     document.querySelector('.board__table-2').addEventListener('click', (e) => {
       // If the parent node chain works, the target by definition must be a board cell
       if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
@@ -141,95 +141,92 @@ function Game(playerOneName, playerTwoName) {
         p.then(() => {
           if (checkLose(playerTwo)) {
             gameOver();
-            // End game
           } else {
             turnComplete();
           }
-        })
-          .then(() => {
-            let currentCell;
-
-            // Use AI to choose next cell if previous cell was a successful hit
-            if (didPreviousCellHit.length !== 0) {
-              // Use orientation of ship to guide choice if ship has already sustained 2+ hits
-              if (currentTargetHits.length > 1) {
-                if (determineOrientation(currentTargetHits) === 'horizontal') {
-                  currentCell = chooseComputerCell(previousCell, 'horizontal');
-                  if (currentCell === undefined) {
-                    currentCell = chooseComputerCell(currentTargetHits[0], 'horizontal');
-                  }
-                } else {
-                  currentCell = chooseComputerCell(previousCell, 'vertical');
-                  if (currentCell === undefined) {
-                    currentCell = chooseComputerCell(currentTargetHits[0], 'vertical');
-                  }
-                }
-              } else {
-                currentCell = chooseComputerCell(previousCell);
-              }
-            // If previous cell missed, but there is a currently un-sunk ship, choose next cell based on most recent hit
-            } else if (didPreviousCellHit.length === 0 && currentTargetHits.length !== 0) {
-              if (currentTargetHits.length > 1) {
-                if (determineOrientation(currentTargetHits) === 'horizontal') {
-                  currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1], 'horizontal');
-                  if (currentCell === undefined) {
-                    currentCell = chooseComputerCell(currentTargetHits[0], 'horizontal');
-                  }
-                } else {
-                  currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1], 'vertical');
-                  if (currentCell === undefined) {
-                    currentCell = chooseComputerCell(currentTargetHits[0], 'vertical');
-                  }
-                }
-              } else {
-                currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1]);
+        }).then(() => {
+          let currentCell;
+          // Use AI to choose next cell if previous cell was a successful hit
+          if (didPreviousCellHit.length !== 0) {
+            // Use orientation of ship to guide choice if ship has already sustained 2+ hits
+            if (currentTargetHits.length > 1) {
+              if (determineOrientation(currentTargetHits) === 'horizontal') {
+                currentCell = chooseComputerCell(previousCell, 'horizontal');
                 if (currentCell === undefined) {
-                  // Undefined cell in this logic tree indicates that one end of the ship has been reached, but the ship is not yet sunk. The solution is to switch to the other end of the ship.
-                  currentCell = chooseComputerCell(currentTargetHits[0]);
+                  currentCell = chooseComputerCell(currentTargetHits[0], 'horizontal');
+                }
+              } else {
+                currentCell = chooseComputerCell(previousCell, 'vertical');
+                if (currentCell === undefined) {
+                  currentCell = chooseComputerCell(currentTargetHits[0], 'vertical');
                 }
               }
             } else {
-              currentCell = chooseRandomCell();
+              currentCell = chooseComputerCell(previousCell);
             }
-            previousCell = currentCell;
-
-            didPreviousCellHit = playerOne.board.receiveAttack(parseInt(currentCell));
-
-            if (currentTargetShip !== null) {
-              if (didPreviousCellHit.length !== 0) {
-                if (didPreviousCellHit[0] !== currentTargetShip) {
-                  [currentTargetShip] = didPreviousCellHit;
-                  currentTargetHits.length = 0;
+          // If previous cell missed, but there is a currently un-sunk ship, choose next cell based on most recent hit
+          } else if (didPreviousCellHit.length === 0 && currentTargetHits.length !== 0) {
+            if (currentTargetHits.length > 1) {
+              if (determineOrientation(currentTargetHits) === 'horizontal') {
+                currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1], 'horizontal');
+                if (currentCell === undefined) {
+                  currentCell = chooseComputerCell(currentTargetHits[0], 'horizontal');
+                }
+              } else {
+                currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1], 'vertical');
+                if (currentCell === undefined) {
+                  currentCell = chooseComputerCell(currentTargetHits[0], 'vertical');
                 }
               }
+            } else {
+              currentCell = chooseComputerCell(currentTargetHits[currentTargetHits.length - 1]);
+              if (currentCell === undefined) {
+                // Undefined cell in this logic tree indicates that one end of the ship has been reached, but the ship is not yet sunk. The solution is to switch to the other end of the ship.
+                currentCell = chooseComputerCell(currentTargetHits[0]);
+              }
             }
+          } else {
+            currentCell = chooseRandomCell();
+          }
 
+          previousCell = currentCell;
+          didPreviousCellHit = playerOne.board.receiveAttack(parseInt(currentCell));
+
+          if (currentTargetShip !== null) {
             if (didPreviousCellHit.length !== 0) {
-              [currentTargetShip] = didPreviousCellHit;
+              if (didPreviousCellHit[0] !== currentTargetShip) {
+                [currentTargetShip] = didPreviousCellHit;
+                currentTargetHits.length = 0;
+              }
             }
+          }
 
-            setTimeout(() => {
-              if (didPreviousCellHit.length === 0) {
-                markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), false);
+          if (didPreviousCellHit.length !== 0) {
+            [currentTargetShip] = didPreviousCellHit;
+          }
+
+          setTimeout(() => {
+            if (didPreviousCellHit.length === 0) {
+              markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), false);
+            } else {
+              markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), true);
+              if (didPreviousCellHit[0].isSunk()) {
+                // Ensure the computer selects random choice if a ship is sunk on the previous attack
+                didPreviousCellHit.length = 0;
+                // Clear the current target array and currentShip variable
+                currentTargetHits.length = 0;
+                currentTargetShip = null;
               } else {
-                markCell(document.querySelector(`.board__table-1 [data-coordinate='${currentCell}']`), true);
-                if (didPreviousCellHit[0].isSunk()) {
-                  // Ensure the computer selects random choice if a ship is sunk on the previous attack
-                  didPreviousCellHit.length = 0;
-                  // Clear the current target array and currentShip variable
-                  currentTargetHits.length = 0;
-                  currentTargetShip = null;
-                } else {
-                  currentTargetHits.push(currentCell);
-                }
+                currentTargetHits.push(currentCell);
               }
-              if (checkLose(playerOne)) {
-                gameOver();
-              } else {
-                turnComplete();
-              }
-            }, 500);
-          }).catch((err) => console.log(err));
+            }
+            if (checkLose(playerOne)) {
+              gameOver();
+            } else {
+              turnComplete();
+            }
+          }, 500);
+        }).catch((err) => console.log(err));
       }
     });
   }

@@ -60,35 +60,15 @@ function markCell(cell, didHit) {
   }
 }
 
-function clearBoardsVisually() {
-  document.querySelectorAll('.board__cell').forEach((cell) => {
-    cell.classList.remove('board__cell--miss');
-    cell.classList.remove('board__cell--hit');
-    cell.classList.remove('board__cell--ship');
-    cell.classList.remove('board__cell--active');
-  });
-  document.querySelectorAll('.ship').forEach((ship) => ship.remove());
-}
-
 function switchBoards(boardToHide, boardToDisplay) {
   boardToHide.classList.add('board--hidden');
   boardToDisplay.classList.remove('board--hidden');
 }
 
-function resetGameVisually() {
-  document.querySelectorAll('.board').forEach((board) => board.classList.remove('board--hidden'));
-  addShipyardToDOM();
-  createDOMShipFleet();
-}
-
 export {
-  renderShip,
   markCell,
-  clearBoardsVisually,
-  createDraggableShip,
   createDOMShipFleet,
   refreshDOMBoardShips,
   switchBoards,
   addShipyardToDOM,
-  resetGameVisually,
 };
