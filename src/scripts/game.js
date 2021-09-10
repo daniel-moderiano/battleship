@@ -108,6 +108,26 @@ function Game(playerOneName, playerTwoName) {
     return filteredCellChoices[(Math.floor(Math.random() * filteredCellChoices.length))];
   };
 
+  const playTurnInitialPromise = (e, player) => new Promise((resolve) => {
+    const didHit = player.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+    if (didHit.length === 0) {
+      markCell(e.target, false);
+      document.querySelector('.game-status').textContent = 'The battle is on!';
+    } else {
+      markCell(e.target, true);
+      if (didHit[0].isSunk()) {
+        if (player === playerOne) {
+          document.querySelector('.game-status').textContent = `You sunk one of ${player.getName(2)}'s ships!`;
+        } else {
+          document.querySelector('.game-status').textContent = `You sunk one of ${player.getName(1)}'s ships!`;
+        }
+      } else {
+        document.querySelector('.game-status').textContent = 'The battle is on!';
+      }
+    }
+    resolve();
+  });
+
   function onePlayerGameLoop() {
     let previousCell = chooseRandomCell();
     let didPreviousCellHit = [];
@@ -117,19 +137,7 @@ function Game(playerOneName, playerTwoName) {
     document.querySelector('.board__table-2').addEventListener('click', (e) => {
       // If the parent node chain works, the target by definition must be a board cell
       if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
-        const p = new Promise((resolve) => {
-          const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-          if (didHit.length === 0) {
-            markCell(e.target, false);
-            document.querySelector('.game-status').textContent = 'The battle is on!';
-          } else {
-            markCell(e.target, true);
-            if (didHit[0].isSunk()) {
-              document.querySelector('.game-status').textContent = `You sunk one of ${playerTwo.name}'s ships!`;
-            }
-          }
-          resolve();
-        });
+        const p = playTurnInitialPromise(e, playerTwo);
         p.then(() => {
           if (checkLose(playerTwo)) {
             gameOver();
@@ -192,7 +200,6 @@ function Game(playerOneName, playerTwoName) {
                 if (didPreviousCellHit[0] !== currentTargetShip) {
                   [currentTargetShip] = didPreviousCellHit;
                   currentTargetHits.length = 0;
-                  // currentTargetHits.push(currentCell);
                 }
               }
             }
@@ -229,24 +236,7 @@ function Game(playerOneName, playerTwoName) {
 
   const playTurn = (e, player) => {
     if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
-      const p = new Promise((resolve) => {
-        const didHit = player.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-        if (didHit.length === 0) {
-          markCell(e.target, false);
-          document.querySelector('.game-status').textContent = 'The battle is on!';
-        } else {
-          markCell(e.target, true);
-          if (didHit[0].isSunk()) {
-            if (player === playerOne) {
-              document.querySelector('.game-status').textContent = `You sunk one of ${player.getName(2)}'s ships!`;
-            } else {
-              document.querySelector('.game-status').textContent = `You sunk one of ${player.getName(1)}'s ships!`;
-            }
-          }
-          document.querySelector('.game-status').textContent = 'The battle is on!';
-        }
-        resolve();
-      });
+      const p = playTurnInitialPromise(e, player);
       p.then(() => {
         if (checkLose(player)) {
           gameOver();
