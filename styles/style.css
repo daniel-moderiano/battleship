@@ -1,0 +1,239 @@
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  width: 100%;
+  height: 100vh;
+  background-color: #04122c;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header {
+  height: 3rem;
+  margin: 2rem 0;
+  font-size: 3rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f4f4f4;
+  position: relative;
+  width: 100%;
+}
+
+.main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.boards {
+  display: flex;
+}
+
+.board {
+  height: 30rem;
+  width: 27rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.board--hidden {
+  display: none;
+}
+
+.board__grid {
+  padding: 0.3rem 0 1.5rem 0;
+}
+
+.board__title {
+  padding-bottom: 1rem;
+  color: #f4f4f4;
+}
+
+.board__table--inactive {
+  opacity: 0.5;
+}
+
+.board__name {
+  font-size: 1.2rem;
+}
+
+.board__cell--ship {
+  background-color:  rgb(60, 141, 233);
+}
+
+.board__cell--hit {
+  background-color: rgb(233, 60, 60);
+}
+
+.board__cell--miss {
+  background-color: rgb(24, 155, 42);
+}
+
+.board__title--active {
+  font-style: italic;
+}
+
+.board__cell {
+  height: 2rem;
+  width: 2rem;
+  border: 2px solid #e3f0ec2f;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.board__cell--active:hover {
+  background-color: rgb(19, 116, 99);
+}
+
+.shipyard {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 16rem;
+}
+
+.ship {
+  margin: 0.3rem;
+  cursor: move;
+}
+
+.ship--placed {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(46, 120, 206);
+  z-index: 10;
+  border: hidden;
+}
+
+.ship--horizontal {
+  transform-origin: 1rem 1rem;
+  transform: rotate(270deg);
+}
+
+.ship--error {
+  box-shadow: 0 0 0 2px red;
+}
+
+.ship-cell {
+  height: 2rem;
+  width: 2rem;
+  border: 2px solid #e3f0ec;
+  background-color: rgb(60, 141, 233);
+}
+
+.restart-btn, .play-btn, .board__ready, .reset-btn, .num-players__btn {
+  background-color: #04122c;
+  color: #f4f4f4;
+  border: 1px solid #f4f4f4;
+  border-radius: 2px;
+  height: 2rem;
+  padding: 0 0.6rem;
+  font-size: 1rem;
+  cursor: pointer;
+  right: 2rem;
+}
+
+.restart-btn {
+  position: absolute;
+  right: 2rem;
+}
+
+.restart-btn:hover, .play-btn:hover, .board__ready:hover, .reset-btn:hover, .num-players__btn:hover {
+  background-color: #f4f4f4;
+  color: #04122c;
+  border: hidden;
+
+}
+
+.status {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  color: #f4f4f4;
+  align-items: center;
+}
+
+.game-status {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.error {
+  font-size: 1rem;
+  margin-top: 1rem;
+  height: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.footer {
+  height: 2rem;
+}
+
+/* MODAL */
+
+.modal {
+	/* display: none; */
+  display: flex;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	background-color: #04122c;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal__content {
+	background-color: #04122c;
+	width: 20rem;
+	padding: 0.5rem 1.5rem 1rem 1.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 3px;
+  color: #f4f4f4;
+}
+
+label {
+  font-size: 1.2rem;
+}
+
+.num-players__choice {
+  padding: 0.5rem 0;
+}
+
+.num-players__radio {
+  padding: 0;
+  margin: 0 0.5rem 0 0;
+
+}
+
+.num-players__btn {
+  margin-top: 1rem;
+  margin-left: 2.8rem;
+}
+
+.modal__title {
+  font-size: 3rem;
+  margin-bottom: 3rem;
+  font-weight: bold;
+}
