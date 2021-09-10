@@ -70,7 +70,12 @@ function Player(name) {
   };
 
   // Dynamically allocate name based on click-to-edit player names on UI
-  const getName = () => document.querySelector('.name-one').textContent;
+  const getName = (playerNumber) => {
+    if (playerNumber === 1) {
+      return document.querySelector('.name-one').textContent;
+    }
+    return document.querySelector('.name-two').textContent;
+  };
 
   return {
     name,

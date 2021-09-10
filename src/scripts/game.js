@@ -218,21 +218,11 @@ function Game(playerOneName, playerTwoName) {
               }
               if (checkLose(playerOne)) {
                 gameOver();
-                throw new Error('Game Over');
-                // End game
               } else {
                 turnComplete();
               }
             }, 500);
-          })
-          .catch((err) => {
-            if (err.message === 'Game Over') {
-              // Game over logic here
-              console.log('TODO: game over logic');
-            } else {
-              console.log(err);
-            }
-          });
+          }).catch((err) => console.log(err));
       }
     });
   }
@@ -247,8 +237,13 @@ function Game(playerOneName, playerTwoName) {
         } else {
           markCell(e.target, true);
           if (didHit[0].isSunk()) {
-            document.querySelector('.game-status').textContent = `You sunk one of ${player.name}'s ships!`;
+            if (player === playerOne) {
+              document.querySelector('.game-status').textContent = `You sunk one of ${player.getName(2)}'s ships!`;
+            } else {
+              document.querySelector('.game-status').textContent = `You sunk one of ${player.getName(1)}'s ships!`;
+            }
           }
+          document.querySelector('.game-status').textContent = 'The battle is on!';
         }
         resolve();
       });
