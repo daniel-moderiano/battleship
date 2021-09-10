@@ -292,4 +292,17 @@ function Game(playerOneName, playerTwoName) {
   };
 }
 
-export { Game };
+const createNewGame = () => {
+  const game = Game('Player 1', 'Player 2');
+  document.querySelector('.reset-btn').classList.add('hidden');
+  document.querySelector('.game-status').textContent = 'Waiting for start';
+
+  game.playerOne.board.resetBoard();
+  game.playerTwo.board.resetBoard();
+
+  game.playerOne.allocateDOMBoard(document.querySelector('.board__table-1'));
+  game.playerTwo.allocateDOMBoard(document.querySelector('.board__table-2'));
+  return game;
+};
+
+export { Game, createNewGame };
