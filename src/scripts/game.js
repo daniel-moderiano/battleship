@@ -133,7 +133,6 @@ function Game(playerOneName, playerTwoName) {
         p.then(() => {
           if (checkLose(playerTwo)) {
             gameOver();
-            throw new Error('Game Over');
             // End game
           } else {
             turnComplete();
@@ -238,72 +237,32 @@ function Game(playerOneName, playerTwoName) {
     });
   }
 
-  const playTurnPlayerOne = (e) => {
+  const playTurn = (e, player) => {
     if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
       const p = new Promise((resolve) => {
-        const didHit = playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
+        const didHit = player.board.receiveAttack(parseInt(e.target.dataset.coordinate));
         if (didHit.length === 0) {
           markCell(e.target, false);
+          document.querySelector('.game-status').textContent = 'The battle is on!';
         } else {
           markCell(e.target, true);
+          if (didHit[0].isSunk()) {
+            document.querySelector('.game-status').textContent = `You sunk one of ${player.name}'s ships!`;
+          }
         }
         resolve();
       });
       p.then(() => {
-        if (checkLose(playerOne)) {
+        if (checkLose(player)) {
           gameOver();
         } else {
           turnComplete();
           // Switch boards with a timer
-          setTimeout(() => switchBoards(document.querySelector('.board-one'), document.querySelector('.board-two')), 1000);
-        }
-      }).catch((err) => console.log(err));
-    }
-  };
-
-  // const playTurn = (e, currentPlayer) => {
-  //   if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
-  //     const p = new Promise((resolve) => {
-  //       const didHit = playerOne.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-  //       if (didHit.length === 0) {
-  //         markCell(e.target, false);
-  //       } else {
-  //         markCell(e.target, true);
-  //       }
-  //       resolve();
-  //     });
-  //     p.then(() => {
-  //       if (checkLose(playerOne)) {
-  //         gameOver();
-  //       } else {
-  //         turnComplete();
-  //         // Switch boards with a timer
-  //         setTimeout(() => switchBoards(document.querySelector('.board-one'), document.querySelector('.board-two')), 1000);
-  //       }
-  //     }).catch((err) => console.log(err));
-  //   }
-  // };
-
-
-  const playTurnPlayerTwo = (e) => {
-    // If the parent node chain works, the target by definition must be a board cell
-    if (e.target.parentNode.parentNode.parentNode.classList.contains('board__table--active')) {
-      const p = new Promise((resolve) => {
-        const didHit = playerTwo.board.receiveAttack(parseInt(e.target.dataset.coordinate));
-        if (didHit.length === 0) {
-          markCell(e.target, false);
-        } else {
-          markCell(e.target, true);
-        }
-        resolve();
-      });
-      p.then(() => {
-        if (checkLose(playerTwo)) {
-          gameOver();
-        } else {
-          turnComplete();
-          // Switch boards with a timer
-          setTimeout(() => switchBoards(document.querySelector('.board-two'), document.querySelector('.board-one')), 1000);
+          if (player === playerOne) {
+            setTimeout(() => switchBoards(document.querySelector('.board-one'), document.querySelector('.board-two')), 1000);
+          } else {
+            setTimeout(() => switchBoards(document.querySelector('.board-two'), document.querySelector('.board-one')), 1000);
+          }
         }
       }).catch((err) => console.log(err));
     }
@@ -311,9 +270,13 @@ function Game(playerOneName, playerTwoName) {
 
   function twoPlayerGameLoop() {
     // Player 1 board
-    document.querySelector('.board__table-1').addEventListener('click', playTurnPlayerOne);
+    document.querySelector('.board__table-1').addEventListener('click', (e) => {
+      playTurn(e, playerOne);
+    });
     // Player 2 board
-    document.querySelector('.board__table-2').addEventListener('click', playTurnPlayerTwo);
+    document.querySelector('.board__table-2').addEventListener('click', (e) => {
+      playTurn(e, playerTwo);
+    });
   }
 
   const gameStartOnePlayer = () => {
