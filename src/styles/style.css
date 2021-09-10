@@ -16,8 +16,7 @@ body {
 
 .header {
   height: 3rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
   font-size: 3rem;
   font-weight: bold;
   display: flex;
@@ -34,7 +33,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  /* margin-bottom: 10rem; */
 }
 
 .boards {
@@ -43,11 +41,10 @@ body {
 
 .board {
   height: 30rem;
-  width: 30rem;
+  width: 27rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
 }
 
 .board--hidden {
@@ -94,7 +91,6 @@ body {
   position: relative;
   margin: 0;
   padding: 0;
-  /* box-sizing: border-box; */
 }
 
 .board__cell--active:hover {
@@ -241,4 +237,3 @@ label {
   margin-bottom: 3rem;
   font-weight: bold;
 }
-
