@@ -1,4 +1,4 @@
-import { createDOMShipFleet } from './render';
+import { createDOMShipFleet, refreshDOMBoardShips } from './render';
 
 function rotateOnClick(e, player) {
   const shipElement = e.target.parentNode.parentNode;
@@ -171,6 +171,28 @@ function addRestartBtnListener() {
   });
 }
 
+// add all functions to the play button to enable game start
+function addPlayBtnListener(game) {
+  document.querySelector('.play-btn').addEventListener('click', () => {
+    if (checkAmountOfPlayers() === 1) {
+      if (!game.playerOne.allShipsPlaced()) {
+        document.querySelector('.error').textContent = 'All ships must be placed first!';
+        throw new Error('Not all ships placed');
+      }
+      document.querySelectorAll('.board__cell').forEach((cell) => cell.classList.add('board__cell--active'));
+      game.gameStartOnePlayer();
+      refreshDOMBoardShips(game.playerOne, 1);
+      document.querySelector('.play-btn').classList.add('hidden');
+      document.querySelector('.restart-btn').classList.remove('hidden');
+      document.querySelector('.shipyard').remove();
+      document.querySelector('.game-status').textContent = 'The battle is on!';
+    } else if (!game.playerTwo.allShipsPlaced() || !game.playerOne.allShipsPlaced()) {
+      document.querySelector('.error').textContent = 'All ships must be placed first!';
+      throw new Error('Not all ships placed');
+    }
+  });
+}
+
 export {
   addRestartBtnListener,
   checkAmountOfPlayers,
@@ -178,4 +200,5 @@ export {
   rotateOnClick,
   addShipListeners,
   addPlayerBtnListener,
+  addPlayBtnListener,
 };
