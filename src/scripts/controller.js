@@ -1,11 +1,5 @@
 import { createDOMShipFleet } from './render';
 
-function captureClickedCell(e) {
-  if (e.target.classList.contains('board__cell')) {
-    return parseInt(e.target.dataset.coordinate);
-  }
-}
-
 function rotateOnClick(e, player) {
   const shipElement = e.target.parentNode.parentNode;
   if (shipElement.classList.contains('ship--placed')) {
@@ -56,7 +50,8 @@ function dragAndDrop(playerInControl) {
   let currentBoardId = parseInt(currentBoard.dataset.id);
 
   // Drag functions
-  // Data transfer is used to communicate the length of the ship while dragging/dropping
+
+  // Note 'this' is used instead of e.target, as e.target gets the specific target clicked, while 'this' reverts to the nearest 'div' element
   function dragStart() {
     currentShipLength = parseInt(this.dataset.length);
     currentShipOrientation = this.dataset.orientation;
@@ -64,6 +59,7 @@ function dragAndDrop(playerInControl) {
     currentShipObject = this;
   }
 
+  // Ensure no data if left over after drag ends to avoid clash of data
   function dragEnd() {
     currentShipLength = null;
     currentShipOrientation = null;
@@ -75,6 +71,7 @@ function dragAndDrop(playerInControl) {
     e.preventDefault();
   }
 
+  // Give the effect of seeing the ship in the spot you are hovering. Will only active for valid positions
   function dragEnter() {
     if (playerInControl.board.isValidPosition(parseInt(this.dataset.coordinate), currentShipLength, currentShipOrientation)) {
       playerInControl.board.placeShip(parseInt(this.dataset.coordinate), playerInControl.ships[currentShipID]);
@@ -92,8 +89,9 @@ function dragAndDrop(playerInControl) {
     document.querySelector('.board-two').classList.add('board--active');
     // Refresh shipyard
     createDOMShipFleet();
-    // Adjust board count
+    // Adjust board count to avoid repeating this function fro player 2
     currentBoardId = 2;
+    // Send message to main module that identifies boards have been switched
     const event = new Event('boardswitched');
     window.dispatchEvent(event);
     document.querySelector('.board__ready[data-id="1"]').remove();
@@ -104,8 +102,7 @@ function dragAndDrop(playerInControl) {
     // window.removeEventListener('dragend', dragDrop);
     // Switch board and remove shipyard
     shipyard.remove();
-    // Reset board
-    currentBoardId = 1;
+    // Let main module know the game should now begin
     const event = new Event('begintwoplayer');
     window.dispatchEvent(event);
     document.querySelector('.board__ready[data-id="2"]').remove();
@@ -113,7 +110,6 @@ function dragAndDrop(playerInControl) {
   }
 
   function dragDrop() {
-    console.log(playerInControl.allShipsPlaced());
     // Depending on the game, i.e. one vs two players, different actions will need to be taken once all ships are placed
     if (playerInControl.allShipsPlaced() && checkAmountOfPlayers() === 2) {
       // Switch boards and refresh shipyard to allow player two to place ships if they have not already
@@ -156,7 +152,6 @@ function displayTwoPlayerSetup() {
 function addPlayerBtnListener() {
   document.querySelector('.num-players__btn').addEventListener('click', () => {
     document.querySelector('.modal').style.display = 'none';
-
     if (checkAmountOfPlayers() === 1) {
       displayOnePlayerSetup();
     } else {
@@ -178,7 +173,6 @@ function addRestartBtnListener() {
 
 export {
   addRestartBtnListener,
-  captureClickedCell,
   checkAmountOfPlayers,
   dragAndDrop,
   rotateOnClick,
